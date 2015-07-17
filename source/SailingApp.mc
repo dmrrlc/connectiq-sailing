@@ -5,15 +5,6 @@ using Toybox.Timer as Timer;
 using Toybox.Attention as Attn;
 using Toybox.Time.Gregorian as Cal;
 
-// inits
-var m_timer;
-var m_timerDefaultCount;
-var m_timerCount;
-var m_timerRunning = false;
-var m_timerReachedZero = false;
-var m_invertColors = false;
-var m_repeat;
-
 
 class SailingApp extends App.AppBase {
 
@@ -23,7 +14,7 @@ class SailingApp extends App.AppBase {
         if (time != null) {
             return time;
         } else {
-            return 70; // 1 min default timer count
+            return 300; // 1 min default timer count
         }
     }
     
