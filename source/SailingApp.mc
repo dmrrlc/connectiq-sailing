@@ -14,7 +14,7 @@ class SailingApp extends App.AppBase {
         if (time != null) {
             return time;
         } else {
-            return 300; // 5 min default timer count
+            return 5; // 5 min default timer count
         }
     }
     

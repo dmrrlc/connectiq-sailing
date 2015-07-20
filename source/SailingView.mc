@@ -22,7 +22,6 @@ class SailingView extends Ui.View {
 	var string = "";
 	var finalRingTime = 5000;
 
-    //! Load your resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc));
         
@@ -30,8 +29,6 @@ class SailingView extends Ui.View {
         secLeft = secTot;
         
         updateTimer();
-        
-        //Ui.ProgressBar.initialize("Test", progressPct);
         
         timer = new Timer.Timer();
         timer.start( method(:callback), 1000, true );
@@ -45,9 +42,9 @@ class SailingView extends Ui.View {
     		if(secLeft < 11){
     		    ring();
     	    }
-    	    if((secLeft+1) % 30 == 0){
+    	    if((secLeft-1) % 30 == 0){
     		    ring();
-    		    if((secLeft+1) % 60 == 0){
+    		    if((secLeft-1) % 60 == 0){
     		    	ring();
     	    	}
     	    }
@@ -64,6 +61,7 @@ class SailingView extends Ui.View {
     	string = "START";
 		timer.stop();
 		timerRunning = false;
+		timerComplete = true;
 		timerEnd = new Timer.Timer();
         timerEnd.start( method(:finalRing), 500, true );
     }
@@ -103,7 +101,6 @@ class SailingView extends Ui.View {
 	    }else {
 		        string = "" + sec + "";
 	    }
-	    //progressBar.setProgress( ( (secTot - secLeft) / secTot) * 100 );
     }
 
     //! Called when this View is brought to the foreground. Restore
@@ -116,35 +113,120 @@ class SailingView extends Ui.View {
     function onUpdate(dc) {
         dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
         dc.clear();
-        dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
+        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
         
         var center_x = 109;
         var center_y = 109;
+        var border_x = 2 * 109;
+        var border_y = 2 * 109;
+        
         var TWO_PI = Math.PI * 2;
         
-        var progress = ((60 - sec) / 60.0);
+        var progress = ( sec / 60.0);
         var angle = progress * TWO_PI;
         
-        angle  -= Math.PI / 2.0;
-        Sys.println(sec + " : " + progress + " : " +angle);
+        var cAngle = angle;
         
-        dc.drawLine(center_x, center_y,
-            (center_x + center_y * Math.cos(angle)),
-           (center_x + center_y * Math.sin(angle)));
+        angle  -= Math.PI / 2.0;
 
-       
+		var point = [ (center_x + 200 * Math.cos(angle)), (center_x + 200 * Math.sin(angle)) ];
+		
+		var polygon = [];
+		
+		if (timerComplete){
+			polygon = [
+		        	[0, 0],
+		        	[border_x, 0],
+		        	[border_x, border_y],
+		        	[0, border_y]
+	        ];
+        } else if (cAngle  < (Math.PI / 4.0))	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	point
+	        ];
+        } else if (cAngle < (Math.PI / 2))	{
+			polygon = [
+		        	[center_x, 109],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	point
+	        ];
+        } else if (cAngle < (Math.PI * 0.75))	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, center_y],
+		        	point
+	        ];
+        }else if (cAngle < Math.PI )	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, border_y], 
+		        	point
+	        ];
+        } else if (cAngle < Math.PI*1.25)	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, border_y],
+		        	[center_x, border_y],
+		        	point
+	        ];
+        }else if (cAngle < Math.PI*1.5)	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, border_y],
+		        	[center_x, border_y],
+		        	[0, border_y],
+		        	point
+	        ];
+        }else if (cAngle < Math.PI*1.75)	{
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, center_y],
+		        	[border_x, border_y],
+		        	[center_x, border_y],
+		        	[0, border_y],
+		        	[0, center_y],
+		        	point
+	        ];
+        }else {
+			polygon = [
+		        	[center_x, center_y],
+		        	[center_x, 0], 
+		        	[border_x, 0], 
+		        	[border_x, center_y],
+		        	[border_x, border_y],
+		        	[center_x, border_y],
+		        	[0, border_y],
+		        	[0, center_y],
+		        	[0, 0],
+		        	point
+	        ];
+        }
+		
+        dc.fillPolygon(polygon);    
         
         dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
         
         dc.fillCircle(109, 109, 88);
         
-        dc.setColor( Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT );
+        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
         dc.drawCircle(109, 109, 89);
        
         dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
         
 		if(timerRunning){
-	        // display time
 	        dc.drawText( (dc.getWidth() / 2), (dc.getHeight() / 2) - 60, Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
         }else{	
 			dc.drawText( (dc.getWidth() / 2), (dc.getHeight() / 2) - 20, Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
