@@ -35,10 +35,13 @@ class SailingApp extends App.AppBase {
     	sailingView.stopRecording();
     }
     
-    //! onStop() is called when your application is exiting
     function startTimer() {
     	Sys.println("app : start timer");
     	sailingView.startTimer();
+    }
+    
+    function refreshUi() {
+    	sailingView.refreshUi();
     }
 
     //! Return the initial view of your application here

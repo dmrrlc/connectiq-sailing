@@ -7,7 +7,7 @@ using Toybox.Timer as Timer;
 using Toybox.Time as Time;
 using Toybox.Attention as Attention;
 using Toybox.Math as Math;
-using Toybox.Position;
+using Toybox.Position as Position;
 using Toybox.ActivityRecording as Record;
 using Toybox.Activity as Act;
 using Toybox.Sensor as Sensor;
@@ -19,9 +19,16 @@ class SailingView extends Ui.View {
 
 	var timer;
 	var uiTimer;
+	var gpsSetupTimer;
 	var sec;
 	var min;
+	var screenHeight;
+	var screenWidth;
+	var recStatus = "-";
 	var speed = "-";
+	var heading = 0.0;
+	var headingStr = "-";
+	var accuracy = 0;
 	var progressBar;
 	var progressPct = 50;
 	var timerComplete = false;
@@ -31,6 +38,7 @@ class SailingView extends Ui.View {
 	var string = "";
 	var finalRingTime = 5000;
 	var raceStartTime = null;
+	
 	
 	//! Stop the recording if necessary
     function stopRecording() {
@@ -47,23 +55,37 @@ class SailingView extends Ui.View {
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc)); 
         
-        Sys.println("start ActivityRecording");
-        if( Toybox has :ActivityRecording ) {
-            if( ( session == null ) || ( session.isRecording() == false ) ) {
-                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
-                session.start();
-                Ui.requestUpdate();
-                
-            }
-            else if( ( session != null ) && session.isRecording() ) {
-                session.stop();
-                session.save();
-                session = null;
-                Ui.requestUpdate();
-            }
-        }      
+        screenWidth = dc.getWidth();
+        screenHeight = dc.getHeight();
+        
+        gpsSetupTimer = new Timer.Timer();
+        gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
+            
         uiTimer = new Timer.Timer();
         uiTimer.start(method(:refreshUi), 1000, true);
+    }
+    
+    function startActivityRecording() {
+    	Sys.println("start ActivityRecording");
+    	if (Position.getInfo().accuracy > 2.0){
+	    	gpsSetupTimer.stop();
+	        if( Toybox has :ActivityRecording ) {
+	            if( ( session == null ) || ( session.isRecording() == false ) ) {
+	                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
+	                session.start();
+	                recStatus = "REC";
+	                Ui.requestUpdate();
+	                
+	            }
+	            else if( ( session != null ) && session.isRecording() ) {
+	                session.stop();
+	                session.save();
+	                session = null;
+	                recStatus = "-";
+	                Ui.requestUpdate();
+	            }
+	        }  
+        }
     }
     
     function refreshUi(){
@@ -103,6 +125,9 @@ class SailingView extends Ui.View {
     }
     
     function endTimer() {
+    	if( ( session != null ) && session.isRecording() ) {
+    		session.addLap();
+    	}
     	raceStartTime = Time.now();
     	finalRing();
     	string = "START";
@@ -114,7 +139,8 @@ class SailingView extends Ui.View {
     }
     
     function ring(){
-		Attention.playTone(Attention.TONE_ALARM);
+    	//comment this line for muting during tests
+		//Attention.playTone(Attention.TONE_ALARM);
     }
     
     function finalRing(){
@@ -175,46 +201,52 @@ class SailingView extends Ui.View {
 	        dc.drawCircle(109, 109, 89);
 	        
 	        dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-	        dc.drawText( (dc.getWidth() / 2), (dc.getHeight() / 2) - 60, Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
+	        dc.drawText( (screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
         } else if (timerComplete) {	
         	dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-			dc.drawText( (dc.getWidth() / 2), (dc.getHeight() / 2) - 20, Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
+			dc.drawText( (screenWidth / 2), (screenHeight / 2) - 20, Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
        	} else {
        		if( Toybox has :ActivityRecording ) {
             // Draw the instructions
 	            if( ( session == null ) || ( session.isRecording() == false ) ) {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-	                dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2) - 30, Gfx.FONT_MEDIUM, "Press Menu to", Gfx.TEXT_JUSTIFY_CENTER);
-	                dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2), Gfx.FONT_MEDIUM, "Start Recording", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	            }
 	            else if( ( session != null ) && session.isRecording() ) {
+	                dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_MEDIUM, recStatus+"("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-	                dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2) - 60, Gfx.FONT_MEDIUM, "REC", Gfx.TEXT_JUSTIFY_CENTER);
 	                
-	                dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2) - 10, Gfx.FONT_MEDIUM, speed, Gfx.TEXT_JUSTIFY_CENTER);
 	                if(raceStartTime != null){
 	                	Sys.println("raceStartTime : "+ raceStartTime.value());
 	                	var now = Time.now();
 	                	var raceTime = now.subtract(raceStartTime);
-	                	dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2) + 10, Gfx.FONT_MEDIUM, ""+raceTime.value(), Gfx.TEXT_JUSTIFY_CENTER);
+	                	//var raceTimeStr = Time.Gregorian.info(raceTime, Time.FORMAT_LONG);
+	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, raceTime.value(), Gfx.TEXT_JUSTIFY_CENTER);
+	                }else {
+	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, "00:00:00", Gfx.TEXT_JUSTIFY_CENTER);
 	                }
+	                
+	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, speed, Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2) + 30, Gfx.FONT_MEDIUM, headingStr +"("+heading+")", Gfx.TEXT_JUSTIFY_CENTER);
 	            }
         	}
 	        // tell the user this sample doesn't work
 	        else {
 	            dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-	            dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2) - 20, Gfx.FONT_MEDIUM, "This product doesn't", Gfx.TEXT_JUSTIFY_LEFT);
-	            dc.drawText((dc.getWidth() / 2), (dc.getHeight() / 2), Gfx.FONT_MEDIUM, "have FIT Support", Gfx.TEXT_JUSTIFY_LEFT);
+	            dc.drawText((screenWidth / 2), (screenHeight / 2) - 20, Gfx.FONT_MEDIUM, "This product doesn't", Gfx.TEXT_JUSTIFY_LEFT);
+	            dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "have FIT Support", Gfx.TEXT_JUSTIFY_LEFT);
 	        }
         }
     }
     
     function buildProgress() {
     
-	    var center_x = 109;
-	    var center_y = 109;
-	    var border_x = 2 * 109;
-	    var border_y = 2 * 109;
+	    var center_x = screenWidth / 2;
+	    var center_y = screenHeight / 2;
+	    var border_x = screenWidth;
+	    var border_y = screenHeight;
 	    
 	    var TWO_PI = Math.PI * 2;
 	    
@@ -329,11 +361,54 @@ class SailingView extends Ui.View {
     }
     
     function onPosition(info) {
+    	heading = info.heading;
+    	headingStr = headingToStr(heading);
+    	accuracy = info.accuracy;
      	speed = (info.speed * 1.943844492) + " knt";
-    	Sys.println("speed "+speed);
+    	Sys.println("speed "+speed+" heading : "+info.heading+ " ("+heading+")  accuracy: "+accuracy);
     	Ui.requestUpdate();
     }
     
+    function headingToStr(heading){
+    
+        var sixteenthPI = Math.PI / 16.0;
+        
+    	if (heading < sixteenthPI){
+    		return "N+";
+    	}else if (heading < (3 * sixteenthPI)){ 
+    	   return "NNE";
+    	}else if (heading < (5 * sixteenthPI)){ 
+    	   return "NE";
+    	}else if (heading < (7 * sixteenthPI)){ 
+    	   return "ENE";
+    	}else if (heading < (9 * sixteenthPI)){ 
+    	   return "E";
+    	}else if (heading < (11 * sixteenthPI)){ 
+    	   return "ESE";
+    	}else if (heading < (13 * sixteenthPI)){ 
+    	   return "SE";
+    	}else if (heading < (15 * sixteenthPI)){ 
+    	   return "SSE";
+    	}else if (heading < (17 * sixteenthPI)){ 
+    	   return "S";
+    	}else if (heading < (19 * sixteenthPI)){ 
+    	   return "SSW";
+    	}else if (heading < (21 * sixteenthPI)){ 
+    	   return "SW";
+    	}else if (heading < (23 * sixteenthPI)){ 
+    	   return "WSW";
+    	}else if (heading < (25 * sixteenthPI)){ 
+    	   return "W";
+    	}else if (heading < (27 * sixteenthPI)){ 
+    	   return "WNW";
+    	}else if (heading < (29 * sixteenthPI)){ 
+    	   return "NW";
+    	}else if (heading < (31 * sixteenthPI)){ 
+    	   return "NNW";
+    	}else {
+    		return "N-";
+    	}
+    }    
     function openTheMenu() {
         Ui.pushView(new Rez.Menus.MainMenu(), new MyMenuDelegate(), Ui.SLIDE_UP);
     }
@@ -358,6 +433,7 @@ class MyMenuDelegate extends Ui.MenuInputDelegate {
 			App.getApp().startTimer();
 		} else if (item == :item_rt) {
            // Do nothing -> return
+			App.getApp().refreshUi();
 		} 
     }
 }

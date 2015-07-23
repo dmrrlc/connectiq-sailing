@@ -1,95 +1,192 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <debugInfo>
 <pcToLineNum>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="13" pc="268435458" symbol="getDefaultTimerCount"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="14" pc="268435476" symbol="getDefaultTimerCount"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="15" pc="268435483" symbol="getDefaultTimerCount"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="17" pc="268435489" symbol="getDefaultTimerCount"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="23" pc="268435498" symbol="setDefaultTimerCount"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="36" pc="268435526" symbol="getInitialView"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="26" pc="268435567" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="28" pc="268435604" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="29" pc="268435636" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="31" pc="268435652" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="33" pc="268435664" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="34" pc="268435698" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="36" pc="268435739" symbol="onLayout"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="41" pc="268435752" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="42" pc="268435769" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="43" pc="268435786" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="45" pc="268435801" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="46" pc="268435830" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="47" pc="268435842" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="48" pc="268435871" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="51" pc="268435889" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="53" pc="268435904" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="56" pc="268435916" symbol="callback"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="60" pc="268435935" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="61" pc="268435947" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="62" pc="268435960" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="63" pc="268435978" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="64" pc="268435988" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="65" pc="268435998" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="66" pc="268436032" symbol="endTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="70" pc="268436076" symbol="ring"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="74" pc="268436107" symbol="finalRing"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="75" pc="268436124" symbol="finalRing"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="76" pc="268436143" symbol="finalRing"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="78" pc="268436174" symbol="finalRing"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="83" pc="268436195" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="85" pc="268436214" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="86" pc="268436230" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="89" pc="268436243" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="90" pc="268436260" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="91" pc="268436279" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="95" pc="268436301" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="96" pc="268436318" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="97" pc="268436335" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="99" pc="268436375" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="102" pc="268436421" symbol="updateTimer"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="114" pc="268436455" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="115" pc="268436491" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="116" pc="268436503" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="118" pc="268436539" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="119" pc="268436546" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="120" pc="268436553" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="121" pc="268436566" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="123" pc="268436579" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="125" pc="268436599" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="126" pc="268436615" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="128" pc="268436622" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="130" pc="268436626" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="132" pc="268436649" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="134" pc="268436725" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="136" pc="268436733" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="137" pc="268436744" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="144" pc="268436927" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="150" pc="268437043" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="157" pc="268437199" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="165" pc="268437380" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="173" pc="268437567" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="182" pc="268437788" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="192" pc="268438046" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="204" pc="268438351" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="218" pc="268438693" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="220" pc="268438707" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="222" pc="268438743" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="224" pc="268438770" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="225" pc="268438806" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="227" pc="268438833" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="229" pc="268438869" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="230" pc="268438880" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="232" pc="268438967" symbol="onUpdate"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="17" pc="268439325" symbol="&lt;init&gt;"/>
-<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="18" pc="268439335" symbol="&lt;init&gt;"/>
-<entry filename="Rez" lineNum="5" pc="268439378" symbol="&lt;init&gt;"/>
-<entry filename="Rez" lineNum="10" pc="268439365" symbol="&lt;init&gt;"/>
-<entry filename="Rez" lineNum="19" pc="268439064" symbol="WatchFace"/>
-<entry filename="Rez" lineNum="20" pc="268439078" symbol="WatchFace"/>
-<entry filename="Rez" lineNum="21" pc="268439175" symbol="WatchFace"/>
-<entry filename="Rez" lineNum="22" pc="268439190" symbol="WatchFace"/>
-<entry filename="Rez" lineNum="23" pc="268439242" symbol="WatchFace"/>
-<entry filename="Rez" lineNum="24" pc="268439288" symbol="WatchFace"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="19" pc="268435458" symbol="getDefaultTimerCount"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="20" pc="268435476" symbol="getDefaultTimerCount"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="21" pc="268435483" symbol="getDefaultTimerCount"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="23" pc="268435489" symbol="getDefaultTimerCount"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="29" pc="268435498" symbol="setDefaultTimerCount"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="34" pc="268435520" symbol="onStop"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="35" pc="268435541" symbol="onStop"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="39" pc="268435562" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="40" pc="268435583" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="44" pc="268435604" symbol="refreshUi"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="49" pc="268435625" symbol="getInitialView"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingApp.mc" lineNum="50" pc="268435655" symbol="getInitialView"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="45" pc="268435712" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="46" pc="268435729" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="47" pc="268435765" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="48" pc="268435783" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="49" pc="268435801" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="50" pc="268435810" symbol="stopRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="56" pc="268435835" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="58" pc="268435872" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="59" pc="268435891" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="61" pc="268435910" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="62" pc="268435944" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="64" pc="268435985" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="65" pc="268436019" symbol="onLayout"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="69" pc="268436063" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="70" pc="268436084" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="71" pc="268436114" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="72" pc="268436132" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="73" pc="268436149" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="74" pc="268436188" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="75" pc="268436250" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="76" pc="268436268" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="77" pc="268436281" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="81" pc="268436336" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="82" pc="268436354" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="83" pc="268436372" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="84" pc="268436381" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="85" pc="268436394" symbol="startActivityRecording"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="92" pc="268436422" symbol="refreshUi"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="96" pc="268436441" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="97" pc="268436473" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="99" pc="268436489" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="101" pc="268436501" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="102" pc="268436535" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="104" pc="268436576" symbol="startTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="109" pc="268436589" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="110" pc="268436606" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="111" pc="268436623" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="113" pc="268436638" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="114" pc="268436667" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="115" pc="268436679" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="116" pc="268436708" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="119" pc="268436726" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="121" pc="268436741" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="124" pc="268436753" symbol="callback"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="128" pc="268436772" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="129" pc="268436808" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="131" pc="268436829" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="132" pc="268436852" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="133" pc="268436864" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="134" pc="268436877" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="135" pc="268436895" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="136" pc="268436905" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="137" pc="268436915" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="138" pc="268436949" symbol="endTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="147" pc="268436996" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="148" pc="268437013" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="149" pc="268437032" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="151" pc="268437063" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="152" pc="268437073" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="154" pc="268437091" symbol="finalRing"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="158" pc="268437110" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="160" pc="268437129" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="161" pc="268437145" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="164" pc="268437158" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="165" pc="268437175" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="166" pc="268437194" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="170" pc="268437216" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="171" pc="268437233" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="172" pc="268437250" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="174" pc="268437290" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="177" pc="268437336" symbol="updateTimer"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="185" pc="268437367" symbol="onShow"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="190" pc="268437414" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="191" pc="268437450" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="192" pc="268437462" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="194" pc="268437498" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="195" pc="268437509" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="197" pc="268437522" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="198" pc="268437536" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="199" pc="268437572" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="200" pc="268437599" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="201" pc="268437635" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="203" pc="268437662" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="204" pc="268437698" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="206" pc="268437790" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="207" pc="268437826" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="209" pc="268437907" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="211" pc="268437924" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="212" pc="268437963" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="213" pc="268437999" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="214" pc="268438074" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="217" pc="268438197" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="218" pc="268438233" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="219" pc="268438332" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="221" pc="268438368" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="222" pc="268438381" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="223" pc="268438420" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="224" pc="268438437" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="226" pc="268438458" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="228" pc="268438542" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="231" pc="268438617" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="232" pc="268438689" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="237" pc="268438794" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="238" pc="268438830" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="239" pc="268438905" symbol="onUpdate"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="246" pc="268438977" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="247" pc="268438993" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="248" pc="268439009" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="249" pc="268439019" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="251" pc="268439029" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="253" pc="268439049" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="254" pc="268439065" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="256" pc="268439072" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="258" pc="268439076" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="260" pc="268439099" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="262" pc="268439175" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="264" pc="268439183" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="265" pc="268439194" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="272" pc="268439377" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="278" pc="268439493" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="285" pc="268439649" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="293" pc="268439830" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="301" pc="268440017" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="310" pc="268440238" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="320" pc="268440496" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="332" pc="268440801" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="345" pc="268441143" symbol="buildProgress"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="352" pc="268441149" symbol="onHide"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="364" pc="268441202" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="365" pc="268441218" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="366" pc="268441245" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="367" pc="268441261" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="368" pc="268441289" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="369" pc="268441364" symbol="onPosition"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="374" pc="268441383" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="376" pc="268441403" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="377" pc="268441411" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="379" pc="268441434" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="381" pc="268441457" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="383" pc="268441480" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="385" pc="268441503" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="387" pc="268441526" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="389" pc="268441549" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="391" pc="268441572" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="393" pc="268441595" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="395" pc="268441618" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="397" pc="268441641" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="399" pc="268441664" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="401" pc="268441687" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="403" pc="268441710" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="405" pc="268441733" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="407" pc="268441756" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="409" pc="268441765" symbol="headingToStr"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="413" pc="268441774" symbol="openTheMenu"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="34" pc="268442407" symbol="&lt;init&gt;"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="40" pc="268442417" symbol="&lt;init&gt;"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="421" pc="268441862" symbol="onKey"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="425" pc="268441889" symbol="onMenu"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="426" pc="268441910" symbol="onMenu"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="432" pc="268441998" symbol="onMenuItem"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="433" pc="268442009" symbol="onMenuItem"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="436" pc="268442048" symbol="onMenuItem"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="15" pc="268442369" symbol="&lt;init&gt;"/>
+<entry filename="/Users/user/Documents/workspace/Sailing/source/SailingView.mc" lineNum="16" pc="268442378" symbol="&lt;init&gt;"/>
+<entry filename="Rez" lineNum="5" pc="268442478" symbol="&lt;init&gt;"/>
+<entry filename="Rez" lineNum="13" pc="268442080" symbol="initialize"/>
+<entry filename="Rez" lineNum="14" pc="268442102" symbol="initialize"/>
+<entry filename="Rez" lineNum="21" pc="268442446" symbol="&lt;init&gt;"/>
+<entry filename="Rez" lineNum="30" pc="268442127" symbol="WatchFace"/>
+<entry filename="Rez" lineNum="31" pc="268442141" symbol="WatchFace"/>
+<entry filename="Rez" lineNum="32" pc="268442238" symbol="WatchFace"/>
+<entry filename="Rez" lineNum="33" pc="268442253" symbol="WatchFace"/>
+<entry filename="Rez" lineNum="34" pc="268442305" symbol="WatchFace"/>
+<entry filename="Rez" lineNum="35" pc="268442351" symbol="WatchFace"/>
 </pcToLineNum>
 <symbolTable>
 <entry id="8389359" symbol="&lt;gre&gt;"/>
@@ -123,7 +220,7 @@
 <entry id="8389085" symbol="mDisplayString"/>
 <entry id="8388676" method="true" symbol="testTypeCreation"/>
 <entry id="8389569" symbol="mSettings"/>
-<entry field="true" id="16" symbol="secTot"/>
+<entry field="true" id="24" symbol="secTot"/>
 <entry field="true" id="8388852" symbol="SUB_SPORT_STREET"/>
 <entry id="8388910" method="true" symbol="getHistory"/>
 <entry id="2" module="true" symbol="globals_Rez"/>
@@ -138,7 +235,7 @@
 <entry id="8389548" symbol="&lt;tha&gt;"/>
 <entry field="true" id="8388807" symbol="BLE_REQUEST_TOO_LARGE"/>
 <entry id="8388819" method="true" symbol="makeImageRequest"/>
-<entry id="24" module="true" symbol="Menus"/>
+<entry id="41" module="true" symbol="Menus"/>
 <entry id="3" module="true" symbol="globals_Rez_Drawables"/>
 <entry id="8388630" module="true" symbol="Toybox_Position"/>
 <entry id="8389354" symbol="&lt;dut&gt;"/>
@@ -160,7 +257,7 @@
 <entry id="8388786" method="true" symbol="method"/>
 <entry id="8389261" symbol="mHiddenData"/>
 <entry field="true" id="8388808" symbol="BLE_UNKNOWN_SEND_ERROR"/>
-<entry field="true" id="14" symbol="timerComplete"/>
+<entry field="true" id="22" symbol="timerComplete"/>
 <entry id="8388666" method="true" symbol="testDiv"/>
 <entry field="true" id="8389295" symbol="QUALITY_POOR"/>
 <entry id="8388678" method="true" symbol="testBooleanOperations"/>
@@ -184,7 +281,7 @@
 <entry id="8388659" method="true" symbol="testAbs"/>
 <entry field="true" id="8388989" symbol="dutyCycle"/>
 <entry id="8389043" object="true" symbol="ProgressBar"/>
-<entry field="true" id="27" symbol="AppName"/>
+<entry field="true" id="45" symbol="AppName"/>
 <entry field="true" id="8388927" symbol="SECONDS_PER_YEAR"/>
 <entry id="8389418" object="true" symbol="CommonData"/>
 <entry id="8389114" method="true" symbol="getType"/>
@@ -200,7 +297,7 @@
 <entry id="8389184" method="true" symbol="drawLine"/>
 <entry id="8389250" symbol="timestamp"/>
 <entry id="8388877" method="true" symbol="createSession"/>
-<entry field="true" id="26" symbol="LauncherIcon"/>
+<entry field="true" id="43" symbol="LauncherIcon"/>
 <entry id="8388616" module="true" symbol="Toybox_Communications"/>
 <entry field="true" id="8389380" symbol="OBSCURE_TOP"/>
 <entry field="true" id="8389201" symbol="MSG_ID_SEARCH_TIMEOUT"/>
@@ -246,7 +343,7 @@
 <entry field="true" id="8389227" symbol="MSG_CODE_INVALID_MESSAGE"/>
 <entry id="8389020" method="true" symbol="animate"/>
 <entry field="true" id="8388950" symbol="SENSOR_BIKESPEED"/>
-<entry field="true" id="18" symbol="string"/>
+<entry field="true" id="26" symbol="string"/>
 <entry field="true" id="8389076" symbol="BEHAVIOR_ON_NEXT_MODE"/>
 <entry id="8389084" method="true" symbol="handleEvent"/>
 <entry id="8388946" method="true" symbol="greaterThan"/>
@@ -288,7 +385,7 @@
 <entry id="8389187" method="true" symbol="fillPolygon"/>
 <entry field="true" id="8389210" symbol="MSG_ID_OPEN_CHANNEL"/>
 <entry field="true" id="8389153" symbol="FONT_TINY"/>
-<entry field="true" id="17" symbol="secLeft"/>
+<entry field="true" id="25" symbol="secLeft"/>
 <entry id="8389433" object="true" symbol="CalculatedPower"/>
 <entry id="8388932" symbol="getDayHash"/>
 <entry id="8389534" module="true" symbol="PersistedLocations"/>
@@ -306,6 +403,7 @@
 <entry id="8389098" method="true" symbol="onTap"/>
 <entry field="true" id="8389416" symbol="BATT_STATUS_INVALID"/>
 <entry field="true" id="8389417" symbol="BATT_STATUS_CNT"/>
+<entry id="40" method="true" symbol="openTheMenu"/>
 <entry id="8388759" object="true" symbol="Long"/>
 <entry id="8388945" method="true" symbol="lessThan"/>
 <entry field="true" id="8389239" symbol="DATA_PAYLOAD_LENGTH"/>
@@ -313,10 +411,11 @@
 <entry id="8389142" method="true" symbol="getProfile"/>
 <entry id="8389188" method="true" symbol="fillRectangle"/>
 <entry id="8388729" object="true" symbol="Info"/>
-<entry id="25" module="true" symbol="Layouts"/>
+<entry id="42" module="true" symbol="Layouts"/>
 <entry id="8388710" object="true" symbol="Stats"/>
 <entry field="true" id="8389152" symbol="FONT_XTINY"/>
 <entry id="8389189" method="true" symbol="fillRoundedRectangle"/>
+<entry field="true" id="19" symbol="headingStr"/>
 <entry id="8389324" symbol="june"/>
 <entry field="true" id="8389268" symbol="DEFAULT_SEARCH_TIMEOUT_HIGH"/>
 <entry field="true" id="8388830" symbol="SPORT_GENERIC"/>
@@ -347,8 +446,8 @@
 <entry id="8389325" symbol="july"/>
 <entry field="true" id="8388959" symbol="cadence"/>
 <entry id="8388650" object="true" symbol="Dictionary"/>
-<entry id="28" method="true" symbol="getDefaultTimerCount"/>
-<entry field="true" id="13" symbol="timerRunning"/>
+<entry id="47" method="true" symbol="getDefaultTimerCount"/>
+<entry field="true" id="9" symbol="timerRunning"/>
 <entry id="8388627" module="true" symbol="Toybox_Graphics"/>
 <entry id="8388767" object="true" symbol="Method"/>
 <entry field="true" id="8388994" symbol="KEY_ENTER"/>
@@ -356,11 +455,13 @@
 <entry field="true" id="8389005" symbol="KEY_UP_RIGHT"/>
 <entry field="true" id="8388726" symbol="freeMemory"/>
 <entry id="8389079" method="true" symbol="onPreviousPage"/>
+<entry field="true" id="17" symbol="screenWidth"/>
 <entry id="8389538" object="true" symbol="TextPickerDelegate"/>
 <entry field="true" id="8389381" symbol="OBSCURE_RIGHT"/>
 <entry id="8388714" method="true" symbol="getClockTime"/>
 <entry id="8388775" method="true" symbol="toNumber"/>
 <entry id="8389554" method="true" symbol="onKeyReleased"/>
+<entry field="true" id="16" symbol="screenHeight"/>
 <entry id="8389355" symbol="&lt;eng&gt;"/>
 <entry field="true" id="8388860" symbol="SUB_SPORT_RECUMBENT"/>
 <entry id="8389124" method="true" symbol="onUpdate"/>
@@ -376,6 +477,7 @@
 <entry id="8388652" method="true" symbol="testCreateSession"/>
 <entry field="true" id="8389396" symbol="UNIT_STATUTE"/>
 <entry field="true" id="8388725" symbol="usedMemory"/>
+<entry field="true" id="46" symbol="sailingView"/>
 <entry field="true" id="8389453" symbol="WEIGHT_SCALE_ACTIVITY_LEVEL_RESERVED"/>
 <entry id="8388621" module="true" symbol="Toybox_Time_Gregorian"/>
 <entry id="8389342" symbol="hours"/>
@@ -386,9 +488,9 @@
 <entry id="8389132" method="true" symbol="setFont"/>
 <entry field="true" id="8389519" symbol="torque"/>
 <entry field="true" id="8389529" symbol="userProfileSelected"/>
-<entry field="true" id="10" symbol="timer"/>
+<entry field="true" id="13" symbol="timer"/>
 <entry field="true" id="8389039" symbol="NUMBER_PICKER_CALORIES"/>
-<entry field="true" id="11" symbol="progressBar"/>
+<entry field="true" id="20" symbol="progressBar"/>
 <entry id="8389541" method="true" symbol="onCancel"/>
 <entry field="true" id="8388968" symbol="TONE_STOP"/>
 <entry field="true" id="8389509" symbol="wheelSpeed"/>
@@ -397,6 +499,7 @@
 <entry id="8388761" object="true" symbol="Double"/>
 <entry field="true" id="8388865" symbol="SUB_SPORT_ELLIPTICAL"/>
 <entry field="true" id="8389166" symbol="COLOR_DK_GREEN"/>
+<entry field="true" id="28" symbol="raceStartTime"/>
 <entry id="8389259" method="true" symbol="sendAcknowledge"/>
 <entry field="true" id="8389159" symbol="COLOR_DK_GRAY"/>
 <entry id="8389375" method="true" object="true" symbol="WatchFace"/>
@@ -477,7 +580,7 @@
 <entry field="true" id="8388940" symbol="year"/>
 <entry field="true" id="8388723" symbol="timeZoneOffset"/>
 <entry field="true" id="8389272" symbol="searchTimeoutLowPriority"/>
-<entry id="20" method="true" symbol="endTimer"/>
+<entry id="33" method="true" symbol="endTimer"/>
 <entry field="true" id="8388983" symbol="TONE_LOW_BATTERY"/>
 <entry id="8389178" method="true" symbol="drawCircle"/>
 <entry id="8389281" method="true" symbol="onStop"/>
@@ -485,6 +588,7 @@
 <entry field="true" id="8389385" symbol="FONT_NUMBER_MILD"/>
 <entry id="8388789" method="true" symbol="get"/>
 <entry id="8389465" object="true" symbol="WeightScaleAdvancedReading"/>
+<entry field="true" id="18" symbol="recStatus"/>
 <entry id="8389334" symbol="wednesday"/>
 <entry field="true" id="8389046" symbol="SLIDE_RIGHT"/>
 <entry field="true" id="8389065" symbol="locY"/>
@@ -497,6 +601,7 @@
 <entry id="8388826" method="true" symbol="next"/>
 <entry id="8388792" method="true" symbol="isEmpty"/>
 <entry id="8389357" symbol="&lt;fre&gt;"/>
+<entry id="12" object="true" symbol="MyMenuDelegate"/>
 <entry field="true" id="8389495" symbol="activeMetabolicRate"/>
 <entry field="true" id="8388998" symbol="KEY_DOWN"/>
 <entry field="true" id="8389407" symbol="temperatureUnits"/>
@@ -522,6 +627,7 @@
 <entry id="8389285" method="true" symbol="clearProperties"/>
 <entry field="true" id="8388834" symbol="SPORT_FITNESS_EQUIPMENT"/>
 <entry id="8389369" symbol="&lt;spa&gt;"/>
+<entry id="44" object="true" symbol="MainMenu"/>
 <entry id="8388788" method="true" symbol="put"/>
 <entry id="8389537" object="true" symbol="TextPicker"/>
 <entry id="8389183" method="true" symbol="drawBitmap"/>
@@ -545,6 +651,7 @@
 <entry field="true" id="8389000" symbol="KEY_DOWN_RIGHT"/>
 <entry id="8388641" module="true" symbol="Math"/>
 <entry field="true" id="8389558" symbol="KEY_START"/>
+<entry id="37" method="true" symbol="buildProgress"/>
 <entry id="8389409" module="true" symbol="Toybox_AntPlus"/>
 <entry field="true" id="8388800" symbol="UNKNOWN_ERROR"/>
 <entry id="8388760" object="true" symbol="Float"/>
@@ -568,7 +675,7 @@
 <entry field="true" id="8389572" symbol="mPassed"/>
 <entry id="8389257" method="true" symbol="close"/>
 <entry id="8389489" method="true" symbol="getAdvancedReading"/>
-<entry id="21" method="true" symbol="ring"/>
+<entry id="34" method="true" symbol="ring"/>
 <entry id="8388713" method="true" symbol="getTimer"/>
 <entry id="8388772" module="true" object="true" symbol="Fonts"/>
 <entry field="true" id="8389033" symbol="NUMBER_PICKER_DISTANCE"/>
@@ -587,6 +694,7 @@
 <entry id="8388617" module="true" symbol="Toybox_ActivityRecording"/>
 <entry id="8388986" object="true" symbol="VibeProfile"/>
 <entry id="8389014" object="true" symbol="ClickEvent"/>
+<entry id="39" method="true" symbol="headingToStr"/>
 <entry field="true" id="8388732" symbol="elapsedTime"/>
 <entry id="8389256" method="true" symbol="open"/>
 <entry id="8388653" method="true" symbol="testGeometryIterator"/>
@@ -596,12 +704,13 @@
 <entry field="true" id="8389219" symbol="MSG_CODE_EVENT_TRANSFER_RX_FAILED"/>
 <entry id="8389349" symbol="justification"/>
 <entry field="true" id="8388859" symbol="SUB_SPORT_DOWNHILL"/>
-<entry field="true" id="12" symbol="progressPct"/>
+<entry field="true" id="21" symbol="progressPct"/>
 <entry field="true" id="8388744" symbol="maxPower"/>
 <entry id="8388612" module="true" symbol="Toybox_Test"/>
 <entry field="true" id="8389411" symbol="BATT_STATUS_NEW"/>
 <entry id="8389028" object="true" symbol="MenuInputDelegate"/>
-<entry id="23" method="true" symbol="updateTimer"/>
+<entry id="32" method="true" symbol="startTimer"/>
+<entry id="36" method="true" symbol="updateTimer"/>
 <entry id="8388705" method="true" symbol="callback"/>
 <entry field="true" id="8389528" symbol="batteryVoltage"/>
 <entry field="true" id="8389314" symbol="latitude"/>
@@ -659,6 +768,7 @@
 <entry field="true" id="8389222" symbol="MSG_CODE_EVENT_CHANNEL_CLOSED"/>
 <entry field="true" id="8389505" symbol="userProfileId"/>
 <entry id="8388679" method="true" symbol="testObjectLock"/>
+<entry id="11" object="true" symbol="BaseInputDelegate"/>
 <entry id="8389095" method="true" symbol="addItem"/>
 <entry field="true" id="8389157" symbol="COLOR_WHITE"/>
 <entry field="true" id="8389550" symbol="PRESS_TYPE_DOWN"/>
@@ -705,6 +815,7 @@
 <entry id="8389192" method="true" symbol="setPenWidth"/>
 <entry field="true" id="8388918" symbol="FORMAT_MEDIUM"/>
 <entry field="true" id="8389012" symbol="CLICK_TYPE_HOLD"/>
+<entry id="50" symbol="item_rt"/>
 <entry field="true" id="8389229" symbol="NETWORK_PUBLIC"/>
 <entry id="8389053" object="true" symbol="BitmapResource"/>
 <entry field="true" id="8388982" symbol="TONE_POWER"/>
@@ -750,7 +861,7 @@
 <entry id="8389397" object="true" symbol="DeviceSettings"/>
 <entry id="8389476" symbol="mDeviceNumber"/>
 <entry id="8388781" method="true" symbol="hashCode"/>
-<entry field="true" id="15" symbol="timerEnd"/>
+<entry field="true" id="23" symbol="timerEnd"/>
 <entry id="8389317" symbol="degrees"/>
 <entry id="8388636" module="true" symbol="Attention"/>
 <entry field="true" id="8389531" symbol="antfsSupport"/>
@@ -857,6 +968,7 @@
 <entry field="true" id="8389161" symbol="COLOR_RED"/>
 <entry id="8388704" method="true" symbol="getCallback"/>
 <entry field="true" id="8388743" symbol="averagePower"/>
+<entry id="30" method="true" symbol="startActivityRecording"/>
 <entry field="true" id="8388979" symbol="TONE_DISTANCE_ALERT"/>
 <entry id="8388897" method="true" symbol="atan"/>
 <entry field="true" id="8389160" symbol="COLOR_BLACK"/>
@@ -872,6 +984,7 @@
 <entry field="true" id="8388733" symbol="timerTime"/>
 <entry field="true" id="8388755" symbol="swimEfficency"/>
 <entry id="8388935" method="true" symbol="duration"/>
+<entry id="38" method="true" symbol="onPosition"/>
 <entry field="true" id="8389263" symbol="DEFAULT_DEVICE_TYPE"/>
 <entry id="8388728" method="true" symbol="getActivityInfo"/>
 <entry field="true" id="8388751" symbol="averageCadence"/>
@@ -905,6 +1018,7 @@
 <entry field="true" id="8389292" symbol="GEO_MGRS"/>
 <entry field="true" id="8389003" symbol="KEY_UP"/>
 <entry id="8388782" method="true" symbol="size"/>
+<entry id="31" method="true" symbol="refreshUi"/>
 <entry id="8388661" method="true" symbol="testBreak"/>
 <entry field="true" id="8388915" symbol="isSleepMode"/>
 <entry id="8389576" method="true" symbol="printStackTrace"/>
@@ -946,18 +1060,19 @@
 <entry field="true" id="8388872" symbol="SUB_SPORT_MATCH"/>
 <entry id="8389567" method="true" symbol="getNumberOfTests"/>
 <entry field="true" id="8389456" symbol="WEIGHT_SCALE_STATUS_SEARCHING"/>
-<entry field="true" id="19" symbol="finalRingTime"/>
+<entry field="true" id="27" symbol="finalRingTime"/>
 <entry id="8389136" method="true" symbol="getKey"/>
 <entry id="8388758" object="true" symbol="Number"/>
 <entry field="true" id="8389213" symbol="MSG_ID_ACKNOWLEDGED_DATA"/>
 <entry field="true" id="8389224" symbol="MSG_CODE_CHANNEL_IN_WRONG_STATE"/>
-<entry id="22" method="true" symbol="finalRing"/>
+<entry id="35" method="true" symbol="finalRing"/>
 <entry field="true" id="8389221" symbol="MSG_CODE_EVENT_TRANSFER_TX_FAILED"/>
 <entry id="8389309" method="true" symbol="toGeoString"/>
 <entry id="8388690" method="true" symbol="testMoment"/>
 <entry id="8389024" object="true" symbol="DataField"/>
 <entry field="true" id="8389482" symbol="powerSensorType"/>
 <entry id="8389062" symbol="mInitialValue"/>
+<entry id="49" symbol="start_timer"/>
 <entry field="true" id="8389471" symbol="leftTorqueEffectiveness"/>
 <entry field="true" id="8388991" symbol="KEY_LIGHT"/>
 <entry field="true" id="8389552" symbol="PRESS_TYPE_ACTION"/>
@@ -987,7 +1102,7 @@
 <entry field="true" id="8388990" symbol="KEY_POWER"/>
 <entry field="true" id="8388809" symbol="BLE_CONNECTION_UNAVAILABLE"/>
 <entry id="8389438" object="true" symbol="TorqueEfficiency"/>
-<entry id="9" object="true" symbol="SailingView"/>
+<entry id="10" object="true" symbol="SailingView"/>
 <entry field="true" id="8389246" symbol="transmissionType"/>
 <entry id="8388882" method="true" symbol="save"/>
 <entry field="true" id="8389527" symbol="operatingTime"/>
@@ -1007,6 +1122,7 @@
 <entry id="8389010" object="true" symbol="KeyEvent"/>
 <entry id="8389553" method="true" symbol="onKeyPressed"/>
 <entry field="true" id="8388864" symbol="SUB_SPORT_INDOOR_ROWING"/>
+<entry field="true" id="14" symbol="uiTimer"/>
 <entry field="true" id="8388845" symbol="SPORT_ROWING"/>
 <entry field="true" id="8389030" symbol="CONFIRM_YES"/>
 <entry id="8389545" symbol="mWidth"/>
@@ -1025,6 +1141,7 @@
 <entry field="true" id="8389504" symbol="crankCadence"/>
 <entry field="true" id="8389291" symbol="GEO_DMS"/>
 <entry field="true" id="8388955" symbol="SENSOR_TEMPERATURE"/>
+<entry field="true" id="15" symbol="gpsSetupTimer"/>
 <entry field="true" id="8388894" symbol="E"/>
 <entry id="8388707" method="true" symbol="insertWithPut"/>
 <entry id="8389131" method="true" symbol="setColor"/>
@@ -1035,7 +1152,7 @@
 <entry field="true" id="8388749" symbol="maxHeartRate"/>
 <entry id="8389181" method="true" symbol="drawRectangle"/>
 <entry field="true" id="8389403" symbol="paceUnits"/>
-<entry id="29" method="true" symbol="setDefaultTimerCount"/>
+<entry id="48" method="true" symbol="setDefaultTimerCount"/>
 <entry id="8389341" symbol="days"/>
 <entry field="true" id="8388977" symbol="TONE_CANARY"/>
 <entry field="true" id="8388919" symbol="FORMAT_LONG"/>
@@ -1067,6 +1184,7 @@
 <entry field="true" id="8388719" symbol="dst"/>
 <entry id="8389127" symbol="mText"/>
 <entry id="8389025" object="true" symbol="SimpleDataField"/>
+<entry id="29" method="true" symbol="stopRecording"/>
 <entry id="8389126" method="true" symbol="setLayout"/>
 <entry field="true" id="8389274" symbol="searchThreshold"/>
 <entry field="true" id="8389431" symbol="BIKE_POWER_SENSOR_TYPE_CNT"/>
@@ -1081,17 +1199,32 @@
 <param id="time"/>
 <documentation/>
 </functionEntry>
-<functionEntry name="onStart">
-<documentation><![CDATA[<div class="description"> onStart() is called on application start up<br/></div>]]></documentation>
-</functionEntry>
 <functionEntry name="onStop">
 <documentation><![CDATA[<div class="description"> onStop() is called when your application is exiting<br/></div>]]></documentation>
+</functionEntry>
+<functionEntry name="startTimer">
+<documentation/>
+</functionEntry>
+<functionEntry name="refreshUi">
+<documentation/>
 </functionEntry>
 <functionEntry name="getInitialView">
 <documentation><![CDATA[<div class="description"> Return the initial view of your application here<br/></div>]]></documentation>
 </functionEntry>
+<functionEntry name="stopRecording">
+<documentation><![CDATA[<div class="description"> Stop the recording if necessary<br/></div>]]></documentation>
+</functionEntry>
 <functionEntry name="onLayout">
 <param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry name="startActivityRecording">
+<documentation/>
+</functionEntry>
+<functionEntry name="refreshUi">
+<documentation/>
+</functionEntry>
+<functionEntry name="startTimer">
 <documentation/>
 </functionEntry>
 <functionEntry name="callback">
@@ -1116,6 +1249,9 @@
 <param id="dc"/>
 <documentation><![CDATA[<div class="description"> Update the view<br/></div>]]></documentation>
 </functionEntry>
+<functionEntry name="buildProgress">
+<documentation/>
+</functionEntry>
 <functionEntry name="onHide">
 <documentation><![CDATA[<div class="description"> Called when this View is removed from the screen. Save the<br/> state of this View here. This includes freeing resources from<br/> memory.<br/></div>]]></documentation>
 </functionEntry>
@@ -1124,6 +1260,31 @@
 </functionEntry>
 <functionEntry name="onEnterSleep">
 <documentation><![CDATA[<div class="description"> Terminate any active timers and prepare for slow updates.<br/></div>]]></documentation>
+</functionEntry>
+<functionEntry name="onPosition">
+<param id="info"/>
+<documentation/>
+</functionEntry>
+<functionEntry name="headingToStr">
+<param id="heading"/>
+<documentation/>
+</functionEntry>
+<functionEntry name="openTheMenu">
+<documentation/>
+</functionEntry>
+<functionEntry name="onKey">
+<param id="evt"/>
+<documentation/>
+</functionEntry>
+<functionEntry name="onMenu">
+<documentation/>
+</functionEntry>
+<functionEntry name="onMenuItem">
+<param id="item"/>
+<documentation/>
+</functionEntry>
+<functionEntry name="initialize">
+<documentation/>
 </functionEntry>
 <functionEntry name="WatchFace">
 <param id="dc"/>
