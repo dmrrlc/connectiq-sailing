@@ -1,8 +1,12 @@
-# WIP Sailing app for connectIQ Garmin watches
+# Sailing app for connectIQ Garmin watches
 
 Features
 - 5 min race start timer sequence
-- pre-start GPS tracking (splitted sequence)
-- race GPS tracking (splitted sequence)
+- pre-start GPS tracking
+- race GPS tracking (new lap)
 - current speed
 - current direction
+
+How to use it
+- press the menu for starting the 5min race start timer
+- the activity tracking will wait for GPS signal and start automatically until you exit the app

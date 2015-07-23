@@ -20,6 +20,7 @@ class SailingView extends Ui.View {
 	var timer;
 	var uiTimer;
 	var gpsSetupTimer;
+	var displayStart = false;
 	var sec;
 	var min;
 	var screenHeight;
@@ -66,24 +67,16 @@ class SailingView extends Ui.View {
     }
     
     function startActivityRecording() {
-    	Sys.println("start ActivityRecording");
     	if (Position.getInfo().accuracy > 2.0){
 	    	gpsSetupTimer.stop();
 	        if( Toybox has :ActivityRecording ) {
 	            if( ( session == null ) || ( session.isRecording() == false ) ) {
+    				Sys.println("start ActivityRecording");
 	                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
 	                session.start();
 	                recStatus = "REC";
-	                Ui.requestUpdate();
-	                
 	            }
-	            else if( ( session != null ) && session.isRecording() ) {
-	                session.stop();
-	                session.save();
-	                session = null;
-	                recStatus = "-";
-	                Ui.requestUpdate();
-	            }
+	            Ui.requestUpdate();
 	        }  
         }
     }
@@ -127,10 +120,12 @@ class SailingView extends Ui.View {
     function endTimer() {
     	if( ( session != null ) && session.isRecording() ) {
     		session.addLap();
+    		refreshUi();
     	}
     	raceStartTime = Time.now();
     	finalRing();
     	string = "START";
+    	displayStart = true;
 		timer.stop();
 		timerRunning = false;
 		timerComplete = true;
@@ -140,7 +135,7 @@ class SailingView extends Ui.View {
     
     function ring(){
     	//comment this line for muting during tests
-		//Attention.playTone(Attention.TONE_ALARM);
+		Attention.playTone(Attention.TONE_ALARM);
     }
     
     function finalRing(){
@@ -151,6 +146,7 @@ class SailingView extends Ui.View {
     		timerComplete = false;
     		timerEnd.stop();
 		}
+		displayStart = false;
         Ui.requestUpdate();
     }
     
@@ -219,17 +215,16 @@ class SailingView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 	                
 	                if(raceStartTime != null){
-	                	Sys.println("raceStartTime : "+ raceStartTime.value());
 	                	var now = Time.now();
 	                	var raceTime = now.subtract(raceStartTime);
-	                	//var raceTimeStr = Time.Gregorian.info(raceTime, Time.FORMAT_LONG);
-	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, raceTime.value(), Gfx.TEXT_JUSTIFY_CENTER);
+	                	var raceTimeStr = secToStr(raceTime.value());
+	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
 	                }else {
 	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, "00:00:00", Gfx.TEXT_JUSTIFY_CENTER);
 	                }
 	                
-	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, speed, Gfx.TEXT_JUSTIFY_CENTER);
-	                dc.drawText((screenWidth / 2), (screenHeight / 2) + 30, Gfx.FONT_MEDIUM, headingStr +"("+heading+")", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, speed.format("%0.2f") +" knt", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2) + 30, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
 	            }
         	}
 	        // tell the user this sample doesn't work
@@ -363,18 +358,21 @@ class SailingView extends Ui.View {
     function onPosition(info) {
     	heading = info.heading;
     	headingStr = headingToStr(heading);
+    	var headingDeg = ((180 * heading ) /  Math.PI);
+    	if (headingDeg < 0) {
+    		headingDeg += 360;
+    	}
+    	headingStr += " - " + headingDeg.format("%d");
     	accuracy = info.accuracy;
-     	speed = (info.speed * 1.943844492) + " knt";
+     	speed = (info.speed * 1.943844492);
     	Sys.println("speed "+speed+" heading : "+info.heading+ " ("+heading+")  accuracy: "+accuracy);
     	Ui.requestUpdate();
     }
     
     function headingToStr(heading){
-    
         var sixteenthPI = Math.PI / 16.0;
-        
-    	if (heading < sixteenthPI){
-    		return "N+";
+        if (heading < sixteenthPI and heading >= 0){
+    		return "N";
     	}else if (heading < (3 * sixteenthPI)){ 
     	   return "NNE";
     	}else if (heading < (5 * sixteenthPI)){ 
@@ -391,28 +389,36 @@ class SailingView extends Ui.View {
     	   return "SSE";
     	}else if (heading < (17 * sixteenthPI)){ 
     	   return "S";
-    	}else if (heading < (19 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (15 * sixteenthPI) * -1)){ 
     	   return "SSW";
-    	}else if (heading < (21 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (14 * sixteenthPI) * -1)){ 
     	   return "SW";
-    	}else if (heading < (23 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (13 * sixteenthPI) * -1)){ 
     	   return "WSW";
-    	}else if (heading < (25 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (9 * sixteenthPI) * -1)){ 
     	   return "W";
-    	}else if (heading < (27 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (7 * sixteenthPI) * -1)){ 
     	   return "WNW";
-    	}else if (heading < (29 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (5 * sixteenthPI) * -1)){ 
     	   return "NW";
-    	}else if (heading < (31 * sixteenthPI)){ 
+    	}else if ((heading < 0 and heading > (3 * sixteenthPI) * -1)){ 
     	   return "NNW";
     	}else {
-    		return "N-";
+    		return "-";
     	}
     }    
     function openTheMenu() {
         Ui.pushView(new Rez.Menus.MainMenu(), new MyMenuDelegate(), Ui.SLIDE_UP);
     }
 }
+
+	function secToStr(raceTime){
+		var raceSec = (raceTime % 60).format("%02d");
+		var raceMin = ((raceTime / 60) % 60).format("%02d");
+		var raceHours = ((raceTime / 3600) % 60).format("%02d");
+		
+		return ""+raceHours+":"+raceMin+":"+raceSec;
+	}
 
 
 class BaseInputDelegate extends Ui.BehaviorDelegate
