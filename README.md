@@ -1,4 +1,4 @@
-# Sailing app for connectIQ Garmin watches
+# Sailing app for connectIQ Garmin fenix 3
 
 Features
 - 5 min race start timer sequence
