@@ -2,10 +2,14 @@
 	this file. --><iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="1">
 	<iq:application entry="SailingApp" id="4BDD60B93E4742FA98617536835D8BE5" launcherIcon="LauncherIcon" name="SailingApp" type="watch-app">
 
-		<iq:products>
-			<iq:product id="fenix3"/>
-			<iq:product id="square_watch"/>
-			<iq:product id="round_watch"/>
+		<iq:products>            
+		<iq:product id="square_watch"/>
+            <iq:product id="round_watch"/>
+            <iq:product id="vivoactive"/>
+            <iq:product id="fenix3"/>
+            <iq:product id="d2bravo"/>
+            <iq:product id="fr920xt"/>
+            <iq:product id="epix"/>
 		</iq:products>
 
 		<iq:permissions>
