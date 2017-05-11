@@ -1,23 +1,29 @@
 <!-- This is a generated file. It is highly recommended that you DO NOT edit 
 	this file. --><iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="1">
-	<iq:application entry="SailingApp" id="4BDD60B93E4742FA98617536835D8BE5" launcherIcon="LauncherIcon" name="SailingApp" type="watch-app">
+	<iq:application entry="SailingApp" id="4BDD60B93E4742FA98617536835D8BE5" launcherIcon="LauncherIcon" minSdkVersion="1.2.0" name="SailingApp" type="watch-app">
 
-		<iq:products>            
-		<iq:product id="square_watch"/>
+		<iq:products>
+            <iq:product id="square_watch"/>
             <iq:product id="round_watch"/>
+            <iq:product id="fenix5"/>
+            <iq:product id="fenix5x"/>
+            <iq:product id="fenix5s"/>
             <iq:product id="vivoactive"/>
             <iq:product id="fenix3"/>
             <iq:product id="d2bravo"/>
+            <iq:product id="d2bravo_titanium"/>
             <iq:product id="fr920xt"/>
             <iq:product id="epix"/>
-		</iq:products>
+        </iq:products>
 
 		<iq:permissions>
-			<iq:uses-permission id="Positioning"/>
-			<iq:uses-permission id="Fit"/>
-		</iq:permissions>
+            <iq:uses-permission id="Fit"/>
+            <iq:uses-permission id="Positioning"/>
+        </iq:permissions>
 
-		<iq:languages/>
+		<iq:languages>
+            <iq:language>eng</iq:language>
+        </iq:languages>
 
 	</iq:application>
 </iq:manifest>

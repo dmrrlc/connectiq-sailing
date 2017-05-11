@@ -1,6 +1,4 @@
 <resources>
-	<string id="AppName">Sailing</string>
-	<string id="isRound">undefined</string>
 	<bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
 	<menu id="MainMenu">
 		<menu-item id="start_timer">Start timer</menu-item>

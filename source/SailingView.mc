@@ -187,14 +187,15 @@ class SailingView extends Ui.View {
         dc.clear();
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
         
+	        Sys.println("screenShape : "+ Sys.getDeviceSettings().screenShape);
+        
 		if ( timerRunning ){
 			var polygon = buildProgress();
 			
 	        dc.fillPolygon(polygon);    
 	        dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
 	        var isRound = Ui.loadResource(Rez.Strings.isRound);
-	        Sys.println("isRound "+ isRound);
-	        if(Rez.Strings.isRound == "true"){
+	        if(Sys.getDeviceSettings().screenShape == 1){
 		        dc.fillCircle(screenWidth / 2, screenWidth / 2, 88);
 		        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
 		        dc.drawCircle(screenWidth / 2, screenWidth / 2, 89);
