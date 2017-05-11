@@ -40,6 +40,20 @@ class SailingApp extends App.AppBase {
     	sailingView.startTimer();
     }
     
+    function fixTimeUp() {
+    	Sys.println("app : fixTimeUp");
+    	if (sailingView.isTimerRunning() == true){
+    		sailingView.fixTimeUp();
+    	}
+    }
+    
+    function fixTimeDown() {
+    	Sys.println("app : fixTimeDown");
+    	if (sailingView.isTimerRunning() == true){
+    		sailingView.fixTimeDown();
+    	}
+    }
+    
     function refreshUi() {
     	sailingView.refreshUi();
     }

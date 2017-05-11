@@ -52,6 +52,20 @@ class SailingView extends Ui.View {
             }
         }
     }
+    
+    function fixTimeUp() {
+    	secLeft = (secLeft / 60) * 60;
+    	Sys.println("fixTimeUp" + secLeft / 60 + 1);
+    }
+    
+    function isTimerRunning() {
+    	return true;
+    }
+    
+    function fixTimeDown() {
+    	secLeft = (secLeft / 60) * 60;
+    	Sys.println("fixTimeUpDown" + secLeft / 60);
+    }
 
     function onLayout(dc) {
         setLayout(Rez.Layouts.WatchFace(dc)); 
@@ -435,6 +449,14 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
     function onMenu() {
     	Sys.println("menu pressed");
     	Ui.pushView(new Rez.Menus.MainMenu(), new MyMenuDelegate(), Ui.SLIDE_UP);
+    }
+    
+    function onPreviousPage(){
+    	App.getApp().fixTimeDown();
+    }
+    
+    function onNextPage(){
+    	App.getApp().fixTimeUp();
     }
 }
 
