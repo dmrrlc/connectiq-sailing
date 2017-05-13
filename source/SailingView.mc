@@ -12,10 +12,10 @@ using Toybox.ActivityRecording as Record;
 using Toybox.Activity as Act;
 using Toybox.Sensor as Sensor;
 
-var session = null;
-var timerRunning = false;
-
 class SailingView extends Ui.View {
+
+	var session = null;
+	var timerRunning = false;
 
 	var timer;
 	var uiTimer;
@@ -54,12 +54,12 @@ class SailingView extends Ui.View {
     }
     
     function fixTimeUp() {
-    	secLeft = (secLeft / 60) * 60;
+    	secLeft = ((secLeft / 60) + 1) * 60;
     	Sys.println("fixTimeUp" + secLeft / 60 + 1);
     }
     
     function isTimerRunning() {
-    	return true;
+    	return (secLeft != null and secLeft < 300);
     }
     
     function fixTimeDown() {
@@ -93,6 +93,7 @@ class SailingView extends Ui.View {
 	            Ui.requestUpdate();
 	        }  
         }
+       
     }
     
     function refreshUi(){
@@ -201,8 +202,6 @@ class SailingView extends Ui.View {
         dc.clear();
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
         
-	        Sys.println("screenShape : "+ Sys.getDeviceSettings().screenShape);
-        
 		if ( timerRunning ){
 			var polygon = buildProgress();
 			
@@ -229,21 +228,28 @@ class SailingView extends Ui.View {
 	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	            }
 	            else if( ( session != null ) && session.isRecording() ) {
-	                dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-	                dc.drawText((screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_MEDIUM, recStatus+"("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
+	            
+	                //dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+	                //dc.drawText((screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_MEDIUM, recStatus+"("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 	                
-	                if(raceStartTime != null){
+	                dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT , speed.format("%0.2f"), Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
+	                
+	                var raceTimeStr;
+	                
+	                if(raceStartTime != null){ //print running timer
 	                	var now = Time.now();
 	                	var raceTime = now.subtract(raceStartTime);
-	                	var raceTimeStr = secToStr(raceTime.value());
-	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
-	                }else {
-	                	dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, "00:00:00", Gfx.TEXT_JUSTIFY_CENTER);
+	                	raceTimeStr = secToStr(raceTime.value());
+	                	dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+	                }else{
+	                	raceTimeStr = "00:00:00";
+	                	dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
 	                }
-	                
-	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, speed.format("%0.2f") +" knt", Gfx.TEXT_JUSTIFY_CENTER);
-	                dc.drawText((screenWidth / 2), (screenHeight / 2) + 30, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
+	               		dc.drawText((screenWidth / 2), Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+	                	dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 	            }
         	}
 	        // tell the user this sample doesn't work
@@ -448,19 +454,19 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
 
     function onMenu() {
     	Sys.println("menu pressed");
-    	Ui.pushView(new Rez.Menus.MainMenu(), new MyMenuDelegate(), Ui.SLIDE_UP);
+    	Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
     }
     
     function onPreviousPage(){
-    	App.getApp().fixTimeDown();
+    	App.getApp().fixTimeUp();
     }
     
     function onNextPage(){
-    	App.getApp().fixTimeUp();
+    	App.getApp().fixTimeDown();
     }
 }
 
-class MyMenuDelegate extends Ui.MenuInputDelegate {
+class SailingMenuDelegate extends Ui.MenuInputDelegate {
    function onMenuItem(item) {
        if (item == :start_timer) {
 			App.getApp().startTimer();
