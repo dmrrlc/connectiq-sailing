@@ -4,16 +4,31 @@
 
 		<iq:products>
             <iq:product id="square_watch"/>
+            <iq:product id="tall_watch"/>
             <iq:product id="round_watch"/>
             <iq:product id="fenix5"/>
             <iq:product id="fenix5x"/>
             <iq:product id="fenix5s"/>
+            <iq:product id="fr935"/>
+            <iq:product id="semi_round_watch"/>
+            <iq:product id="fr630"/>
+            <iq:product id="fr235"/>
+            <iq:product id="fr735xt"/>
+            <iq:product id="fr230"/>
             <iq:product id="vivoactive"/>
             <iq:product id="fenix3"/>
+            <iq:product id="fenix3_hr"/>
+            <iq:product id="fenixchronos"/>
             <iq:product id="d2bravo"/>
             <iq:product id="d2bravo_titanium"/>
             <iq:product id="fr920xt"/>
             <iq:product id="epix"/>
+            <iq:product id="edge_1000"/>
+            <iq:product id="edge_520"/>
+            <iq:product id="vivoactive_hr"/>
+            <iq:product id="edge820"/>
+            <iq:product id="oregon7xx"/>
+            <iq:product id="rino7xx"/>
         </iq:products>
 
 		<iq:permissions>
@@ -23,6 +38,7 @@
 
 		<iq:languages>
             <iq:language>ara</iq:language>
+            <iq:language>bul</iq:language>
             <iq:language>ces</iq:language>
             <iq:language>dan</iq:language>
             <iq:language>deu</iq:language>
@@ -47,6 +63,7 @@
             <iq:language>spa</iq:language>
             <iq:language>swe</iq:language>
             <iq:language>tha</iq:language>
+            <iq:language>tur</iq:language>
             <iq:language>zhs</iq:language>
             <iq:language>zht</iq:language>
             <iq:language>zsm</iq:language>
