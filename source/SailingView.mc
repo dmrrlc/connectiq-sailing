@@ -40,7 +40,6 @@ class SailingView extends Ui.View {
 	var finalRingTime = 5000;
 	var raceStartTime = null;
 	
-	
 	//! Stop the recording if necessary
     function stopRecording() {
         if( Toybox has :ActivityRecording ) {
@@ -207,30 +206,36 @@ class SailingView extends Ui.View {
 			
 	        dc.fillPolygon(polygon);    
 	        dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
-	        var isRound = Ui.loadResource(Rez.Strings.isRound);
-	        if(Sys.getDeviceSettings().screenShape == 1){
-		        dc.fillCircle(screenWidth / 2, screenWidth / 2, 88);
-		        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
-		        dc.drawCircle(screenWidth / 2, screenWidth / 2, 89);
+	        
+	        var minDim = 0;
+	        
+	        if(screenHeight < screenWidth){
+	        	minDim = screenHeight;
+	        }else{
+	        	minDim = screenWidth;
 	        }
 	        
-	        dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-	        dc.drawText( (screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
+	        var innerRadius = (minDim / 2) - ((minDim / 2) * 0.2);
+	        var outerRadius = innerRadius + 1;
+	        
+	        dc.fillCircle(screenWidth / 2, screenHeight / 2, innerRadius);
+	        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
+	        dc.drawCircle(screenWidth / 2, screenHeight / 2, outerRadius);
+	        dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
+	        dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
         } else if (timerComplete) {	
         	dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-			dc.drawText( (screenWidth / 2), (screenHeight / 2) - 20, Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
+			dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
        	} else {
        		if( Toybox has :ActivityRecording ) {
             // Draw the instructions
 	            if( ( session == null ) || ( session.isRecording() == false ) ) {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-	                dc.drawText((screenWidth / 2), (screenHeight / 2) - 30, Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), (screenHeight / 2) - Gfx.getFontAscent(Gfx.FONT_MEDIUM) - Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
 	                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	            }
 	            else if( ( session != null ) && session.isRecording() ) {
 	            
-	                //dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-	                //dc.drawText((screenWidth / 2), (screenHeight / 2) - 60, Gfx.FONT_MEDIUM, recStatus+"("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 	                
 	                dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
@@ -446,15 +451,24 @@ class SailingView extends Ui.View {
 	}
 
 
-class BaseInputDelegate extends Ui.BehaviorDelegate
+class SailingInputDelegate extends Ui.BehaviorDelegate
 {
     function onKey(evt){
     	Sys.println("key evt : " +evt);
+    	if (evt.getKey() == WatchUi.KEY_ESC){
+	    	Sys.println("back pressed (from event)");
+	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
+    	}
     }
-
-    function onMenu() {
-    	Sys.println("menu pressed");
-    	Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
+    
+    function onBack(){
+	    	Sys.println("back pressed");
+	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
+    }
+    
+    function onMenu(){
+	    	Sys.println("menu pressed");
+	    	Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
     }
     
     function onPreviousPage(){
@@ -470,6 +484,19 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
    function onMenuItem(item) {
        if (item == :start_timer) {
 			App.getApp().startTimer();
+		} else if (item == :item_rt) {
+           // Do nothing -> return
+			App.getApp().refreshUi();
+		} 
+    }
+}
+
+class ExitMenuDelegate extends Ui.MenuInputDelegate {
+   function onMenuItem(item) {
+       if (item == :save) {
+			App.getApp().SaveAndClose();
+		} else if (item == :discard) {
+			App.getApp().saveAndDiscard();
 		} else if (item == :item_rt) {
            // Do nothing -> return
 			App.getApp().refreshUi();

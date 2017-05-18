@@ -30,7 +30,18 @@ class SailingApp extends App.AppBase {
     }
 
     //! onStop() is called when your application is exiting
-    function onStop() {
+    function onStop(state) {
+    	//do nothing
+    	Sys.println("onStop called");
+    	sailingView.stopRecording();
+    }
+    
+    function saveAndClose() {
+    	Sys.println("stop pressed");
+    	sailingView.stopRecording();
+    }
+    
+    function DiscardAndClose() {
     	Sys.println("stop pressed");
     	sailingView.stopRecording();
     }
@@ -61,6 +72,6 @@ class SailingApp extends App.AppBase {
     //! Return the initial view of your application here
     function getInitialView() {
     	sailingView = new SailingView();
-        return [ sailingView, new BaseInputDelegate() ];
+        return [ sailingView, new SailingInputDelegate() ];
     }
 }

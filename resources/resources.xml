@@ -4,4 +4,9 @@
 		<menu-item id="start_timer">Start timer</menu-item>
 		<menu-item id="item_rt">Return</menu-item>
 	</menu>
+	<menu id="StopMenu">
+		<menu-item id="save">Save</menu-item>
+		<menu-item id="discard">Discard</menu-item>
+		<menu-item id="item_rt">Return</menu-item>
+	</menu>
 </resources>
