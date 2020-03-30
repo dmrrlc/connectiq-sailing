@@ -33,17 +33,19 @@ class SailingApp extends App.AppBase {
     function onStop(state) {
     	//do nothing
     	Sys.println("onStop called");
-    	sailingView.stopRecording();
+    	//sailingView.stopRecording(true);
     }
     
     function saveAndClose() {
     	Sys.println("stop pressed");
-    	sailingView.stopRecording();
+    	sailingView.stopRecording(true);
+    	Sys.exit();
     }
     
-    function DiscardAndClose() {
+    function discardAndClose() {
     	Sys.println("stop pressed");
-    	sailingView.stopRecording();
+    	sailingView.stopRecording(false);
+    	Sys.exit();
     }
     
     function startTimer() {
@@ -72,6 +74,10 @@ class SailingApp extends App.AppBase {
     //! Return the initial view of your application here
     function getInitialView() {
     	sailingView = new SailingView();
-        return [ sailingView, new SailingInputDelegate() ];
+        return [ sailingView, new SailingDelegate() ];
     }
+    
+    function initialize() {
+		AppBase.initialize();
+	}
 }

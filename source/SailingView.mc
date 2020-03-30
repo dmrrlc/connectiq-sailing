@@ -40,12 +40,21 @@ class SailingView extends Ui.View {
 	var finalRingTime = 5000;
 	var raceStartTime = null;
 	
+	function initialize() {
+		View.initialize();
+	}
+	
 	//! Stop the recording if necessary
-    function stopRecording() {
+    function stopRecording(save) {
+    	//Ui.pushView( new Rez.Menus.MainMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP );
         if( Toybox has :ActivityRecording ) {
             if( session != null && session.isRecording() ) {
                 session.stop();
+                if (save){
                 session.save();
+                }else {
+                session.discard();
+                }
                 session = null;
                 Ui.requestUpdate();
             }
@@ -85,7 +94,7 @@ class SailingView extends Ui.View {
 	        if( Toybox has :ActivityRecording ) {
 	            if( ( session == null ) || ( session.isRecording() == false ) ) {
     				Sys.println("start ActivityRecording");
-	                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
+	                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
 	                session.start();
 	                recStatus = "REC";
 	            }
@@ -104,7 +113,7 @@ class SailingView extends Ui.View {
         secLeft = secTot;
         
     	updateTimer();
-        
+    	
         timer = new Timer.Timer();
         timer.start( method(:callback), 1000, true );
         
@@ -437,10 +446,12 @@ class SailingView extends Ui.View {
     		return "-";
     	}
     }    
-    function openTheMenu() {
-        Ui.pushView(new Rez.Menus.MainMenu(), new MyMenuDelegate(), Ui.SLIDE_UP);
-    }
+    
+    /*function openTheMenu() {
+        Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
+    }*/
 }
+
 
 	function secToStr(raceTime){
 		var raceSec = (raceTime % 60).format("%02d");
@@ -449,57 +460,4 @@ class SailingView extends Ui.View {
 		
 		return ""+raceHours+":"+raceMin+":"+raceSec;
 	}
-
-
-class SailingInputDelegate extends Ui.BehaviorDelegate
-{
-    function onKey(evt){
-    	Sys.println("key evt : " +evt);
-    	if (evt.getKey() == WatchUi.KEY_ESC){
-	    	Sys.println("back pressed (from event)");
-	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-    	}
-    }
-    
-    function onBack(){
-	    	Sys.println("back pressed");
-	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-    }
-    
-    function onMenu(){
-	    	Sys.println("menu pressed");
-	    	Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
-    }
-    
-    function onPreviousPage(){
-    	App.getApp().fixTimeUp();
-    }
-    
-    function onNextPage(){
-    	App.getApp().fixTimeDown();
-    }
-}
-
-class SailingMenuDelegate extends Ui.MenuInputDelegate {
-   function onMenuItem(item) {
-       if (item == :start_timer) {
-			App.getApp().startTimer();
-		} else if (item == :item_rt) {
-           // Do nothing -> return
-			App.getApp().refreshUi();
-		} 
-    }
-}
-
-class ExitMenuDelegate extends Ui.MenuInputDelegate {
-   function onMenuItem(item) {
-       if (item == :save) {
-			App.getApp().SaveAndClose();
-		} else if (item == :discard) {
-			App.getApp().saveAndDiscard();
-		} else if (item == :item_rt) {
-           // Do nothing -> return
-			App.getApp().refreshUi();
-		} 
-    }
-}
+	

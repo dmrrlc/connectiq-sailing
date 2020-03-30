@@ -1,12 +1,12 @@
 <resources>
 	<bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
 	<menu id="MainMenu">
-		<menu-item id="start_timer">Start timer</menu-item>
-		<menu-item id="item_rt">Return</menu-item>
+		<menu-item id="start_timer" label="Sart timer"></menu-item>
+		<menu-item id="item_rt" label="Return"></menu-item>
 	</menu>
 	<menu id="StopMenu">
-		<menu-item id="save">Save</menu-item>
-		<menu-item id="discard">Discard</menu-item>
-		<menu-item id="item_rt">Return</menu-item>
+		<menu-item id="save_btn" label="Save"></menu-item>
+		<menu-item id="discard_btn" label="Discard"></menu-item>
+		<menu-item id="resume_btn" label="Resume"></menu-item>
 	</menu>
 </resources>
