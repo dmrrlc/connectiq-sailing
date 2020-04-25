@@ -26,7 +26,7 @@ class SailingView extends Ui.View {
 	var screenHeight;
 	var screenWidth;
 	var recStatus = "-";
-	var speed = "-";
+	var speed = 0.0;
 	var heading = 0.0;
 	var headingStr = "-";
 	var accuracy = 0;
@@ -94,7 +94,15 @@ class SailingView extends Ui.View {
 	        if( Toybox has :ActivityRecording ) {
 	            if( ( session == null ) || ( session.isRecording() == false ) ) {
     				Sys.println("start ActivityRecording");
-	                session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
+					var mySettings = Sys.getDeviceSettings();
+					var version = mySettings.monkeyVersion;
+
+					if(version[0] >= 3) {
+	                	session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
+	                 }else{
+	                	session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
+	                }
+	                
 	                session.start();
 	                recStatus = "REC";
 	            }
@@ -248,7 +256,7 @@ class SailingView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 	                
 	                dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
-	                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT , speed.format("%0.2f"), Gfx.TEXT_JUSTIFY_CENTER);
+	                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speed.format("%0.2f"), Gfx.TEXT_JUSTIFY_CENTER);
 	                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
 	                
 	                var raceTimeStr;
