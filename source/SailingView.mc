@@ -167,12 +167,29 @@ class SailingView extends Ui.View {
     function ring(){
     	//comment this line for muting during tests
 		Attention.playTone(Attention.TONE_ALARM);
+		var vibeData;
+		if (Attention has :vibrate) {
+		    vibeData =
+		    [
+		        new Attention.VibeProfile(50, 500) // On for two seconds
+		    ];
+			Attention.vibrate(vibeData);
+		}
     }
     
     function finalRing(){
     	if(finalRingTime > 0){
     		finalRingTime -= 500;
+    		
+			var vibeData;
 			Attention.playTone(Attention.TONE_ALARM);
+			if (Attention has :vibrate) {
+		    vibeData =
+		    [
+		        new Attention.VibeProfile(50, 500) // On for two seconds
+		    ];
+			Attention.vibrate(vibeData);
+		}
     	}else {
     		timerComplete = false;
     		timerEnd.stop();
