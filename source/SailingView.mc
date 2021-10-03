@@ -200,16 +200,10 @@ class SailingView extends Ui.View {
     
     function updateTimer() {
     	secLeft -= 1;
-    	
-    	sec = secLeft;
-    	min = 0;
-    	
-    	//compute min/sec
-    	while (sec > 59) {
-            min += 1;
-            sec -= 60;
-        }
-        
+
+        sec = secLeft % 60;
+        min = secLeft / 60;
+
         //format
         if(min > 0) {
 	        if (sec > 9) {
