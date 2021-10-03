@@ -14,29 +14,34 @@ using Toybox.Sensor as Sensor;
 
 class SailingView extends Ui.View {
 
+    // Recording session
     var session = null;
-    var timerRunning = false;
 
+    // Timers
     var timer;
     var uiTimer;
     var gpsSetupTimer;
-    var displayStart = false;
-    var sec;
-    var min;
+    var timerEnd;
+
+    // Graphical
     var screenHeight;
     var screenWidth;
+    var headingStr = "-";
     var recStatus = "-";
+    var string = "";
+
+    // Status
+    var displayStart = false;
+    var timerComplete = false;
+    var timerRunning = false;
+
+    // Properties
+    var secLeft;
+    var sec;
+    var min;
     var speed = 0.0;
     var heading = 0.0;
-    var headingStr = "-";
     var accuracy = 0;
-    var progressBar;
-    var progressPct = 50;
-    var timerComplete = false;
-    var timerEnd;
-    var secTot;
-    var secLeft;
-    var string = "";
     var finalRingTime = 5000;
     var raceStartTime = null;
 
@@ -117,8 +122,7 @@ class SailingView extends Ui.View {
     }
 
     function startTimer() {
-        secTot = App.getApp().getDefaultTimerCount();
-        secLeft = secTot;
+        secLeft = App.getApp().getDefaultTimerCount();
 
         updateTimer();
 
