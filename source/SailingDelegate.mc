@@ -10,39 +10,39 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onKey(evt){
-    	Sys.println("key evt : " +evt);
-    	if (evt.getKey() == WatchUi.KEY_ESC){
-	    	Sys.println("back pressed (from event)");
-	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-	    	Ui.requestUpdate();
-	    	return true;
-    	}
-    	return false;
+        Sys.println("key evt : " +evt);
+        if (evt.getKey() == WatchUi.KEY_ESC){
+            Sys.println("back pressed (from event)");
+            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
+            Ui.requestUpdate();
+            return true;
+        }
+        return false;
     }
-    
+
     function onBack(){
-	    	Sys.println("back pressed");
-	    	Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-	    	Ui.requestUpdate();
-	    	return true;
+            Sys.println("back pressed");
+            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
+            Ui.requestUpdate();
+            return true;
     }
-    
+
     function onMenu(){
-	    	Sys.println("menu pressed");
-	    	Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
-	    	Ui.requestUpdate();
-	    	return true;
+            Sys.println("menu pressed");
+            Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
+            Ui.requestUpdate();
+            return true;
     }
-    
+
     function onPreviousPage(){
-    		App.getApp().fixTimeUp();
-	    	Ui.requestUpdate();
-	    	return true;
+            App.getApp().fixTimeUp();
+            Ui.requestUpdate();
+            return true;
     }
-    
+
     function onNextPage(){
-    		App.getApp().fixTimeDown();
-	    	Ui.requestUpdate();
-	    	return true;
+            App.getApp().fixTimeDown();
+            Ui.requestUpdate();
+            return true;
     }
 }

@@ -11,10 +11,10 @@ using Toybox.System as Sys;
 
 class SailingApp extends App.AppBase {
 
-	var session;
-	var sailingView;
+    var session;
+    var sailingView;
 
-	// get default timer count from properties, if not set return default
+    // get default timer count from properties, if not set return default
     function getDefaultTimerCount() {
         var time = getProperty("time");
         if (time != null) {
@@ -23,7 +23,7 @@ class SailingApp extends App.AppBase {
             return 300; // 5 min default timer count
         }
     }
-    
+
     // set default timer count in properties
     function setDefaultTimerCount(time) {
         setProperty("time", time);
@@ -31,53 +31,53 @@ class SailingApp extends App.AppBase {
 
     //! onStop() is called when your application is exiting
     function onStop(state) {
-    	//do nothing
-    	Sys.println("onStop called");
-    	//sailingView.stopRecording(true);
+        //do nothing
+        Sys.println("onStop called");
+        //sailingView.stopRecording(true);
     }
-    
+
     function saveAndClose() {
-    	Sys.println("stop pressed");
-    	sailingView.stopRecording(true);
-    	Sys.exit();
+        Sys.println("stop pressed");
+        sailingView.stopRecording(true);
+        Sys.exit();
     }
-    
+
     function discardAndClose() {
-    	Sys.println("stop pressed");
-    	sailingView.stopRecording(false);
-    	Sys.exit();
+        Sys.println("stop pressed");
+        sailingView.stopRecording(false);
+        Sys.exit();
     }
-    
+
     function startTimer() {
-    	Sys.println("app : start timer");
-    	sailingView.startTimer();
+        Sys.println("app : start timer");
+        sailingView.startTimer();
     }
-    
+
     function fixTimeUp() {
-    	Sys.println("app : fixTimeUp");
-    	if (sailingView.isTimerRunning() == true){
-    		sailingView.fixTimeUp();
-    	}
+        Sys.println("app : fixTimeUp");
+        if (sailingView.isTimerRunning() == true){
+            sailingView.fixTimeUp();
+        }
     }
-    
+
     function fixTimeDown() {
-    	Sys.println("app : fixTimeDown");
-    	if (sailingView.isTimerRunning() == true){
-    		sailingView.fixTimeDown();
-    	}
+        Sys.println("app : fixTimeDown");
+        if (sailingView.isTimerRunning() == true){
+            sailingView.fixTimeDown();
+        }
     }
-    
+
     function refreshUi() {
-    	sailingView.refreshUi();
+        sailingView.refreshUi();
     }
 
     //! Return the initial view of your application here
     function getInitialView() {
-    	sailingView = new SailingView();
+        sailingView = new SailingView();
         return [ sailingView, new SailingDelegate() ];
     }
-    
+
     function initialize() {
-		AppBase.initialize();
-	}
+        AppBase.initialize();
+    }
 }
