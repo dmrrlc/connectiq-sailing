@@ -26,8 +26,9 @@ class SailingView extends Ui.View {
     // Graphical
     var screenHeight;
     var screenWidth;
+    var accuracyStr = "-";
     var headingStr = "-";
-    var recStatus = "-";
+    var speedStr = "-";
     var string = "";
 
     // Status
@@ -39,9 +40,6 @@ class SailingView extends Ui.View {
     var secLeft;
     var sec;
     var min;
-    var speed = 0.0;
-    var heading = 0.0;
-    var accuracy = 0;
     var finalRingTime = 5000;
     var raceStartTime = null;
 
@@ -109,7 +107,6 @@ class SailingView extends Ui.View {
                     }
 
                     session.start();
-                    recStatus = "REC";
                 }
                 Ui.requestUpdate();
             }
@@ -210,13 +207,9 @@ class SailingView extends Ui.View {
 
         //format
         if(min > 0) {
-            if (sec > 9) {
-                string = "" + min + ":" + sec;
-            } else {
-                string = "" + min + ":0" + sec + "";
-            }
+            string = min.format("%d") + ":" + sec.format("%02d");
         }else {
-                string = "" + sec + "";
+            string = sec.format("%d");
         }
     }
 
@@ -264,14 +257,14 @@ class SailingView extends Ui.View {
                 if( ( session == null ) || ( session.isRecording() == false ) ) {
                     dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
                     dc.drawText((screenWidth / 2), (screenHeight / 2) - Gfx.getFontAscent(Gfx.FONT_MEDIUM) - Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
-                    dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracy+")", Gfx.TEXT_JUSTIFY_CENTER);
+                    dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracyStr+")", Gfx.TEXT_JUSTIFY_CENTER);
                 }
                 else if( ( session != null ) && session.isRecording() ) {
 
                     dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 
                     dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
-                    dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speed.format("%0.2f"), Gfx.TEXT_JUSTIFY_CENTER);
+                    dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
                     dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
 
                     var raceTimeStr;
@@ -418,16 +411,16 @@ class SailingView extends Ui.View {
     }
 
     function onPosition(info) {
-        heading = info.heading;
+        var heading = info.heading;
         headingStr = headingToStr(heading);
         var headingDeg = ((180 * heading ) /  Math.PI);
         if (headingDeg < 0) {
             headingDeg += 360;
         }
         headingStr += " - " + headingDeg.format("%d");
-        accuracy = info.accuracy;
-         speed = (info.speed * 1.943844492);
-        Sys.println("speed: " +speed+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracy);
+        accuracyStr = info.accuracy.format("%d");
+        speedStr = (info.speed * 1.943844492).format("%0.2f");
+        Sys.println("speed: " +speedStr+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracyStr);
         Ui.requestUpdate();
     }
 
