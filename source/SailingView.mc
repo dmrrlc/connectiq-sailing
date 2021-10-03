@@ -423,46 +423,48 @@ class SailingView extends Ui.View {
         headingStr += " - " + headingDeg.format("%d");
         accuracy = info.accuracy;
          speed = (info.speed * 1.943844492);
-        Sys.println("speed "+speed+" heading : "+info.heading+ " ("+heading+")  accuracy: "+accuracy);
+        Sys.println("speed: " +speed+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracy);
         Ui.requestUpdate();
     }
 
     function headingToStr(heading){
         var sixteenthPI = Math.PI / 16.0;
-        if (heading < sixteenthPI and heading >= 0){
+        if (heading >= 0 and heading < sixteenthPI){
             return "N";
-        }else if (heading < (3 * sixteenthPI)){
+        }else if (heading > 0 and heading < (3 * sixteenthPI)){
            return "NNE";
-        }else if (heading < (5 * sixteenthPI)){
+        }else if (heading > 0 and heading < (5 * sixteenthPI)){
            return "NE";
-        }else if (heading < (7 * sixteenthPI)){
+        }else if (heading > 0 and heading < (7 * sixteenthPI)){
            return "ENE";
-        }else if (heading < (9 * sixteenthPI)){
+        }else if (heading > 0 and heading < (9 * sixteenthPI)){
            return "E";
-        }else if (heading < (11 * sixteenthPI)){
+        }else if (heading > 0 and heading < (11 * sixteenthPI)){
            return "ESE";
-        }else if (heading < (13 * sixteenthPI)){
+        }else if (heading > 0 and heading < (13 * sixteenthPI)){
            return "SE";
-        }else if (heading < (15 * sixteenthPI)){
+        }else if (heading > 0 and heading < (15 * sixteenthPI)){
            return "SSE";
-        }else if (heading < (17 * sixteenthPI)){
+        }else if (heading > 0){
            return "S";
-        }else if ((heading < 0 and heading > (15 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-15 * sixteenthPI)){
+           return "S";
+        }else if (heading < 0 and heading < (-13 * sixteenthPI)){
            return "SSW";
-        }else if ((heading < 0 and heading > (14 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-11 * sixteenthPI)){
            return "SW";
-        }else if ((heading < 0 and heading > (13 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-9 * sixteenthPI)){
            return "WSW";
-        }else if ((heading < 0 and heading > (9 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-7 * sixteenthPI)){
            return "W";
-        }else if ((heading < 0 and heading > (7 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-5 * sixteenthPI)){
            return "WNW";
-        }else if ((heading < 0 and heading > (5 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < (-3 * sixteenthPI)){
            return "NW";
-        }else if ((heading < 0 and heading > (3 * sixteenthPI) * -1)){
+        }else if (heading < 0 and heading < -sixteenthPI){
            return "NNW";
         }else {
-            return "-";
+            return "N";
         }
     }
 
