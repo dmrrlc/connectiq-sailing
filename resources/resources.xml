@@ -1,7 +1,7 @@
 <resources>
 	<bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
 	<menu id="MainMenu">
-		<menu-item id="start_timer" label="Sart timer"></menu-item>
+		<menu-item id="start_timer" label="Start timer"></menu-item>
 		<menu-item id="item_rt" label="Return"></menu-item>
 	</menu>
 	<menu id="StopMenu">
