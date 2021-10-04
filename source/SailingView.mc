@@ -2,166 +2,57 @@ using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
-using Toybox.Application as App;
-using Toybox.Timer as Timer;
 using Toybox.Time as Time;
-using Toybox.Attention as Attention;
 using Toybox.Math as Math;
-using Toybox.Sensor as Sensor;
 
 class SailingView extends Ui.View {
 
     var session = null;
-
-    // Timers
-    var timer;
-    var uiTimer;
-    var timerEnd;
+    var countDown = null;
 
     // Graphical
     var screenHeight;
     var screenWidth;
+    var sec;
+    var min;
+
+    // Strings
     var accuracyStr = "0";
     var headingStr = "-";
     var speedStr = "-";
-    var string = "";
+    var countDownStr = "";
 
-    // Status
-    var displayStart = false;
-    var timerComplete = false;
-    var timerRunning = false;
-
-    // Properties
-    var secLeft;
-    var sec;
-    var min;
-    var finalRingTime = 5000;
-    var raceStartTime = null;
-
-    function initialize() {
+    function initialize(countdown) {
+        Sys.println("view : initialize");
         View.initialize();
-    }
-
-    function fixTimeUp() {
-        secLeft = ((secLeft / 60) + 1) * 60;
-        Sys.println("fixTimeUp" + secLeft / 60 + 1);
-    }
-
-    function isTimerRunning() {
-        return (secLeft != null and secLeft < 300);
-    }
-
-    function fixTimeDown() {
-        secLeft = (secLeft / 60) * 60;
-        Sys.println("fixTimeUpDown" + secLeft / 60);
+        countDown = countdown.weak();
     }
 
     function onLayout(dc) {
+        Sys.println("view : onLayout");
         setLayout(Rez.Layouts.WatchFace(dc));
 
         screenWidth = dc.getWidth();
         screenHeight = dc.getHeight();
-
-        uiTimer = new Timer.Timer();
-        uiTimer.start(method(:refreshUi), 1000, true);
     }
 
     function refreshUi(){
+        Sys.println("view : refreshUi");
         Ui.requestUpdate();
     }
 
-    function startTimer() {
-        secLeft = App.getApp().getDefaultTimerCount();
-
-        updateTimer();
-
-        timer = new Timer.Timer();
-        timer.start( method(:callback), 1000, true );
-
-        timerRunning = true;
-    }
-
-    function callback()
-    {
-        if(secLeft > 1){
-            if(secLeft < 11){
-                ring();
-            }
-            if((secLeft-1) % 30 == 0){
-                ring();
-                if((secLeft-1) % 60 == 0){
-                    ring();
-                }
-            }
-            updateTimer();
-        }else {
-            endTimer();
-        }
-
-        Ui.requestUpdate();
-    }
-
-    function endTimer() {
-        if( ( session != null ) && session.isRecording() ) {
-            session.addLap();
-            refreshUi();
-        }
-        raceStartTime = Time.now();
-        finalRing();
-        string = "START";
-        displayStart = true;
-        timer.stop();
-        timerRunning = false;
-        timerComplete = true;
-        timerEnd = new Timer.Timer();
-        timerEnd.start( method(:finalRing), 500, true );
-    }
-
-    function ring(){
-        //comment this line for muting during tests
-        Attention.playTone(Attention.TONE_ALARM);
-        var vibeData;
-        if (Attention has :vibrate) {
-            vibeData =
-            [
-                new Attention.VibeProfile(50, 500) // On for two seconds
-            ];
-            Attention.vibrate(vibeData);
-        }
-    }
-
-    function finalRing(){
-        if(finalRingTime > 0){
-            finalRingTime -= 500;
-
-            var vibeData;
-            Attention.playTone(Attention.TONE_ALARM);
-            if (Attention has :vibrate) {
-            vibeData =
-            [
-                new Attention.VibeProfile(50, 500) // On for two seconds
-            ];
-            Attention.vibrate(vibeData);
-        }
-        }else {
-            timerComplete = false;
-            timerEnd.stop();
-        }
-        displayStart = false;
-        Ui.requestUpdate();
-    }
 
     function updateTimer() {
-        secLeft -= 1;
+        var secLeft = countDown.get().secondsLeft();
 
         sec = secLeft % 60;
         min = secLeft / 60;
 
         //format
         if(min > 0) {
-            string = min.format("%d") + ":" + sec.format("%02d");
+            countDownStr = min.format("%d") + ":" + sec.format("%02d");
         }else {
-            string = sec.format("%d");
+            countDownStr = sec.format("%d");
         }
     }
 
@@ -169,6 +60,7 @@ class SailingView extends Ui.View {
     //! the state of this View and prepare it to be shown. This includes
     //! loading resources into memory.
     function onShow() {
+        Sys.println("view : onShow");
     }
 
     //! Update the view
@@ -177,7 +69,8 @@ class SailingView extends Ui.View {
         dc.clear();
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
 
-        if ( timerRunning ){
+        if (countDown.get().isTimerRunning()) {
+            updateTimer();
             var polygon = buildProgress();
 
             dc.fillPolygon(polygon);
@@ -198,10 +91,10 @@ class SailingView extends Ui.View {
             dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
             dc.drawCircle(screenWidth / 2, screenHeight / 2, outerRadius);
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, string, Gfx.TEXT_JUSTIFY_CENTER );
-        } else if (timerComplete) {
+            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
+        } else if (countDown.get().isTimerComplete()) {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, string, Gfx.TEXT_JUSTIFY_CENTER );
+            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
         } else {
             // Draw the instructions
             if( accuracyStr.toNumber() <= 2 ) {
@@ -216,6 +109,7 @@ class SailingView extends Ui.View {
                 dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
                 dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
 
+                var raceStartTime = countDown.get().startTime();
                 var raceTimeStr;
                 if(raceStartTime != null){
                     //print running timer
@@ -253,7 +147,7 @@ class SailingView extends Ui.View {
 
         var polygon = [];
 
-        if (timerComplete){
+        if (countDown.get().isTimerComplete()) {
             polygon = [
                     [0, 0],
                     [border_x, 0],
@@ -341,14 +235,17 @@ class SailingView extends Ui.View {
     //! state of this View here. This includes freeing resources from
     //! memory.
     function onHide() {
+        Sys.println("view : onHide");
     }
 
     //! The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() {
+        Sys.println("view : onExitSleep");
     }
 
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
+        Sys.println("view : onEnterSleep");
     }
 
     function onPosition(info) {

@@ -15,6 +15,7 @@ class SailingApp extends App.AppBase {
     var sailingView;
 
     var gpsSetupTimer;
+    var countDown = null;
 
 
     // get default timer count from properties, if not set return default
@@ -41,6 +42,7 @@ class SailingApp extends App.AppBase {
         Sys.println("app : onStart");
         gpsSetupTimer = new Timer.Timer();
         gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
+        countDown = new CountDown(self);
 
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
     }
@@ -51,6 +53,7 @@ class SailingApp extends App.AppBase {
         sailingView = null;
         gpsSetupTimer.stop();
         gpsSetupTimer = null;
+        countDown = null;
 
         Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPosition));
     }
@@ -69,21 +72,17 @@ class SailingApp extends App.AppBase {
 
     function startTimer() {
         Sys.println("app : start timer");
-        sailingView.startTimer();
+        countDown.startTimer();
     }
 
     function fixTimeUp() {
         Sys.println("app : fixTimeUp");
-        if (sailingView.isTimerRunning() == true){
-            sailingView.fixTimeUp();
-        }
+        countDown.fixTimeUp();
     }
 
     function fixTimeDown() {
         Sys.println("app : fixTimeDown");
-        if (sailingView.isTimerRunning() == true){
-            sailingView.fixTimeDown();
-        }
+        countDown.fixTimeDown();
     }
 
     function refreshUi() {
@@ -92,7 +91,8 @@ class SailingApp extends App.AppBase {
 
     //! Return the initial view of your application here
     function getInitialView() {
-        sailingView = new SailingView();
+        Sys.println("app : getInitialView");
+        sailingView = new SailingView(countDown);
         return [ sailingView, new SailingDelegate() ];
     }
 
