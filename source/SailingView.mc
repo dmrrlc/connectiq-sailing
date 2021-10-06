@@ -30,8 +30,6 @@ class SailingView extends Ui.View {
 
     function onLayout(dc) {
         Sys.println("view : onLayout");
-        setLayout(Rez.Layouts.WatchFace(dc));
-
         screenWidth = dc.getWidth();
         screenHeight = dc.getHeight();
     }
@@ -302,10 +300,6 @@ class SailingView extends Ui.View {
             return "N";
         }
     }
-
-    /*function openTheMenu() {
-        Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
-    }*/
 }
 
 
