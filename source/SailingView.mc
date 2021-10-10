@@ -13,6 +13,8 @@ class SailingView extends Ui.View {
     // Graphical
     var screenHeight;
     var screenWidth;
+    var minDim;
+    var maxDim;
     var sec;
     var min;
 
@@ -32,6 +34,13 @@ class SailingView extends Ui.View {
         Sys.println("view : onLayout");
         screenWidth = dc.getWidth();
         screenHeight = dc.getHeight();
+        if(screenHeight < screenWidth){
+            minDim = screenHeight;
+            maxDim = screenWidth;
+        }else{
+            minDim = screenWidth;
+            maxDim = screenHeight;
+        }
     }
 
     function updateTimer() {
@@ -68,14 +77,6 @@ class SailingView extends Ui.View {
 
             dc.fillPolygon(polygon);
             dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
-
-            var minDim = 0;
-
-            if(screenHeight < screenWidth){
-                minDim = screenHeight;
-            }else{
-                minDim = screenWidth;
-            }
 
             var innerRadius = (minDim / 2) - ((minDim / 2) * 0.2);
             var outerRadius = innerRadius + 1;
@@ -138,7 +139,7 @@ class SailingView extends Ui.View {
 
         angle  -= Math.PI / 2.0;
 
-        var point = [ (center_x + 200 * Math.cos(angle)), (center_x + 200 * Math.sin(angle)) ];
+        var point = [ (center_x + maxDim * Math.cos(angle)), (center_x + maxDim * Math.sin(angle)) ];
 
         var polygon = [];
 
@@ -193,7 +194,6 @@ class SailingView extends Ui.View {
                     [center_x, 0],
                     [border_x, 0],
                     [border_x, border_y],
-                    [center_x, border_y],
                     [0, border_y],
                     point
             ];
@@ -202,9 +202,7 @@ class SailingView extends Ui.View {
                     [center_x, center_y],
                     [center_x, 0],
                     [border_x, 0],
-                    [border_x, center_y],
                     [border_x, border_y],
-                    [center_x, border_y],
                     [0, border_y],
                     [0, center_y],
                     point
@@ -214,11 +212,8 @@ class SailingView extends Ui.View {
                     [center_x, center_y],
                     [center_x, 0],
                     [border_x, 0],
-                    [border_x, center_y],
                     [border_x, border_y],
-                    [center_x, border_y],
                     [0, border_y],
-                    [0, center_y],
                     [0, 0],
                     point
             ];
