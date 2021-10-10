@@ -100,7 +100,7 @@ class SailingApp extends App.AppBase {
     }
 
     function startActivityRecording() {
-        if (Position.getInfo().accuracy > 2.0){
+        if (Position.getInfo().accuracy >= Position.QUALITY_USABLE){
             gpsSetupTimer.stop();
             if( Toybox has :ActivityRecording ) {
                 if( ( session == null ) || ( session.isRecording() == false ) ) {

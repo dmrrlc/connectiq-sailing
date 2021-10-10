@@ -85,17 +85,19 @@ class SailingView extends Ui.View {
             dc.drawCircle(screenWidth / 2, screenHeight / 2, outerRadius);
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
             dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
+
         } else if (countDown.get().isTimerComplete()) {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
             dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
+
         } else {
-            // Draw the instructions
-            if( accuracyStr.toNumber() <= 2 ) {
+
+            if( accuracyStr.toNumber() < Position.QUALITY_USABLE ) {
                 dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
                 dc.drawText((screenWidth / 2), (screenHeight / 2) - Gfx.getFontAscent(Gfx.FONT_MEDIUM) - Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
                 dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracyStr+")", Gfx.TEXT_JUSTIFY_CENTER);
-            } else {
 
+            } else {
                 dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 
                 dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
