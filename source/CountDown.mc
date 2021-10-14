@@ -1,6 +1,7 @@
 using Toybox.System as Sys;
 using Toybox.Timer as Timer;
 using Toybox.Attention as Attention;
+using Toybox.WatchUi as Ui;
 
 class CountDown {
 
@@ -69,11 +70,11 @@ class CountDown {
         } else {
             endTimer();
         }
-        app.get().refreshUi();
     }
 
     function updateTimer() {
         secLeft -= 1;
+        Ui.requestUpdate();
     }
 
     function fixTimeUp() {
@@ -82,6 +83,7 @@ class CountDown {
         }
         secLeft = ((secLeft / 60) + 1) * 60;
         Sys.println("fixTimeUp: " + (secLeft / 60 + 1));
+        Ui.requestUpdate();
     }
 
     function fixTimeDown() {
@@ -90,6 +92,7 @@ class CountDown {
         }
         secLeft = (secLeft / 60) * 60;
         Sys.println("fixTimeDown: " + secLeft / 60);
+        Ui.requestUpdate();
     }
 
     function endTimer() {
@@ -101,6 +104,7 @@ class CountDown {
         timerComplete = true;
         timerEnd = new Timer.Timer();
         timerEnd.start( method(:finalRing), 500, true );
+        Ui.requestUpdate();
     }
 
     function ring() {
@@ -126,8 +130,7 @@ class CountDown {
             finalRingTime = 5000;
             timerComplete = false;
             timerEnd.stop();
-            app.get().refreshUi();
+            Ui.requestUpdate();
         }
     }
-
 }

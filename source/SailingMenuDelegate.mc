@@ -10,10 +10,7 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
             Sys.println("start time pressed");
             App.getApp().startTimer();
         } else if (item == :item_rt) {
-           // Do nothing -> return
-            App.getApp().refreshUi();
         }
-        Ui.requestUpdate();
     }
 
     function initialize() {

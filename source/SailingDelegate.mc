@@ -36,13 +36,11 @@ class SailingDelegate extends Ui.BehaviorDelegate {
 
     function onPreviousPage(){
             App.getApp().fixTimeUp();
-            Ui.requestUpdate();
             return true;
     }
 
     function onNextPage(){
             App.getApp().fixTimeDown();
-            Ui.requestUpdate();
             return true;
     }
 }

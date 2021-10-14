@@ -85,10 +85,6 @@ class SailingApp extends App.AppBase {
         countDown.fixTimeDown();
     }
 
-    function refreshUi() {
-        sailingView.refreshUi();
-    }
-
     //! Return the initial view of your application here
     function getInitialView() {
         Sys.println("app : getInitialView");
@@ -98,6 +94,9 @@ class SailingApp extends App.AppBase {
 
     function onPosition(info) {
         sailingView.onPosition(info);
+        if (countDown.isTimerRunning() == false) {
+            Ui.requestUpdate();
+        }
     }
 
     function startActivityRecording() {

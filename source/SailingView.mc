@@ -34,12 +34,6 @@ class SailingView extends Ui.View {
         screenHeight = dc.getHeight();
     }
 
-    function refreshUi(){
-        Sys.println("view : refreshUi");
-        Ui.requestUpdate();
-    }
-
-
     function updateTimer() {
         var secLeft = countDown.get().secondsLeft();
 
@@ -63,6 +57,7 @@ class SailingView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
+        Sys.println("view : onUpdate");
         dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
         dc.clear();
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
@@ -257,7 +252,6 @@ class SailingView extends Ui.View {
         accuracyStr = info.accuracy.format("%d");
         speedStr = (info.speed * 1.943844492).format("%0.2f");
         Sys.println("speed: " +speedStr+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracyStr);
-        Ui.requestUpdate();
     }
 
     function headingToStr(heading){
