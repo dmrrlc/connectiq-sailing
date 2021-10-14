@@ -20,6 +20,13 @@ class SailingDelegate extends Ui.BehaviorDelegate {
         return false;
     }
 
+    function onSelect(){
+            Sys.println("select pressed");
+            App.getApp().startStopTimer();
+            Ui.requestUpdate();
+            return true;
+    }
+
     function onBack(){
             Sys.println("back pressed");
             Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);

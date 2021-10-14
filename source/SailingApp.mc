@@ -75,6 +75,15 @@ class SailingApp extends App.AppBase {
         countDown.startTimer();
     }
 
+    function startStopTimer() {
+        Sys.println("app : startStop timer");
+        if (countDown.isTimerRunning() == false) {
+            countDown.startTimer();
+        } else {
+            countDown.endTimer();
+        }
+    }
+
     function fixTimeUp() {
         Sys.println("app : fixTimeUp");
         countDown.fixTimeUp();
