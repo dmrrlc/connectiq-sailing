@@ -106,19 +106,16 @@ class SailingView extends Ui.View {
                 dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
 
                 var raceStartTime = countDown.get().startTime();
-                var raceTimeStr;
+
                 if(raceStartTime != null){
                     //print running timer
                     var now = Time.now();
                     var raceTime = now.subtract(raceStartTime);
-                    raceTimeStr = secToStr(raceTime.value());
+                    var raceTimeStr = secToStr(raceTime.value());
                     dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-                } else {
-                    raceTimeStr = "00:00:00";
-                    dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+                    dc.drawText((screenWidth / 2), Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+                    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
                 }
-                dc.drawText((screenWidth / 2), Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
             }
         }
     }
