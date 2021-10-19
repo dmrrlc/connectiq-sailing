@@ -37,6 +37,21 @@ class SailingApp extends App.AppBase {
         Properties.setValue("time", time);
     }
 
+    function getAlarms() {
+        if (! (App has :Properties)) {
+            return true;
+        }
+        return Properties.getValue("alarms");
+    }
+
+    function setAlarms(alarms) {
+        if (! (App has :Properties)) {
+            return;
+        }
+        Sys.println("app : setAlarms " + alarms);
+        Properties.setValue("alarms", alarms);
+    }
+
     function initialize() {
         Sys.println("app : initialize");
         AppBase.initialize();

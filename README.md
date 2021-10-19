@@ -12,6 +12,7 @@ Features
 - current speed (in knots)
 - current direction (heading in degrees)
 - time since start
+- enable/disable alarms (still necessary to have the "In App" watch parameters set for bips and vibration during the countdown)
 
 ![Main View](https://services.garmin.com/appsLibraryBusinessServices_v0/rest/apps/db7493a2-fb16-4d34-a36b-1aa6af6b87b5/screenshots/257fd487-7913-4018-b8f9-c900952358b9)
 

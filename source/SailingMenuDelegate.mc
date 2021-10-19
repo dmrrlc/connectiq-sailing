@@ -14,6 +14,9 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
             if (Ui has :Picker) {
                 Ui.pushView(new TimePicker(), new TimePickerDelegate(), Ui.SLIDE_UP);
             }
+        } else if (item == :set_alarms) {
+            Sys.println("set alarms pressed");
+            App.getApp().setAlarms(! App.getApp().getAlarms());
         }
     }
 
