@@ -45,7 +45,7 @@ class CountDown {
         if (timerRunning == true) {
             return;
         }
-        secLeft = app.get().getDefaultTimerCount();
+        secLeft = app.get().getDefaultTimerCount() * 60;
 
         updateTimer();
 

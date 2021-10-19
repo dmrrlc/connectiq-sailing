@@ -2,10 +2,11 @@
 
 Available on [GARMIN app store](https://apps.garmin.com/en-US/apps/db7493a2-fb16-4d34-a36b-1aa6af6b87b5)
 
-Sailing is a watch app for tracking sailing activities displaying speed in knots and heading direction. There is a specific 5min race countdown and a timer starts at the end of this countdown.
+Sailing is a watch app to display speed in knots and heading direction, as well as record the tracking.
+There is a configurable race countdown and a race timing starts at the end of this countdown.
 
 Features
-- 5 min race start timer sequence
+- configurable race start countdown sequence (by default 5 minutes)
 - pre-start GPS tracking
 - race GPS tracking (new lap)
 - current speed (in knots)

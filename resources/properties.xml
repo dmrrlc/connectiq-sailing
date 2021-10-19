@@ -1,0 +1,16 @@
+<resources>
+
+    <properties>
+        <property id="time" type="number">5</property>
+    </properties>
+
+    <strings>
+       <string id="time_title">Countdown Timer(min)</string>
+    </strings>
+
+    <settings>
+        <setting propertyKey="@Properties.time" title="@Strings.time_title">
+            <settingConfig type="numeric" />
+        </setting>
+    </settings>
+</resources>

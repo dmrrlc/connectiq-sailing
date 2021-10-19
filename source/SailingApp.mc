@@ -1,4 +1,5 @@
 using Toybox.Application as App;
+using Toybox.Application.Properties;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Timer as Timer;
@@ -20,17 +21,21 @@ class SailingApp extends App.AppBase {
 
     // get default timer count from properties, if not set return default
     function getDefaultTimerCount() {
-        var time = getProperty("time");
-        if (time != null) {
-            return time;
-        } else {
-            return 300; // 5 min default timer count
+        if (! (App has :Properties)) {
+            return 5;
         }
+        var time = Properties.getValue("time");
+        return time;
     }
 
     // set default timer count in properties
     function setDefaultTimerCount(time) {
-        setProperty("time", time);
+        if (! (App has :Properties)) {
+            return;
+        }
+        Sys.println("app : setTime " + time);
+        Properties.setValue("time", time);
+    }
     }
 
     function initialize() {
