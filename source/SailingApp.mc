@@ -4,17 +4,21 @@ using Toybox.Graphics as Gfx;
 using Toybox.Timer as Timer;
 using Toybox.Attention as Attn;
 using Toybox.Time.Gregorian as Cal;
-using Toybox.ActivityRecording as Ar;
+using Toybox.ActivityRecording as Record;
 using Toybox.Position as Position;
 using Toybox.System as Sys;
 
 
 class SailingApp extends App.AppBase {
 
-	var session;
-	var sailingView;
+    var session;
+    var sailingView;
 
-	// get default timer count from properties, if not set return default
+    var gpsSetupTimer;
+    var countDown = null;
+
+
+    // get default timer count from properties, if not set return default
     function getDefaultTimerCount() {
         var time = getProperty("time");
         if (time != null) {
@@ -23,61 +27,117 @@ class SailingApp extends App.AppBase {
             return 300; // 5 min default timer count
         }
     }
-    
+
     // set default timer count in properties
     function setDefaultTimerCount(time) {
         setProperty("time", time);
     }
 
+    function initialize() {
+        Sys.println("app : initialize");
+        AppBase.initialize();
+    }
+
+    function onStart(state) {
+        Sys.println("app : onStart");
+        gpsSetupTimer = new Timer.Timer();
+        gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
+        countDown = new CountDown(self);
+
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
+    }
+
     //! onStop() is called when your application is exiting
     function onStop(state) {
-    	//do nothing
-    	Sys.println("onStop called");
-    	//sailingView.stopRecording(true);
+        Sys.println("app: onStop");
+        sailingView = null;
+        gpsSetupTimer.stop();
+        gpsSetupTimer = null;
+        countDown = null;
+
+        Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPosition));
     }
-    
+
     function saveAndClose() {
-    	Sys.println("stop pressed");
-    	sailingView.stopRecording(true);
-    	Sys.exit();
+        Sys.println("stop pressed");
+        stopRecording(true);
+        Sys.exit();
     }
-    
+
     function discardAndClose() {
-    	Sys.println("stop pressed");
-    	sailingView.stopRecording(false);
-    	Sys.exit();
+        Sys.println("stop pressed");
+        stopRecording(false);
+        Sys.exit();
     }
-    
+
     function startTimer() {
-    	Sys.println("app : start timer");
-    	sailingView.startTimer();
+        Sys.println("app : start timer");
+        countDown.startTimer();
     }
-    
+
     function fixTimeUp() {
-    	Sys.println("app : fixTimeUp");
-    	if (sailingView.isTimerRunning() == true){
-    		sailingView.fixTimeUp();
-    	}
+        Sys.println("app : fixTimeUp");
+        countDown.fixTimeUp();
     }
-    
+
     function fixTimeDown() {
-    	Sys.println("app : fixTimeDown");
-    	if (sailingView.isTimerRunning() == true){
-    		sailingView.fixTimeDown();
-    	}
-    }
-    
-    function refreshUi() {
-    	sailingView.refreshUi();
+        Sys.println("app : fixTimeDown");
+        countDown.fixTimeDown();
     }
 
     //! Return the initial view of your application here
     function getInitialView() {
-    	sailingView = new SailingView();
+        Sys.println("app : getInitialView");
+        sailingView = new SailingView(countDown);
         return [ sailingView, new SailingDelegate() ];
     }
-    
-    function initialize() {
-		AppBase.initialize();
-	}
+
+    function onPosition(info) {
+        sailingView.onPosition(info);
+        if (countDown.isTimerRunning() == false) {
+            Ui.requestUpdate();
+        }
+    }
+
+    function startActivityRecording() {
+        if (Position.getInfo().accuracy >= Position.QUALITY_USABLE){
+            gpsSetupTimer.stop();
+            if( Toybox has :ActivityRecording ) {
+                if( ( session == null ) || ( session.isRecording() == false ) ) {
+                    Sys.println("start ActivityRecording");
+                    var mySettings = Sys.getDeviceSettings();
+                    var version = mySettings.monkeyVersion;
+
+                    if(version[0] >= 3) {
+                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
+                     }else{
+                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
+                    }
+                    session.start();
+                }
+            }
+        }
+    }
+
+    function addLap() {
+        if( ( session != null ) && session.isRecording() ) {
+            session.addLap();
+        }
+    }
+
+     //! Stop the recording if necessary
+    function stopRecording(save) {
+        if( Toybox has :ActivityRecording ) {
+            if( session != null && session.isRecording() ) {
+                session.stop();
+                if (save) {
+                    session.save();
+                } else {
+                    session.discard();
+                }
+                session = null;
+            }
+        }
+    }
+
 }
