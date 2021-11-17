@@ -9,7 +9,11 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
         if (item == :start_timer) {
             Sys.println("start time pressed");
             App.getApp().startTimer();
-        } else if (item == :item_rt) {
+        } else if (item == :set_timer) {
+            Sys.println("set timer pressed");
+            if (Ui has :Picker) {
+                Ui.pushView(new TimePicker(), new TimePickerDelegate(), Ui.SLIDE_UP);
+            }
         }
     }
 

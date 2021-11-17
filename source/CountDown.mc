@@ -45,7 +45,7 @@ class CountDown {
         if (timerRunning == true) {
             return;
         }
-        secLeft = app.get().getDefaultTimerCount();
+        secLeft = app.get().getDefaultTimerCount() * 60;
 
         updateTimer();
 
@@ -68,7 +68,13 @@ class CountDown {
             }
             updateTimer();
         } else {
+            app.get().addLap();
+            raceStartTime = Time.now();
             endTimer();
+            timerComplete = true;
+            finalRing();
+            timerEnd = new Timer.Timer();
+            timerEnd.start( method(:finalRing), 500, true );
         }
     }
 
@@ -96,14 +102,8 @@ class CountDown {
     }
 
     function endTimer() {
-        app.get().addLap();
-        raceStartTime = Time.now();
-        finalRing();
         timer.stop();
         timerRunning = false;
-        timerComplete = true;
-        timerEnd = new Timer.Timer();
-        timerEnd.start( method(:finalRing), 500, true );
         Ui.requestUpdate();
     }
 
