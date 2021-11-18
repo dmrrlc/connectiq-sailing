@@ -36,7 +36,6 @@ class SailingApp extends App.AppBase {
         Sys.println("app : setTime " + time);
         Properties.setValue("time", time);
     }
-    }
 
     function initialize() {
         Sys.println("app : initialize");
@@ -153,5 +152,4 @@ class SailingApp extends App.AppBase {
             }
         }
     }
-
 }
