@@ -108,9 +108,11 @@ class CountDown {
     }
 
     function ring() {
+        if (app.get().getAlarms() == false) {
+            return;
+        }
         Sys.println("ring: " + secLeft);
         if (Attention has :ToneProfile) {
-            //comment this line for muting during tests
             Attention.playTone(Attention.TONE_ALARM);
         }
         if (Attention has :vibrate) {
@@ -123,6 +125,9 @@ class CountDown {
     }
 
     function finalRing() {
+        if (app.get().getAlarms() == false) {
+            return;
+        }
         if (finalRingTime > 0) {
             finalRingTime -= 500;
             ring();

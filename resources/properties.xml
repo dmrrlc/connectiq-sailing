@@ -2,15 +2,21 @@
 
     <properties>
         <property id="time" type="number">5</property>
+        <property id="alarms" type="boolean">true</property>
     </properties>
 
     <strings>
        <string id="time_title">Countdown Timer(min)</string>
+       <string id="alarms_title">Alarms</string>
     </strings>
 
     <settings>
         <setting propertyKey="@Properties.time" title="@Strings.time_title">
             <settingConfig type="numeric" />
+        </setting>
+
+        <setting propertyKey="@Properties.alarms" title="@Strings.alarms_title">
+            <settingConfig type="boolean" />
         </setting>
     </settings>
 </resources>
