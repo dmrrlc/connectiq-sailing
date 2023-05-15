@@ -1,53 +1,55 @@
-using Toybox.WatchUi as Ui;
-using Toybox.System as Sys;
-using Toybox.Application as App;
+import Toybox.WatchUi;
+import Toybox.System;
+import Toybox.Application;
 
 
-class SailingDelegate extends Ui.BehaviorDelegate {
+class SailingDelegate extends WatchUi.BehaviorDelegate {
 
     function initialize() {
         BehaviorDelegate.initialize();
     }
 
     function onKey(evt){
-        Sys.println("key evt : " +evt);
+        System.println("SailingDelegate: onKey: evt : " + evt);
         if (evt.getKey() == WatchUi.KEY_ESC){
-            Sys.println("back pressed (from event)");
-            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-            Ui.requestUpdate();
+            System.println("SailingDelegate: back pressed (from event)");
+            WatchUi.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), WatchUi.SLIDE_UP);
+            WatchUi.requestUpdate();
             return true;
         }
         return false;
     }
 
     function onSelect(){
-            Sys.println("select pressed");
-            App.getApp().startStopTimer();
-            Ui.requestUpdate();
+            System.println("SailingDelegate: onSelect");
+            Application.getApp().startStopTimer();
+            WatchUi.requestUpdate();
             return true;
     }
 
     function onBack(){
-            Sys.println("back pressed");
-            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-            Ui.requestUpdate();
+            System.println("SailingDelegate: onBack");
+            WatchUi.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), WatchUi.SLIDE_UP);
+            WatchUi.requestUpdate();
             return true;
     }
 
     function onMenu(){
-            Sys.println("menu pressed");
-            Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
-            Ui.requestUpdate();
+            System.println("SailingDelegate: onMenu");
+            WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), WatchUi.SLIDE_UP);
+            WatchUi.requestUpdate();
             return true;
     }
 
     function onPreviousPage(){
-            App.getApp().fixTimeUp();
+            System.println("SailingDelegate: onPreviousPage");
+            Application.getApp().fixTimeUp();
             return true;
     }
 
     function onNextPage(){
-            App.getApp().fixTimeDown();
+            System.println("SailingDelegate: onNextPage");
+            Application.getApp().fixTimeDown();
             return true;
     }
 }

@@ -1,23 +1,24 @@
-using Toybox.WatchUi as Ui;
-using Toybox.Application as App;
-using Toybox.System as Sys;
+import Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.System;
 
-class SailingMenuDelegate extends Ui.MenuInputDelegate {
+class SailingMenuDelegate extends WatchUi.MenuInputDelegate {
 
     function onMenuItem(item) {
-        Sys.println("menu item selected");
+        System.println("SailingMenuDelegate: onMenuItem: " + item);
         if (item == :start_timer) {
-            Sys.println("start time pressed");
-            App.getApp().startTimer();
+            System.println("SailingMenuDelegate: onMenuItem: start time pressed");
+            Application.getApp().startTimer();
         } else if (item == :set_timer) {
-            Sys.println("set timer pressed");
-            if (Ui has :Picker) {
-                Ui.pushView(new TimePicker(), new TimePickerDelegate(), Ui.SLIDE_UP);
+            System.println("SailingMenuDelegate: onMenuItem: set timer pressed");
+            if (WatchUi has :Picker) {
+                WatchUi.pushView(new TimePicker(), new TimePickerDelegate(), WatchUi.SLIDE_UP);
             }
         }
     }
 
     function initialize() {
+        System.println("SailingMenuDelegate: initialize");
         MenuInputDelegate.initialize();
     }
 }

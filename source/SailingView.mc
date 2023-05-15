@@ -1,11 +1,11 @@
-using Toybox.WatchUi as Ui;
-using Toybox.Graphics as Gfx;
-using Toybox.System as Sys;
-using Toybox.Lang as Lang;
-using Toybox.Time as Time;
-using Toybox.Math as Math;
+import Toybox.WatchUi;
+import Toybox.Graphics;
+import Toybox.System;
+import Toybox.Lang;
+import Toybox.Time;
+import Toybox.Math;
 
-class SailingView extends Ui.View {
+class SailingView extends WatchUi.View {
 
     var session = null;
     var countDown = null;
@@ -25,13 +25,13 @@ class SailingView extends Ui.View {
     var countDownStr = "";
 
     function initialize(countdown) {
-        Sys.println("view : initialize");
+        System.println("view : initialize");
         View.initialize();
         countDown = countdown.weak();
     }
 
     function onLayout(dc) {
-        Sys.println("view : onLayout");
+        System.println("view : onLayout");
         screenWidth = dc.getWidth();
         screenHeight = dc.getHeight();
         if(screenHeight < screenWidth){
@@ -61,49 +61,49 @@ class SailingView extends Ui.View {
     //! the state of this View and prepare it to be shown. This includes
     //! loading resources into memory.
     function onShow() {
-        Sys.println("view : onShow");
+        System.println("view : onShow");
     }
 
     //! Update the view
     function onUpdate(dc) {
-        Sys.println("view : onUpdate");
-        dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
+        System.println("view : onUpdate");
+        dc.setColor( Graphics.COLOR_TRANSPARENT, Graphics.COLOR_BLACK );
         dc.clear();
-        dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
+        dc.setColor( Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT );
 
         if (countDown.get().isTimerRunning()) {
             updateTimer();
             var polygon = buildProgress();
 
             dc.fillPolygon(polygon);
-            dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
+            dc.setColor( Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT );
 
             var innerRadius = (minDim / 2) - ((minDim / 2) * 0.2);
             var outerRadius = innerRadius + 1;
 
             dc.fillCircle(screenWidth / 2, screenHeight / 2, innerRadius);
-            dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
+            dc.setColor( Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT );
             dc.drawCircle(screenWidth / 2, screenHeight / 2, outerRadius);
-            dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
+            dc.setColor( Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT );
+            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Graphics.getFontAscent(Graphics.FONT_NUMBER_THAI_HOT) / 2), Graphics.FONT_NUMBER_THAI_HOT, countDownStr, Graphics.TEXT_JUSTIFY_CENTER );
 
         } else if (countDown.get().isTimerComplete()) {
-            dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontAscent(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
+            dc.setColor( Graphics.COLOR_WHITE, Graphics.COLOR_BLACK );
+            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Graphics.getFontAscent(Graphics.FONT_LARGE) / 2), Graphics.FONT_LARGE, "START", Graphics.TEXT_JUSTIFY_CENTER );
 
         } else {
 
             if( accuracyStr.toNumber() < Position.QUALITY_USABLE ) {
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-                dc.drawText((screenWidth / 2), (screenHeight / 2) - Gfx.getFontAscent(Gfx.FONT_MEDIUM) - Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
-                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracyStr+")", Gfx.TEXT_JUSTIFY_CENTER);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+                dc.drawText((screenWidth / 2), (screenHeight / 2) - Graphics.getFontAscent(Graphics.FONT_MEDIUM) - Graphics.getFontDescent(Graphics.FONT_MEDIUM), Graphics.FONT_MEDIUM, "Waiting for", Graphics.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), (screenHeight / 2), Graphics.FONT_MEDIUM, "GPS signal ("+accuracyStr+")", Graphics.TEXT_JUSTIFY_CENTER);
 
             } else {
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 
-                dc.drawText((screenWidth / 2), 0, Gfx.FONT_MEDIUM , "knt", Gfx.TEXT_JUSTIFY_CENTER);
-                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
-                dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), 0, Graphics.FONT_MEDIUM , "knt", Graphics.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), Graphics.getFontAscent(Graphics.FONT_MEDIUM), Graphics.FONT_NUMBER_THAI_HOT, speedStr, Graphics.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), Graphics.getFontAscent(Graphics.FONT_NUMBER_THAI_HOT) + Graphics.getFontAscent(Graphics.FONT_MEDIUM) + 40, Graphics.FONT_MEDIUM, headingStr, Graphics.TEXT_JUSTIFY_CENTER);
 
                 var raceStartTime = countDown.get().startTime();
                 var raceTimeStr;
@@ -112,13 +112,13 @@ class SailingView extends Ui.View {
                     var now = Time.now();
                     var raceTime = now.subtract(raceStartTime);
                     raceTimeStr = secToStr(raceTime.value());
-                    dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+                    dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
                 } else {
                     raceTimeStr = "00:00:00";
-                    dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+                    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
                 }
-                dc.drawText((screenWidth / 2), Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+                dc.drawText((screenWidth / 2), Graphics.getFontHeight(Graphics.FONT_NUMBER_THAI_HOT) + Graphics.getFontDescent(Graphics.FONT_MEDIUM), Graphics.FONT_MEDIUM, raceTimeStr, Graphics.TEXT_JUSTIFY_CENTER);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
             }
         }
     }
@@ -225,20 +225,20 @@ class SailingView extends Ui.View {
     //! state of this View here. This includes freeing resources from
     //! memory.
     function onHide() {
-        Sys.println("view : onHide");
+        System.println("view : onHide");
     }
 
     //! The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() {
-        Sys.println("view : onExitSleep");
+        System.println("view : onExitSleep");
     }
 
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
-        Sys.println("view : onEnterSleep");
+        System.println("view : onEnterSleep");
     }
 
-    function onPosition(info) {
+    function updatePositionData(info) {
         var heading = info.heading;
         headingStr = headingToStr(heading);
         var headingDeg = ((180 * heading ) /  Math.PI);
@@ -248,7 +248,7 @@ class SailingView extends Ui.View {
         headingStr += " - " + headingDeg.format("%d");
         accuracyStr = info.accuracy.format("%d");
         speedStr = (info.speed * 1.943844492).format("%0.2f");
-        Sys.println("speed: " +speedStr+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracyStr);
+        System.println("speed: " +speedStr+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracyStr);
     }
 
     function headingToStr(heading){

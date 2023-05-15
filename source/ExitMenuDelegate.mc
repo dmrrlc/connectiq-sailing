@@ -1,17 +1,18 @@
-using Toybox.WatchUi as Ui;
-using Toybox.Application as App;
+import Toybox.WatchUi;
+import Toybox.Application;
+import Toybox.Lang;
 
-class ExitMenuDelegate extends Ui.MenuInputDelegate {
+class ExitMenuDelegate extends WatchUi.MenuInputDelegate {
 
   function initialize(){
       MenuInputDelegate.initialize();
   }
 
-   function onMenuItem(item) {
+   function onMenuItem(item as Symbol) {
        if (item == :save_btn) {
-            App.getApp().saveAndClose();
+            Application.getApp().saveAndClose();
         } else if (item == :discard_btn) {
-            App.getApp().discardAndClose();
+            Application.getApp().discardAndClose();
         } else if (item == :resume_btn) {
         }
     }

@@ -1,7 +1,7 @@
-using Toybox.System as Sys;
-using Toybox.Timer as Timer;
-using Toybox.Attention as Attention;
-using Toybox.WatchUi as Ui;
+import Toybox.System;
+import Toybox.Timer;
+import Toybox.Attention;
+import Toybox.WatchUi;
 
 class CountDown {
 
@@ -21,7 +21,7 @@ class CountDown {
     var raceStartTime = null;
 
     function initialize(sailingapp) {
-        Sys.println("countdown: initialize");
+        System.println("countdown: initialize");
         app = sailingapp.weak();
     }
 
@@ -50,12 +50,12 @@ class CountDown {
         updateTimer();
 
         timer = new Timer.Timer();
-        timer.start( method(:callback), 1000, true );
+        timer.start( method(:coundDownCallback), 1000, true );
 
         timerRunning = true;
     }
 
-    function callback() {
+    function coundDownCallback() as Void {
         if (secLeft > 1) {
             if (secLeft < 11) {
                 ring();
@@ -80,7 +80,7 @@ class CountDown {
 
     function updateTimer() {
         secLeft -= 1;
-        Ui.requestUpdate();
+        WatchUi.requestUpdate();
     }
 
     function fixTimeUp() {
@@ -88,8 +88,8 @@ class CountDown {
             return;
         }
         secLeft = ((secLeft / 60) + 1) * 60;
-        Sys.println("fixTimeUp: " + (secLeft / 60 + 1));
-        Ui.requestUpdate();
+        System.println("fixTimeUp: " + (secLeft / 60 + 1));
+        WatchUi.requestUpdate();
     }
 
     function fixTimeDown() {
@@ -97,18 +97,18 @@ class CountDown {
             return;
         }
         secLeft = (secLeft / 60) * 60;
-        Sys.println("fixTimeDown: " + secLeft / 60);
-        Ui.requestUpdate();
+        System.println("fixTimeDown: " + secLeft / 60);
+        WatchUi.requestUpdate();
     }
 
     function endTimer() {
         timer.stop();
         timerRunning = false;
-        Ui.requestUpdate();
+        WatchUi.requestUpdate();
     }
 
     function ring() {
-        Sys.println("ring: " + secLeft);
+        System.println("ring: " + secLeft);
         if (Attention has :ToneProfile) {
             //comment this line for muting during tests
             Attention.playTone(Attention.TONE_ALARM);
@@ -122,7 +122,7 @@ class CountDown {
         }
     }
 
-    function finalRing() {
+    function finalRing() as Void {
         if (finalRingTime > 0) {
             finalRingTime -= 500;
             ring();
@@ -130,7 +130,7 @@ class CountDown {
             finalRingTime = 5000;
             timerComplete = false;
             timerEnd.stop();
-            Ui.requestUpdate();
+            WatchUi.requestUpdate();
         }
     }
 }

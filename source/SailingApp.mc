@@ -1,16 +1,12 @@
-using Toybox.Application as App;
-using Toybox.Application.Properties;
-using Toybox.WatchUi as Ui;
-using Toybox.Graphics as Gfx;
-using Toybox.Timer as Timer;
-using Toybox.Attention as Attn;
-using Toybox.Time.Gregorian as Cal;
-using Toybox.ActivityRecording as Record;
-using Toybox.Position as Position;
-using Toybox.System as Sys;
+import Toybox.Application;
+import Toybox.WatchUi;
+import Toybox.Timer;
+import Toybox.ActivityRecording;
+import Toybox.Position;
+import Toybox.System;
 
 
-class SailingApp extends App.AppBase {
+class SailingApp extends Application.AppBase {
 
     var session;
     var sailingView;
@@ -21,7 +17,7 @@ class SailingApp extends App.AppBase {
 
     // get default timer count from properties, if not set return default
     function getDefaultTimerCount() {
-        if (! (App has :Properties)) {
+        if (! (Application has :Properties)) {
             return 5;
         }
         var time = Properties.getValue("time");
@@ -30,57 +26,57 @@ class SailingApp extends App.AppBase {
 
     // set default timer count in properties
     function setDefaultTimerCount(time) {
-        if (! (App has :Properties)) {
+        if (! (Application has :Properties)) {
             return;
         }
-        Sys.println("app : setTime " + time);
+        System.println("SailingApp: setTime " + time);
         Properties.setValue("time", time);
     }
 
     function initialize() {
-        Sys.println("app : initialize");
+        System.println("SailingApp: initialize");
         AppBase.initialize();
     }
 
     function onStart(state) {
-        Sys.println("app : onStart");
+        System.println("SailingApp: onStart");
         gpsSetupTimer = new Timer.Timer();
         gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
         countDown = new CountDown(self);
 
-        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPositionCallback));
     }
 
     //! onStop() is called when your application is exiting
     function onStop(state) {
-        Sys.println("app: onStop");
+        System.println("app: onStop");
         sailingView = null;
         gpsSetupTimer.stop();
         gpsSetupTimer = null;
         countDown = null;
 
-        Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPosition));
+        Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPositionCallback));
     }
 
     function saveAndClose() {
-        Sys.println("stop pressed");
+        System.println("stop pressed");
         stopRecording(true);
-        Sys.exit();
+        System.exit();
     }
 
     function discardAndClose() {
-        Sys.println("stop pressed");
+        System.println("stop pressed");
         stopRecording(false);
-        Sys.exit();
+	 System.exit();
     }
 
     function startTimer() {
-        Sys.println("app : start timer");
+        System.println("SailingApp: start timer");
         countDown.startTimer();
     }
 
     function startStopTimer() {
-        Sys.println("app : startStop timer");
+        System.println("SailingApp: startStop timer");
         if (countDown.isTimerRunning() == false) {
             countDown.startTimer();
         } else {
@@ -89,54 +85,68 @@ class SailingApp extends App.AppBase {
     }
 
     function fixTimeUp() {
-        Sys.println("app : fixTimeUp");
+        System.println("SailingApp: fixTimeUp");
         countDown.fixTimeUp();
     }
 
     function fixTimeDown() {
-        Sys.println("app : fixTimeDown");
+        System.println("SailingApp: fixTimeDown");
         countDown.fixTimeDown();
     }
 
     //! Return the initial view of your application here
     function getInitialView() {
-        Sys.println("app : getInitialView");
+        System.println("SailingApp: getInitialView");
         sailingView = new SailingView(countDown);
         return [ sailingView, new SailingDelegate() ];
     }
 
-    function onPosition(info) {
-        sailingView.onPosition(info);
+    function onPositionCallback(info as Position.Info) as Void {
+	System.println("SailingApp: onPositionCallback");
+        sailingView.updatePositionData(info);
         if (countDown.isTimerRunning() == false) {
-            Ui.requestUpdate();
+            WatchUi.requestUpdate();
         }
     }
 
-    function startActivityRecording() {
-        if (Position.getInfo().accuracy >= Position.QUALITY_USABLE){
-            gpsSetupTimer.stop();
-            if( Toybox has :ActivityRecording ) {
-                if( ( session == null ) || ( session.isRecording() == false ) ) {
-                    Sys.println("start ActivityRecording");
-                    var mySettings = Sys.getDeviceSettings();
-                    var version = mySettings.monkeyVersion;
+	function startActivityRecording() as Void {
+		System.println("SailingApp: startActivityRecording");
+		if (Position.getInfo().accuracy >= Position.QUALITY_USABLE) {
+			gpsSetupTimer.stop();
+			if( Toybox has :ActivityRecording ) {
+				if( ( session == null ) || ( session.isRecording() == false ) ) {
+					System.println("start ActivityRecording");
+					var mySettings = System.getDeviceSettings();
+					var version = mySettings.monkeyVersion;
 
-                    if(version[0] >= 3) {
-                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
-                     }else{
-                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
-                    }
-                    session.start();
-                }
-            }
-        }
-    }
+					var activityOptions = {:name=>"Sailing", :sport=>Activity.SPORT_SAILING};
 
-    function addLap() {
-        if( ( session != null ) && session.isRecording() ) {
-            session.addLap();
-        }
-    }
+					switch (version[0]) {
+						case 4:
+							if (version[1] > 0) {
+								activityOptions[:subSport] = Activity.SUB_SPORT_SAIL_RACE;
+							}
+						case 3:
+							activityOptions[:subSport] = Activity.SUB_SPORT_GENERIC;
+							break;
+						default:
+							activityOptions[:sport]    = Activity.SPORT_GENERIC;
+							activityOptions[:subSport] = Activity.SUB_SPORT_GENERIC;
+							break;
+					}
+
+					session = ActivityRecording.createSession(activityOptions);
+					session.start();
+				}
+			}
+		}
+	}
+
+	function addLap() {
+		if( ( session != null ) && session.isRecording() ) {
+			session.addLap();
+		}
+	}
 
      //! Stop the recording if necessary
     function stopRecording(save) {

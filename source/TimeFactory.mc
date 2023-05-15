@@ -1,9 +1,9 @@
-using Toybox.Graphics as Gfx;
-using Toybox.WatchUi as Ui;
-using Toybox.System as Sys;
+import Toybox.Graphics;
+import Toybox.Lang;
+import Toybox.WatchUi;
 
 //! Factory that controls which numbers can be picked
-class TimeFactory extends Ui.PickerFactory {
+class TimeFactory extends WatchUi.PickerFactory {
     private var _start as Number;
     private var _stop as Number;
     private var _increment as Number;
@@ -20,7 +20,7 @@ class TimeFactory extends Ui.PickerFactory {
     public function initialize(start as Number, stop as Number, increment as Number, options as {
         :font as FontDefinition,
         :format as String}) {
-        Sys.println("TimeFactory: initialize");
+        System.println("TimeFactory: initialize");
         PickerFactory.initialize();
 
         _start = start;
@@ -38,7 +38,7 @@ class TimeFactory extends Ui.PickerFactory {
         if (font != null) {
             _font = font;
         } else {
-            _font = Gfx.FONT_NUMBER_HOT;
+            _font = Graphics.FONT_NUMBER_HOT;
         }
     }
 
@@ -59,12 +59,12 @@ class TimeFactory extends Ui.PickerFactory {
         if (value instanceof Number) {
             text = value.format(_formatString);
         }
-        return new Ui.Text({
+        return new WatchUi.Text({
             :text=>text,
-            :color=>Gfx.COLOR_WHITE,
+            :color=>Graphics.COLOR_WHITE,
             :font=>_font,
-            :locX=>Ui.LAYOUT_HALIGN_CENTER,
-            :locY=>Ui.LAYOUT_VALIGN_CENTER});
+            :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
+            :locY=>WatchUi.LAYOUT_VALIGN_CENTER});
     }
 
     //! Get the value of the item at the given index
