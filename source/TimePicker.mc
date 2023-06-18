@@ -3,6 +3,9 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
+import Toybox.Lang;
+import Toybox.Graphics;
+
 
 //! Picker that allows the user to choose a time
 class TimePicker extends Ui.Picker {

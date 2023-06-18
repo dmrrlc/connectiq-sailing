@@ -2,6 +2,8 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.System as Sys;
 
+import Toybox.Lang;
+
 //! Responds to a time picker selection or cancellation
 class TimePickerDelegate extends Ui.PickerDelegate {
 

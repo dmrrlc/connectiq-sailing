@@ -1,6 +1,9 @@
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
+import Toybox.Lang;
+import Toybox.Graphics;
+import Toybox.WatchUi;
 
 //! Factory that controls which numbers can be picked
 class TimeFactory extends Ui.PickerFactory {
@@ -17,8 +20,7 @@ class TimeFactory extends Ui.PickerFactory {
     //! @param options Dictionary of options
     //! @option options :font The font to use
     //! @option options :format The number format to display
-    public function initialize(start as Number, stop as Number, increment as Number, options as {
-        :font as FontDefinition,
+    public function initialize(start as Number, stop as Number, increment as Number, options as {:font as FontDefinition,
         :format as String}) {
         Sys.println("TimeFactory: initialize");
         PickerFactory.initialize();
