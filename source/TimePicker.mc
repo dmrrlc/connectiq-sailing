@@ -1,23 +1,24 @@
-using Toybox.Application as App;
-using Toybox.Graphics as Gfx;
-using Toybox.System as Sys;
-using Toybox.WatchUi as Ui;
+using Toybox.Application;
+using Toybox.Graphics;
+using Toybox.System;
+using Toybox.WatchUi;
+using Toybox.Lang;
 
 
 //! Picker that allows the user to choose a time
-class TimePicker extends Ui.Picker {
+class TimePicker extends WatchUi.Picker {
 
     //! Constructor
     public function initialize() {
-        Sys.println("TimePicker: initialize");
-        var title = new Ui.Text({
+        System.println("TimePicker: initialize");
+        var title = new WatchUi.Text({
             :text=>"Time",
-            :locX=>Ui.LAYOUT_HALIGN_CENTER,
-            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
-            :color=>Gfx.COLOR_WHITE});
+            :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
+            :locY=>WatchUi.LAYOUT_VALIGN_BOTTOM,
+            :color=>Graphics.COLOR_WHITE});
 
         var factory = new TimeFactory(0, 30, 1, {});
-        var time = App.getApp().getDefaultTimerCount();
+        var time = Application.getApp().getDefaultTimerCount();
         var index = factory.getIndex(time);
 
         Picker.initialize({:title=>title, :pattern=>[factory], :defaults=>[index]});
@@ -25,9 +26,9 @@ class TimePicker extends Ui.Picker {
 
     //! Update the view
     //! @param dc Device Context
-    public function onUpdate(dc as Dc) as Void {
-        Sys.println("TimePicker: onUpdate");
-        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
+    public function onUpdate(dc as Graphics.Dc) as Void {
+        System.println("TimePicker: onUpdate");
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();
         Picker.onUpdate(dc);
     }

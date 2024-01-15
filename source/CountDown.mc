@@ -1,14 +1,15 @@
 using Toybox.System as Sys;
-using Toybox.Timer as Timer;
+using Toybox.Timer;
 using Toybox.Attention as Attention;
 using Toybox.WatchUi as Ui;
+using Toybox.Lang;
 
 class CountDown {
 
     var app = null;
 
     // Timers
-    var timer;
+    var myTimer;
     var timerEnd;
 
     // Status
@@ -49,13 +50,13 @@ class CountDown {
 
         updateTimer();
 
-        timer = new Timer.Timer();
-        timer.start( method(:callback), 1000, true );
+        myTimer = new Timer.Timer();
+        myTimer.start(method(:timerCallback), 1000, true);
 
         timerRunning = true;
     }
 
-    function callback() {
+    function timerCallback() as Void {
         if (secLeft > 1) {
             if (secLeft < 11) {
                 ring();
@@ -74,8 +75,9 @@ class CountDown {
             timerComplete = true;
             finalRing();
             timerEnd = new Timer.Timer();
-            timerEnd.start( method(:finalRing), 500, true );
+            timerEnd.start(method(:finalRing), 500, true );
         }
+            WatchUi.requestUpdate();
     }
 
     function updateTimer() {
@@ -102,7 +104,7 @@ class CountDown {
     }
 
     function endTimer() {
-        timer.stop();
+        myTimer.stop();
         timerRunning = false;
         Ui.requestUpdate();
     }
@@ -124,7 +126,7 @@ class CountDown {
         }
     }
 
-    function finalRing() {
+    function finalRing() as Void {
         if (app.get().getAlarms() == false) {
             return;
         }
@@ -135,7 +137,7 @@ class CountDown {
             finalRingTime = 5000;
             timerComplete = false;
             timerEnd.stop();
-            Ui.requestUpdate();
         }
+        Ui.requestUpdate();
     }
 }

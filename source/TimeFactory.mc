@@ -1,14 +1,15 @@
-using Toybox.Graphics as Gfx;
-using Toybox.WatchUi as Ui;
-using Toybox.System as Sys;
+using Toybox.Graphics;
+using Toybox.WatchUi;
+using Toybox.System;
+using Toybox.Lang;
 
 //! Factory that controls which numbers can be picked
-class TimeFactory extends Ui.PickerFactory {
-    private var _start as Number;
-    private var _stop as Number;
-    private var _increment as Number;
-    private var _formatString as String;
-    private var _font as FontDefinition;
+class TimeFactory extends WatchUi.PickerFactory {
+    private var _start as Lang.Number;
+    private var _stop as Lang.Number;
+    private var _increment as Lang.Number;
+    private var _formatString as Lang.String;
+    //private var _font as FontDefinition;
 
     //! Constructor
     //! @param start Number to start with
@@ -17,10 +18,8 @@ class TimeFactory extends Ui.PickerFactory {
     //! @param options Dictionary of options
     //! @option options :font The font to use
     //! @option options :format The number format to display
-    public function initialize(start as Number, stop as Number, increment as Number, options as {
-        :font as FontDefinition,
-        :format as String}) {
-        Sys.println("TimeFactory: initialize");
+    public function initialize(start as Lang.Number, stop as Lang.Number, increment as Lang.Number, options as {:format as Lang.String}) {
+        System.println("TimeFactory: initialize");
         PickerFactory.initialize();
 
         _start = start;
@@ -34,18 +33,18 @@ class TimeFactory extends Ui.PickerFactory {
             _formatString = "%d";
         }
 
-        var font = options.get(:font);
+        /*var font = options.get(:font);
         if (font != null) {
             _font = font;
         } else {
-            _font = Gfx.FONT_NUMBER_HOT;
-        }
+            _font = Graphics.FONT_NUMBER_HOT;
+        }*/
     }
 
     //! Get the index of a number item
     //! @param value The number to get the index of
     //! @return The index of the number
-    public function getIndex(value as Number) as Number {
+    public function getIndex(value as Lang.Number) as Lang.Number {
         return (value / _increment) - _start;
     }
 
@@ -53,30 +52,30 @@ class TimeFactory extends Ui.PickerFactory {
     //! @param index The item index
     //! @param selected true if the current item is selected, false otherwise
     //! @return Drawable for the item
-    public function getDrawable(index as Number, selected as Boolean) as Drawable? {
+    public function getDrawable(index as Lang.Number, selected as Lang.Boolean) as WatchUi.Drawable? {
         var value = getValue(index);
         var text = "No item";
-        if (value instanceof Number) {
+        if (value instanceof Lang.Number) {
             text = value.format(_formatString);
         }
-        return new Ui.Text({
+        return new WatchUi.Text({
             :text=>text,
-            :color=>Gfx.COLOR_WHITE,
-            :font=>_font,
-            :locX=>Ui.LAYOUT_HALIGN_CENTER,
-            :locY=>Ui.LAYOUT_VALIGN_CENTER});
+            :color=>Graphics.COLOR_WHITE,
+            :font=>Graphics.FONT_LARGE,
+            :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
+            :locY=>WatchUi.LAYOUT_VALIGN_CENTER});
     }
 
     //! Get the value of the item at the given index
     //! @param index Index of the item to get the value of
     //! @return Value of the item
-    public function getValue(index as Number) as Object? {
+    public function getValue(index as Lang.Number) as Lang.Object? {
         return _start + (index * _increment);
     }
 
     //! Get the number of picker items
     //! @return Number of items
-    public function getSize() as Number {
+    public function getSize() as Lang.Number {
         return (_stop - _start) / _increment + 1;
     }
 
