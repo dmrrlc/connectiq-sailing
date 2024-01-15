@@ -1,11 +1,11 @@
 using Toybox.Application as App;
 using Toybox.Application.Properties;
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Graphics as Gfx;
 using Toybox.Timer as Timer;
 using Toybox.Attention as Attn;
 using Toybox.Time.Gregorian as Cal;
-using Toybox.ActivityRecording as Record;
+using Toybox.ActivityRecording;
 using Toybox.Position as Position;
 using Toybox.System as Sys;
 
@@ -120,14 +120,14 @@ class SailingApp extends App.AppBase {
         return [ sailingView, new SailingDelegate() ];
     }
 
-    function onPosition(info) {
+    function onPosition(info as Position.Info) as Void{
         sailingView.onPosition(info);
         if (countDown.isTimerRunning() == false) {
-            Ui.requestUpdate();
+            WatchUi.requestUpdate();
         }
     }
 
-    function startActivityRecording() {
+    function startActivityRecording() as Void {
         if (Position.getInfo().accuracy >= Position.QUALITY_USABLE){
             gpsSetupTimer.stop();
             if( Toybox has :ActivityRecording ) {
@@ -137,9 +137,9 @@ class SailingApp extends App.AppBase {
                     var version = mySettings.monkeyVersion;
 
                     if(version[0] >= 3) {
-                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_SAILING});
+                        session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_SAILING});
                      }else{
-                        session = Record.createSession({:name=>"Sailing", :sport=>Record.SPORT_GENERIC});
+                        session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_GENERIC});
                     }
                     session.start();
                 }
