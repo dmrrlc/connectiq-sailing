@@ -4,6 +4,11 @@
         <menu-item id="start_timer" label="Start timer"></menu-item>
         <menu-item id="set_timer" label="Set timer"></menu-item>
         <menu-item id="set_alarms" label="Toggle alarms"></menu-item>
+        <menu-item id="set_mode" label="Configure Mode"></menu-item>"
+    </menu>
+    <menu id="ModeMenu" title="Mode">
+        <menu-item id="mode_standard" label="Standard"></menu-item>
+        <menu-item id="mode_dynamic" label="Dynamic"></menu-item>
     </menu>
     <menu id="StopMenu" title="Exit">
         <menu-item id="save_btn" label="Save"></menu-item>
