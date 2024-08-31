@@ -7,9 +7,9 @@
     </properties>
 
     <strings>
-       <string id="time_title">Countdown Timer(min)</string>
-       <string id="alarms_title">Alarms</string>
-    <string id="mode_title">Mode</string>
+        <string id="time_title">Countdown Timer(min)</string>
+        <string id="alarms_title">Alarms</string>
+        <string id="mode_title">Mode</string>
     </strings>
 
     <settings>

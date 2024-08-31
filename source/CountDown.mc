@@ -101,7 +101,7 @@ class CountDown {
                 else if (((secLeft - 1) % 30 == 0) && (secLeft > 60)) {
                     ring(BUZZ_SHORT, 1, true);
                 }
-                // Buzz the number of secconds
+                // Buzz the number of seconds
                 else if (((secLeft - 1) % 10 == 0) && (secLeft <= 60) && (secLeft > 11)) {
                     if(tens_seconds > 4){
                         // Hack because arrays max size 8
