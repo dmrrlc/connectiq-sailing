@@ -17,6 +17,9 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :set_alarms) {
             Sys.println("set alarms pressed");
             App.getApp().setAlarms(! App.getApp().getAlarms());
+        } else if (item == :set_mode) {
+            Sys.println("set mode pressed");
+            Ui.pushView(new Rez.Menus.ModeMenu(), new ModeMenuDelegate(), Ui.SLIDE_LEFT);
         }
     }
 

@@ -9,6 +9,10 @@ using Toybox.ActivityRecording;
 using Toybox.Position as Position;
 using Toybox.System as Sys;
 
+enum {
+    MODE_TYPE_STANDARD,
+    MODE_TYPE_DYNAMIC
+}
 
 class SailingApp extends App.AppBase {
 
@@ -50,6 +54,23 @@ class SailingApp extends App.AppBase {
         }
         Sys.println("app : setAlarms " + alarms);
         Properties.setValue("alarms", alarms);
+    }
+
+    function getMode() {
+        if (! (App has :Properties)) {
+            Sys.println("app : getMode no properties");
+            return true;
+        }
+        return Properties.getValue("mode");
+    }
+
+    function setMode(mode) {
+        if (! (App has :Properties)) {
+            Sys.println("app : setMode no properties");
+            return;
+        }
+        Sys.println("app : setMode " + mode);
+        Properties.setValue("mode", mode);
     }
 
     function initialize() {

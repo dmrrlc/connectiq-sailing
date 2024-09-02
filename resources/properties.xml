@@ -3,11 +3,13 @@
     <properties>
         <property id="time" type="number">5</property>
         <property id="alarms" type="boolean">true</property>
+        <property id="mode" type="number">0</property>
     </properties>
 
     <strings>
-       <string id="time_title">Countdown Timer(min)</string>
-       <string id="alarms_title">Alarms</string>
+        <string id="time_title">Countdown Timer(min)</string>
+        <string id="alarms_title">Alarms</string>
+        <string id="mode_title">Mode</string>
     </strings>
 
     <settings>
@@ -17,6 +19,9 @@
 
         <setting propertyKey="@Properties.alarms" title="@Strings.alarms_title">
             <settingConfig type="boolean" />
+        </setting>
+        <setting propertyKey="@Properties.mode" title="@Strings.mode_title">
+            <settingConfig type="numeric" />
         </setting>
     </settings>
 </resources>
