@@ -1,5 +1,5 @@
 <resources>
-    <bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
+    <bitmap id="LauncherIcon" filename="images/launcher_icon.svg" />
     <menu id="MainMenu" title="Menu">
         <menu-item id="start_timer" label="Start timer"></menu-item>
         <menu-item id="set_timer" label="Set timer"></menu-item>
