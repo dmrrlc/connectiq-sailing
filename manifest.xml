@@ -41,7 +41,6 @@
             <iq:product id="epix2"/>
             <iq:product id="epix2pro42mm"/>
             <iq:product id="epix2pro47mm"/>
-            <iq:product id="epix2pro47mmsystem7preview"/>
             <iq:product id="epix2pro51mm"/>
             <iq:product id="fenix3"/>
             <iq:product id="fenix3_hr"/>
@@ -116,7 +115,6 @@
             <iq:product id="venu2"/>
             <iq:product id="venu2plus"/>
             <iq:product id="venu2s"/>
-            <iq:product id="venu2system6preview"/>
             <iq:product id="venu3"/>
             <iq:product id="venu3s"/>
             <iq:product id="venud"/>
@@ -136,8 +134,6 @@
         </iq:products>
         <iq:permissions>
             <iq:uses-permission id="Fit"/>
-            <iq:uses-permission id="Fit"/>
-            <iq:uses-permission id="Positioning"/>
             <iq:uses-permission id="Positioning"/>
         </iq:permissions>
         <iq:languages>
