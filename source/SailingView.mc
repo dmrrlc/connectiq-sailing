@@ -137,7 +137,7 @@ class SailingView extends Ui.View {
                         dc.drawText((3 * (screenWidth / 4)) + unitsOffset, (screenHeight / 2), Gfx.FONT_MEDIUM, SPEED_UNIT, Gfx.TEXT_JUSTIFY_LEFT);
                         dc.drawText((subscreen.x + (subscreen.width / 2) + 4), (subscreen.y + (subscreen.height/4)), Gfx.FONT_MEDIUM, headingOnlyStr, Gfx.TEXT_JUSTIFY_CENTER);
                     }
-                } else {    
+                } else {
                     dc.drawText((screenWidth / 2), 0, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
                     dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
                     dc.drawText((screenWidth / 2), Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
