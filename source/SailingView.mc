@@ -132,7 +132,7 @@ class SailingView extends Ui.View {
                     // If we are on the instinct (but not crossover), change the display
                     if(deviceSettings.screenShape == System.SCREEN_SHAPE_SEMI_OCTAGON)
                     {
-                        dc.drawText((screenWidth / 3), 40, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
+                        dc.drawText((screenWidth / 3), 40, Gfx.FONT_MEDIUM , nowString, Gfx.TEXT_JUSTIFY_CENTER);
                         dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
                         dc.drawText((3 * (screenWidth / 4)) + unitsOffset, (screenHeight / 2), Gfx.FONT_MEDIUM, SPEED_UNIT, Gfx.TEXT_JUSTIFY_LEFT);
                         dc.drawText((subscreen.x + (subscreen.width / 2) + 4), (subscreen.y + (subscreen.height/4)), Gfx.FONT_MEDIUM, headingOnlyStr, Gfx.TEXT_JUSTIFY_CENTER);
