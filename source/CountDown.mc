@@ -169,6 +169,8 @@ class CountDown {
             return;
         }
         Sys.println("ring: " + times);
+        var hasVibrate = (Attention has :vibrate);
+        var hasTone = (Attention has :ToneProfile);
         if (buzz_type == BUZZ_SHORT) {
             if (times > 5){
                 Sys.println("ring: called with too many iterations (max 4)");
@@ -179,23 +181,27 @@ class CountDown {
             for (var i = 0; i < (times * 2); i++) {
                 if (i % 2 == 0) {
                     vibeData[i] = new Attention.VibeProfile(80, 200);
-                    toneData[i] = new Attention.ToneProfile(2500, 200);
+                    if (hasTone) {
+                        toneData[i] = new Attention.ToneProfile(2500, 200);
+                    }
                 } else {
                     vibeData[i] = new Attention.VibeProfile(0, 50);
+                    if (hasTone) {
                     toneData[i] = new Attention.ToneProfile(0, 50);
+                    }
                 }
             }
-            if (Attention has :ToneProfile && tone == true) {
+            if (hasTone && tone == true) {
                 Attention.playTone({:toneProfile=>toneData});
             }
-            if (Attention has :vibrate) {
+            if (hasVibrate) {
                 Attention.vibrate(vibeData);
             }
         } else if(buzz_type == BUZZ_LONG){
-            if (Attention has :ToneProfile && tone == true) {
+            if (hasTone && tone == true) {
                 Attention.playTone({:toneProfile=>[new Attention.ToneProfile(2500, 500)]});
             }
-            if (Attention has :vibrate) {
+            if (hasVibrate) {
                 var vibe_data = [new Attention.VibeProfile(50, 3000)];
                 Attention.vibrate(vibe_data);
             }
