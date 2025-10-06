@@ -66,7 +66,6 @@ class CountDown {
         raceStartTime = Time.now();
         endTimer();
         timerComplete = true;
-        finalRing();
         timerEnd = new Timer.Timer();
         timerEnd.start(method(:finalRing), 500, true );
     }
@@ -210,6 +209,7 @@ class CountDown {
 
     function finalRing() as Void {
         if (app.get().getAlarms() == false) {
+            timerComplete = false;
             return;
         }
         if (finalRingTime > 0) {
