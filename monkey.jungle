@@ -1,1 +1,196 @@
 project.manifest = manifest.xml
+
+# Exact-size launcher icons prevent per-device scaling warnings.
+
+# 26x26 launcher icon
+instinctcrossover.resourcePath = $(instinctcrossover.resourcePath);resources-launcher-26x26
+
+# 30x30 launcher icon
+legacyherocaptainmarvel.resourcePath = $(legacyherocaptainmarvel.resourcePath);resources-launcher-30x30
+legacysagarey.resourcePath = $(legacysagarey.resourcePath);resources-launcher-30x30
+vivoactive4s.resourcePath = $(vivoactive4s.resourcePath);resources-launcher-30x30
+
+# 32x32 launcher icon
+gpsmaph1.resourcePath = $(gpsmaph1.resourcePath);resources-launcher-32x32
+
+# 35x35 launcher icon
+approachs62.resourcePath = $(approachs62.resourcePath);resources-launcher-35x35
+edge520plus.resourcePath = $(edge520plus.resourcePath);resources-launcher-35x35
+edge530.resourcePath = $(edge530.resourcePath);resources-launcher-35x35
+edge540.resourcePath = $(edge540.resourcePath);resources-launcher-35x35
+edge820.resourcePath = $(edge820.resourcePath);resources-launcher-35x35
+edge830.resourcePath = $(edge830.resourcePath);resources-launcher-35x35
+edge840.resourcePath = $(edge840.resourcePath);resources-launcher-35x35
+edge_520.resourcePath = $(edge_520.resourcePath);resources-launcher-35x35
+fr55.resourcePath = $(fr55.resourcePath);resources-launcher-35x35
+legacyherofirstavenger.resourcePath = $(legacyherofirstavenger.resourcePath);resources-launcher-35x35
+legacysagadarthvader.resourcePath = $(legacysagadarthvader.resourcePath);resources-launcher-35x35
+vivoactive4.resourcePath = $(vivoactive4.resourcePath);resources-launcher-35x35
+
+# 36x36 launcher icon
+edge1030.resourcePath = $(edge1030.resourcePath);resources-launcher-36x36
+edge1030bontrager.resourcePath = $(edge1030bontrager.resourcePath);resources-launcher-36x36
+edge1030plus.resourcePath = $(edge1030plus.resourcePath);resources-launcher-36x36
+edge_1000.resourcePath = $(edge_1000.resourcePath);resources-launcher-36x36
+edgeexplore.resourcePath = $(edgeexplore.resourcePath);resources-launcher-36x36
+edgeexplore2.resourcePath = $(edgeexplore2.resourcePath);resources-launcher-36x36
+fenix5s.resourcePath = $(fenix5s.resourcePath);resources-launcher-36x36
+fenixchronos.resourcePath = $(fenixchronos.resourcePath);resources-launcher-36x36
+venusq.resourcePath = $(venusq.resourcePath);resources-launcher-36x36
+venusqm.resourcePath = $(venusqm.resourcePath);resources-launcher-36x36
+
+# 38x33 launcher icon
+gpsmap66.resourcePath = $(gpsmap66.resourcePath);resources-launcher-38x33
+gpsmap67.resourcePath = $(gpsmap67.resourcePath);resources-launcher-38x33
+gpsmap86.resourcePath = $(gpsmap86.resourcePath);resources-launcher-38x33
+
+# 38x38 launcher icon
+instinctcrossoveramoled.resourcePath = $(instinctcrossoveramoled.resourcePath);resources-launcher-38x38
+
+# 40x33 launcher icon
+approachs60.resourcePath = $(approachs60.resourcePath);resources-launcher-40x33
+vivoactive3.resourcePath = $(vivoactive3.resourcePath);resources-launcher-40x33
+vivoactive3d.resourcePath = $(vivoactive3d.resourcePath);resources-launcher-40x33
+vivoactive3m.resourcePath = $(vivoactive3m.resourcePath);resources-launcher-40x33
+vivoactive3mlte.resourcePath = $(vivoactive3mlte.resourcePath);resources-launcher-40x33
+vivoactive_hr.resourcePath = $(vivoactive_hr.resourcePath);resources-launcher-40x33
+
+# 40x40 launcher icon
+d2bravo.resourcePath = $(d2bravo.resourcePath);resources-launcher-40x40
+d2bravo_titanium.resourcePath = $(d2bravo_titanium.resourcePath);resources-launcher-40x40
+d2charlie.resourcePath = $(d2charlie.resourcePath);resources-launcher-40x40
+d2delta.resourcePath = $(d2delta.resourcePath);resources-launcher-40x40
+d2deltapx.resourcePath = $(d2deltapx.resourcePath);resources-launcher-40x40
+d2deltas.resourcePath = $(d2deltas.resourcePath);resources-launcher-40x40
+descentmk1.resourcePath = $(descentmk1.resourcePath);resources-launcher-40x40
+descentmk2.resourcePath = $(descentmk2.resourcePath);resources-launcher-40x40
+descentmk2s.resourcePath = $(descentmk2s.resourcePath);resources-launcher-40x40
+edge1040.resourcePath = $(edge1040.resourcePath);resources-launcher-40x40
+enduro.resourcePath = $(enduro.resourcePath);resources-launcher-40x40
+enduro3.resourcePath = $(enduro3.resourcePath);resources-launcher-40x40
+epix.resourcePath = $(epix.resourcePath);resources-launcher-40x40
+fenix3.resourcePath = $(fenix3.resourcePath);resources-launcher-40x40
+fenix3_hr.resourcePath = $(fenix3_hr.resourcePath);resources-launcher-40x40
+fenix5.resourcePath = $(fenix5.resourcePath);resources-launcher-40x40
+fenix5plus.resourcePath = $(fenix5plus.resourcePath);resources-launcher-40x40
+fenix5splus.resourcePath = $(fenix5splus.resourcePath);resources-launcher-40x40
+fenix5x.resourcePath = $(fenix5x.resourcePath);resources-launcher-40x40
+fenix5xplus.resourcePath = $(fenix5xplus.resourcePath);resources-launcher-40x40
+fenix6.resourcePath = $(fenix6.resourcePath);resources-launcher-40x40
+fenix6pro.resourcePath = $(fenix6pro.resourcePath);resources-launcher-40x40
+fenix6s.resourcePath = $(fenix6s.resourcePath);resources-launcher-40x40
+fenix6spro.resourcePath = $(fenix6spro.resourcePath);resources-launcher-40x40
+fenix6xpro.resourcePath = $(fenix6xpro.resourcePath);resources-launcher-40x40
+fenix7.resourcePath = $(fenix7.resourcePath);resources-launcher-40x40
+fenix7pro.resourcePath = $(fenix7pro.resourcePath);resources-launcher-40x40
+fenix7pronowifi.resourcePath = $(fenix7pronowifi.resourcePath);resources-launcher-40x40
+fenix7s.resourcePath = $(fenix7s.resourcePath);resources-launcher-40x40
+fenix7spro.resourcePath = $(fenix7spro.resourcePath);resources-launcher-40x40
+fenix7x.resourcePath = $(fenix7x.resourcePath);resources-launcher-40x40
+fenix7xpro.resourcePath = $(fenix7xpro.resourcePath);resources-launcher-40x40
+fenix7xpronowifi.resourcePath = $(fenix7xpronowifi.resourcePath);resources-launcher-40x40
+fenix8solar47mm.resourcePath = $(fenix8solar47mm.resourcePath);resources-launcher-40x40
+fenix8solar51mm.resourcePath = $(fenix8solar51mm.resourcePath);resources-launcher-40x40
+fr230.resourcePath = $(fr230.resourcePath);resources-launcher-40x40
+fr235.resourcePath = $(fr235.resourcePath);resources-launcher-40x40
+fr245.resourcePath = $(fr245.resourcePath);resources-launcher-40x40
+fr245m.resourcePath = $(fr245m.resourcePath);resources-launcher-40x40
+fr255.resourcePath = $(fr255.resourcePath);resources-launcher-40x40
+fr255m.resourcePath = $(fr255m.resourcePath);resources-launcher-40x40
+fr255s.resourcePath = $(fr255s.resourcePath);resources-launcher-40x40
+fr255sm.resourcePath = $(fr255sm.resourcePath);resources-launcher-40x40
+fr630.resourcePath = $(fr630.resourcePath);resources-launcher-40x40
+fr645.resourcePath = $(fr645.resourcePath);resources-launcher-40x40
+fr645m.resourcePath = $(fr645m.resourcePath);resources-launcher-40x40
+fr735xt.resourcePath = $(fr735xt.resourcePath);resources-launcher-40x40
+fr745.resourcePath = $(fr745.resourcePath);resources-launcher-40x40
+fr935.resourcePath = $(fr935.resourcePath);resources-launcher-40x40
+fr945.resourcePath = $(fr945.resourcePath);resources-launcher-40x40
+fr945lte.resourcePath = $(fr945lte.resourcePath);resources-launcher-40x40
+fr955.resourcePath = $(fr955.resourcePath);resources-launcher-40x40
+marqadventurer.resourcePath = $(marqadventurer.resourcePath);resources-launcher-40x40
+marqathlete.resourcePath = $(marqathlete.resourcePath);resources-launcher-40x40
+marqaviator.resourcePath = $(marqaviator.resourcePath);resources-launcher-40x40
+marqcaptain.resourcePath = $(marqcaptain.resourcePath);resources-launcher-40x40
+marqcommander.resourcePath = $(marqcommander.resourcePath);resources-launcher-40x40
+marqdriver.resourcePath = $(marqdriver.resourcePath);resources-launcher-40x40
+marqexpedition.resourcePath = $(marqexpedition.resourcePath);resources-launcher-40x40
+marqgolfer.resourcePath = $(marqgolfer.resourcePath);resources-launcher-40x40
+venusq2.resourcePath = $(venusq2.resourcePath);resources-launcher-40x40
+venusq2m.resourcePath = $(venusq2m.resourcePath);resources-launcher-40x40
+
+# 52x52 launcher icon
+instincte40mm.resourcePath = $(instincte40mm.resourcePath);resources-launcher-52x52
+
+# 54x54 launcher icon
+fr165.resourcePath = $(fr165.resourcePath);resources-launcher-54x54
+fr165m.resourcePath = $(fr165m.resourcePath);resources-launcher-54x54
+fr170.resourcePath = $(fr170.resourcePath);resources-launcher-54x54
+fr170m.resourcePath = $(fr170m.resourcePath);resources-launcher-54x54
+fr57042mm.resourcePath = $(fr57042mm.resourcePath);resources-launcher-54x54
+fr70.resourcePath = $(fr70.resourcePath);resources-launcher-54x54
+instinct2s.resourcePath = $(instinct2s.resourcePath);resources-launcher-54x54
+oregon7xx.resourcePath = $(oregon7xx.resourcePath);resources-launcher-54x54
+rino7xx.resourcePath = $(rino7xx.resourcePath);resources-launcher-54x54
+venu441mm.resourcePath = $(venu441mm.resourcePath);resources-launcher-54x54
+vivoactive6.resourcePath = $(vivoactive6.resourcePath);resources-launcher-54x54
+
+# 56x56 launcher icon
+approachs50.resourcePath = $(approachs50.resourcePath);resources-launcher-56x56
+vivoactive5.resourcePath = $(vivoactive5.resourcePath);resources-launcher-56x56
+
+# 60x60 launcher icon
+approachs7042mm.resourcePath = $(approachs7042mm.resourcePath);resources-launcher-60x60
+d2air.resourcePath = $(d2air.resourcePath);resources-launcher-60x60
+d2mach1.resourcePath = $(d2mach1.resourcePath);resources-launcher-60x60
+descentg2.resourcePath = $(descentg2.resourcePath);resources-launcher-60x60
+descentmk343mm.resourcePath = $(descentmk343mm.resourcePath);resources-launcher-60x60
+descentmk351mm.resourcePath = $(descentmk351mm.resourcePath);resources-launcher-60x60
+epix2.resourcePath = $(epix2.resourcePath);resources-launcher-60x60
+epix2pro42mm.resourcePath = $(epix2pro42mm.resourcePath);resources-launcher-60x60
+epix2pro47mm.resourcePath = $(epix2pro47mm.resourcePath);resources-launcher-60x60
+epix2pro51mm.resourcePath = $(epix2pro51mm.resourcePath);resources-launcher-60x60
+fenix843mm.resourcePath = $(fenix843mm.resourcePath);resources-launcher-60x60
+fenixe.resourcePath = $(fenixe.resourcePath);resources-launcher-60x60
+fr265.resourcePath = $(fr265.resourcePath);resources-launcher-60x60
+fr265s.resourcePath = $(fr265s.resourcePath);resources-launcher-60x60
+instinct3amoled45mm.resourcePath = $(instinct3amoled45mm.resourcePath);resources-launcher-60x60
+instinct3amoled50mm.resourcePath = $(instinct3amoled50mm.resourcePath);resources-launcher-60x60
+marq2.resourcePath = $(marq2.resourcePath);resources-launcher-60x60
+marq2aviator.resourcePath = $(marq2aviator.resourcePath);resources-launcher-60x60
+montana7xx.resourcePath = $(montana7xx.resourcePath);resources-launcher-60x60
+venu.resourcePath = $(venu.resourcePath);resources-launcher-60x60
+venud.resourcePath = $(venud.resourcePath);resources-launcher-60x60
+
+# 61x43 launcher icon
+vivoactive.resourcePath = $(vivoactive.resourcePath);resources-launcher-61x43
+
+# 61x61 launcher icon
+venu2s.resourcePath = $(venu2s.resourcePath);resources-launcher-61x61
+
+# 62x62 launcher icon
+descentg1.resourcePath = $(descentg1.resourcePath);resources-launcher-62x62
+instinct2.resourcePath = $(instinct2.resourcePath);resources-launcher-62x62
+instinct2x.resourcePath = $(instinct2x.resourcePath);resources-launcher-62x62
+instinct3solar45mm.resourcePath = $(instinct3solar45mm.resourcePath);resources-launcher-62x62
+instincte45mm.resourcePath = $(instincte45mm.resourcePath);resources-launcher-62x62
+
+# 65x65 launcher icon
+d2mach2.resourcePath = $(d2mach2.resourcePath);resources-launcher-65x65
+d2mach2pro.resourcePath = $(d2mach2pro.resourcePath);resources-launcher-65x65
+fenix847mm.resourcePath = $(fenix847mm.resourcePath);resources-launcher-65x65
+fenix8pro47mm.resourcePath = $(fenix8pro47mm.resourcePath);resources-launcher-65x65
+fr57047mm.resourcePath = $(fr57047mm.resourcePath);resources-launcher-65x65
+fr920xt.resourcePath = $(fr920xt.resourcePath);resources-launcher-65x65
+fr965.resourcePath = $(fr965.resourcePath);resources-launcher-65x65
+fr970.resourcePath = $(fr970.resourcePath);resources-launcher-65x65
+venu445mm.resourcePath = $(venu445mm.resourcePath);resources-launcher-65x65
+venux1.resourcePath = $(venux1.resourcePath);resources-launcher-65x65
+
+# 70x70 launcher icon
+approachs7047mm.resourcePath = $(approachs7047mm.resourcePath);resources-launcher-70x70
+d2airx10.resourcePath = $(d2airx10.resourcePath);resources-launcher-70x70
+venu2.resourcePath = $(venu2.resourcePath);resources-launcher-70x70
+venu2plus.resourcePath = $(venu2plus.resourcePath);resources-launcher-70x70
+venu3.resourcePath = $(venu3.resourcePath);resources-launcher-70x70
+venu3s.resourcePath = $(venu3s.resourcePath);resources-launcher-70x70
