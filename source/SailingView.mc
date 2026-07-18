@@ -58,7 +58,12 @@ class SailingView extends Ui.View {
     }
 
     function updateTimer() {
-        var secLeft = countDown.get().secondsLeft();
+        var countdownObj = countDown.get();
+        if (countdownObj == null) {
+            countDownStr = "";
+            return;
+        }
+        var secLeft = countdownObj.secondsLeft();
 
         sec = secLeft % 60;
         min = secLeft / 60;
@@ -82,12 +87,16 @@ class SailingView extends Ui.View {
     function onUpdate(dc) {
         Sys.println("view : onUpdate");
         var now = Time.now();
+        var countdownObj = null;
+        if (countDown != null) {
+            countdownObj = countDown.get();
+        }
 
         dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
         dc.clear();
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
 
-        if (countDown.get().isTimerRunning()) {
+        if (countdownObj != null && countdownObj.isTimerRunning()) {
             updateTimer();
             var polygon = buildProgress();
 
@@ -103,7 +112,7 @@ class SailingView extends Ui.View {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
             dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
 
-        } else if (countDown.get().isTimerComplete()) {
+        } else if (countdownObj != null && countdownObj.isTimerComplete()) {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
             dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontHeight(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
 
@@ -137,6 +146,10 @@ class SailingView extends Ui.View {
                         dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
                         dc.drawText((3 * (screenWidth / 4)) + unitsOffset, (screenHeight / 2), Gfx.FONT_MEDIUM, SPEED_UNIT, Gfx.TEXT_JUSTIFY_LEFT);
                         dc.drawText((subscreen.x + (subscreen.width / 2) + 4), (subscreen.y + (subscreen.height/4)), Gfx.FONT_MEDIUM, headingOnlyStr, Gfx.TEXT_JUSTIFY_CENTER);
+                    } else {
+                        dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
+                        dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
+                        dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
                     }
                 } else {
                     dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
@@ -144,7 +157,10 @@ class SailingView extends Ui.View {
                     dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
                 }
 
-                var raceStartTime = countDown.get().startTime();
+                var raceStartTime = null;
+                if (countdownObj != null) {
+                    raceStartTime = countdownObj.startTime();
+                }
 
                 if(raceStartTime != null){
                     //print running timer
@@ -178,7 +194,11 @@ class SailingView extends Ui.View {
 
         var polygon = [];
 
-        if (countDown.get().isTimerComplete()) {
+        var countdownObj = null;
+        if (countDown != null) {
+            countdownObj = countDown.get();
+        }
+        if (countdownObj != null && countdownObj.isTimerComplete()) {
             polygon = [
                     [0, 0],
                     [border_x, 0],
@@ -274,18 +294,37 @@ class SailingView extends Ui.View {
     }
 
     function onPosition(info) {
-        var heading = info.heading;
-        headingStr = headingToStr(heading);
-        var headingDeg = ((180 * heading ) /  Math.PI);
-        if (headingDeg < 0) {
-            headingDeg += 360;
+        if (info == null) {
+            return;
         }
-        headingOnlyStr = headingDeg.format("%d") + "°";
-        headingStr += " - " + headingDeg.format("%d");
-        accuracyStr = info.accuracy.format("%d");
-        speedFloat = info.speed * 1.943844492;
-        speedStr = (info.speed * 1.943844492).format("%0.1f");
-        Sys.println("speed: " +speedStr+ " (" +info.speed+ ") heading: " +headingStr+ " (" +heading+ ")  accuracy: " +accuracyStr);
+
+        if (info.accuracy != null) {
+            accuracyStr = info.accuracy.format("%d");
+        }
+
+        if (info.heading != null) {
+            var heading = info.heading;
+            headingStr = headingToStr(heading);
+            var headingDeg = ((180 * heading ) /  Math.PI);
+            if (headingDeg < 0) {
+                headingDeg += 360;
+            }
+            headingOnlyStr = headingDeg.format("%d") + "°";
+            headingStr += " - " + headingDeg.format("%d");
+        } else {
+            headingStr = "-";
+            headingOnlyStr = "-";
+        }
+
+        if (info.speed != null) {
+            speedFloat = info.speed * 1.943844492;
+            speedStr = speedFloat.format("%0.1f");
+        } else {
+            speedFloat = 0.0;
+            speedStr = "-";
+        }
+
+        Sys.println("speed: " +speedStr+ " heading: " +headingStr+ " accuracy: " +accuracyStr);
     }
 
     function headingToStr(heading){
