@@ -8,7 +8,11 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
         Sys.println("menu item selected");
         if (item == :start_timer) {
             Sys.println("start time pressed");
-            App.getApp().startTimer();
+            if (App.getApp().isRecording()) {
+                App.getApp().startTimer();
+            } else {
+                Sys.println("start timer ignored while not recording");
+            }
         } else if (item == :set_timer) {
             Sys.println("set timer pressed");
             if (Ui has :Picker) {

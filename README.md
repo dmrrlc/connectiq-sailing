@@ -7,12 +7,15 @@ It supports a simple Cruise mode for non-racing sailing, and an optional Race mo
 
 ## Features
 - Cruise / Race sailing mode (Race is the default)
+- GPS quality progress bar before starting an activity
+- manual Start / Pause / Resume for activity recording
+- data screens: speed & bearing, lap stats, and totals
 - configurable race start countdown sequence (by default 5 minutes)
-- pre-start GPS tracking
-- race GPS tracking (new lap)
+- race GPS tracking (new lap when countdown reaches 0)
 - current speed (in knots)
 - current direction (heading in degrees)
-- time since start (Race mode, after countdown)
+- lap time and lap distance (nm + km)
+- total elapsed time and total distance (nm + km)
 - enable/disable alarms (still necessary to have the "In App" watch parameters set for bips and vibration during the countdown)
 
 ![Main View](https://services.garmin.com/appsLibraryBusinessServices_v0/rest/apps/db7493a2-fb16-4d34-a36b-1aa6af6b87b5/screenshots/257fd487-7913-4018-b8f9-c900952358b9)
@@ -20,9 +23,14 @@ It supports a simple Cruise mode for non-racing sailing, and an optional Race mo
 ![Timer View](https://services.garmin.com/appsLibraryBusinessServices_v0/rest/apps/db7493a2-fb16-4d34-a36b-1aa6af6b87b5/screenshots/88e938da-6c93-46c1-824f-9fa40839c84b)
 
 ## How to use it
+- on launch, the app shows GPS fix quality as a progress bar; press **Start** when you want to begin recording (any GPS quality is allowed)
+- press **Start** again to pause (opens the pause menu) or resume recording
+- while recording, press **Back** to mark a lap
+- use **Next page** / **Previous page** to cycle between:
+  1. Speed & bearing
+  2. Lap time and lap distance (nm + km)
+  3. Total elapsed time and total distance (nm + km)
 - open the menu and choose **Sailing mode** → **Cruise** or **Race**
-- in **Cruise** mode the Start button does not start a countdown; the app shows speed and bearing while GPS tracking records automatically
-- in **Race** mode, press the select (start/stop) button to start or cancel the race start countdown (also available via the menu)
-- the activity tracking waits for GPS signal and starts automatically until you exit the app
+- in **Race** mode, start the countdown from the menu (**Start timer**) while recording is active
+- while the race countdown is running, page buttons still adjust the countdown by a minute
 - a new track lap is created every time the race countdown reaches 0
-- if you missed the initial signal, you can adjust to the lower/upper minute by pressing the "next page" or "previous page" button (Race mode only)

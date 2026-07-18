@@ -4,10 +4,11 @@ using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time as Time;
 using Toybox.Math as Math;
+using Toybox.Position as Position;
+using Toybox.Application as App;
 
 class SailingView extends Ui.View {
 
-    var session = null;
     var countDown = null;
 
     // Graphical
@@ -28,9 +29,20 @@ class SailingView extends Ui.View {
 
     // Data
     var speedFloat = 0.0;
+    var accuracy = Position.QUALITY_NOT_AVAILABLE;
+    var page = 0;
 
     // Constants
     const SPEED_UNIT = "kts";
+    const ICON_START = 0;
+    const ICON_PAUSE = 1;
+    const ICON_STOP = 2;
+    const PAGE_SPEED = 0;
+    const PAGE_LAP = 1;
+    const PAGE_TOTAL = 2;
+    const PAGE_COUNT = 3;
+    const METERS_PER_NM = 1852.0;
+    const METERS_PER_KM = 1000.0;
 
     // Device settings
     var deviceSettings;
@@ -83,6 +95,269 @@ class SailingView extends Ui.View {
         Sys.println("view : onShow");
     }
 
+    function nextPage() {
+        page = (page + 1) % PAGE_COUNT;
+        Ui.requestUpdate();
+    }
+
+    function prevPage() {
+        page = (page + PAGE_COUNT - 1) % PAGE_COUNT;
+        Ui.requestUpdate();
+    }
+
+    function formatNm(meters) {
+        if (meters == null) {
+            return "-";
+        }
+        return (meters / METERS_PER_NM).format("%0.2f") + " nm";
+    }
+
+    function formatKm(meters) {
+        if (meters == null) {
+            return "-";
+        }
+        return (meters / METERS_PER_KM).format("%0.2f") + " km";
+    }
+
+    function formatElapsed(seconds) {
+        if (seconds == null) {
+            return "-";
+        }
+        return secToStr(seconds);
+    }
+
+    function gpsQualityLabel() {
+        if (accuracy == Position.QUALITY_GOOD) {
+            return "Good";
+        } else if (accuracy == Position.QUALITY_USABLE) {
+            return "Usable";
+        } else if (accuracy == Position.QUALITY_POOR) {
+            return "Poor";
+        } else if (accuracy == Position.QUALITY_LAST_KNOWN) {
+            return "Last known";
+        }
+        return "No GPS";
+    }
+
+    //! Map discrete Position accuracy values to a 0.0-1.0 progress fraction
+    function gpsQualityProgress() {
+        if (accuracy == Position.QUALITY_GOOD) {
+            return 1.0;
+        } else if (accuracy == Position.QUALITY_USABLE) {
+            return 0.75;
+        } else if (accuracy == Position.QUALITY_POOR) {
+            return 0.5;
+        } else if (accuracy == Position.QUALITY_LAST_KNOWN) {
+            return 0.25;
+        }
+        return 0.0;
+    }
+
+    //! Draw Garmin-style start / pause / stop glyphs with graphics primitives
+    function drawStateIcon(dc, x, y, size, symbol) {
+        if (symbol == ICON_START) {
+            dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
+            var half = size / 2;
+            var left = x - (size / 4);
+            dc.fillPolygon([
+                [left, y - half],
+                [left, y + half],
+                [x + half, y]
+            ]);
+        } else if (symbol == ICON_PAUSE) {
+            dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_TRANSPARENT);
+            var barWidth = size / 4;
+            if (barWidth < 2) {
+                barWidth = 2;
+            }
+            var gap = size / 6;
+            if (gap < 2) {
+                gap = 2;
+            }
+            var half = size / 2;
+            var leftX = x - gap - barWidth;
+            var rightX = x + gap;
+            dc.fillRectangle(leftX, y - half, barWidth, size);
+            dc.fillRectangle(rightX, y - half, barWidth, size);
+        } else if (symbol == ICON_STOP) {
+            dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+            var half = size / 2;
+            dc.fillRectangle(x - half, y - half, size, size);
+        }
+    }
+
+    function drawGpsAcquisition(dc) {
+        var progress = gpsQualityProgress();
+        var label = gpsQualityLabel();
+        var barWidth = (screenWidth * 0.7).toNumber();
+        var barHeight = (screenHeight / 18).toNumber();
+        if (barHeight < 8) {
+            barHeight = 8;
+        }
+        var barX = (screenWidth - barWidth) / 2;
+        var barY = (screenHeight / 2) - (barHeight / 2);
+        var fillWidth = (barWidth * progress).toNumber();
+        var iconSize = minDim / 10;
+        if (iconSize < 12) {
+            iconSize = 12;
+        }
+
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), (screenHeight / 4), Gfx.FONT_MEDIUM, "GPS", Gfx.TEXT_JUSTIFY_CENTER);
+
+        dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+        dc.fillRectangle(barX, barY, barWidth, barHeight);
+        if (fillWidth > 0) {
+            if (accuracy >= Position.QUALITY_USABLE) {
+                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
+            } else if (accuracy == Position.QUALITY_POOR) {
+                dc.setColor(Gfx.COLOR_YELLOW, Gfx.COLOR_TRANSPARENT);
+            } else {
+                dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_TRANSPARENT);
+            }
+            dc.fillRectangle(barX, barY, fillWidth, barHeight);
+        }
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawRectangle(barX, barY, barWidth, barHeight);
+
+        dc.drawText((screenWidth / 2), barY + barHeight + 8, Gfx.FONT_SMALL, label, Gfx.TEXT_JUSTIFY_CENTER);
+
+        var promptY = (3 * screenHeight / 4);
+        drawStateIcon(dc, screenWidth / 2, promptY - iconSize, iconSize, ICON_START);
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), promptY, Gfx.FONT_SMALL, "Press START", Gfx.TEXT_JUSTIFY_CENTER);
+    }
+
+    function drawActionIcons(dc, paused) {
+        var iconSize = minDim / 12;
+        if (iconSize < 10) {
+            iconSize = 10;
+        }
+        var y = screenHeight - iconSize - 6;
+        if (paused) {
+            var gap = iconSize + (iconSize / 2);
+            drawStateIcon(dc, (screenWidth / 2) - (gap / 2), y, iconSize, ICON_PAUSE);
+            drawStateIcon(dc, (screenWidth / 2) + (gap / 2), y, iconSize, ICON_STOP);
+        } else {
+            drawStateIcon(dc, screenWidth / 2, y, iconSize, ICON_PAUSE);
+        }
+    }
+
+    function drawPageDots(dc) {
+        var radius = 3;
+        var gap = 10;
+        var totalWidth = (PAGE_COUNT * radius * 2) + ((PAGE_COUNT - 1) * gap);
+        var startX = (screenWidth - totalWidth) / 2 + radius;
+        var y = screenHeight - (minDim / 12) - 18;
+        if (y < (screenHeight / 2)) {
+            y = screenHeight - 28;
+        }
+        for (var i = 0; i < PAGE_COUNT; i++) {
+            var x = startX + (i * (radius * 2 + gap));
+            if (i == page) {
+                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+                dc.fillCircle(x, y, radius);
+            } else {
+                dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+                dc.drawCircle(x, y, radius);
+            }
+        }
+    }
+
+    function drawSpeedPage(dc, now, countdownObj) {
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+
+        var nowInfo = Time.Gregorian.info(now, Time.FORMAT_MEDIUM);
+        var nowString = Lang.format("$1$:$2$:$3$",
+            [nowInfo.hour.format("%02d"), nowInfo.min.format("%02d"), nowInfo.sec.format("%02d")]);
+
+        if (speedFloat > 10.0){
+            unitsOffset = 5;
+        } else {
+            unitsOffset = 0;
+        }
+        var yOffset = screenHeight / 20;
+        if (self has :getSubscreen) {
+            var subscreen = getSubscreen();
+
+            // If we are on the instinct (but not crossover), change the display
+            if(deviceSettings.screenShape == System.SCREEN_SHAPE_SEMI_OCTAGON)
+            {
+                dc.drawText((screenWidth / 3), 40, Gfx.FONT_MEDIUM , nowString, Gfx.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
+                dc.drawText((3 * (screenWidth / 4)) + unitsOffset, (screenHeight / 2), Gfx.FONT_MEDIUM, SPEED_UNIT, Gfx.TEXT_JUSTIFY_LEFT);
+                dc.drawText((subscreen.x + (subscreen.width / 2) + 4), (subscreen.y + (subscreen.height/4)), Gfx.FONT_MEDIUM, headingOnlyStr, Gfx.TEXT_JUSTIFY_CENTER);
+            } else {
+                dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
+                dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
+            }
+        } else {
+            dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
+            dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
+            dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
+        }
+
+        var raceStartTime = null;
+        if (countdownObj != null) {
+            raceStartTime = countdownObj.startTime();
+        }
+
+        if(raceStartTime != null){
+            //print running timer
+            var raceTime = now.subtract(raceStartTime);
+            var raceTimeStr = secToStr(raceTime.value());
+            dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+            dc.drawText((screenWidth / 2), yOffset + Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        }
+    }
+
+    function drawStatPage(dc, title, timeStr, nmStr, kmStr) {
+        var y = screenHeight / 8;
+        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), y, Gfx.FONT_TINY, title, Gfx.TEXT_JUSTIFY_CENTER);
+
+        y += Gfx.getFontHeight(Gfx.FONT_TINY) + 4;
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), y, Gfx.FONT_NUMBER_MEDIUM, timeStr, Gfx.TEXT_JUSTIFY_CENTER);
+
+        y += Gfx.getFontHeight(Gfx.FONT_NUMBER_MEDIUM) + 8;
+        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), y, Gfx.FONT_TINY, "Distance", Gfx.TEXT_JUSTIFY_CENTER);
+
+        y += Gfx.getFontHeight(Gfx.FONT_TINY) + 2;
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawText((screenWidth / 2), y, Gfx.FONT_MEDIUM, nmStr, Gfx.TEXT_JUSTIFY_CENTER);
+
+        y += Gfx.getFontHeight(Gfx.FONT_MEDIUM) + 2;
+        dc.drawText((screenWidth / 2), y, Gfx.FONT_MEDIUM, kmStr, Gfx.TEXT_JUSTIFY_CENTER);
+    }
+
+    function drawLapPage(dc) {
+        var app = App.getApp();
+        var meters = app.getLapDistance();
+        drawStatPage(dc, "LAP", formatElapsed(app.getLapTime()), formatNm(meters), formatKm(meters));
+    }
+
+    function drawTotalPage(dc) {
+        var app = App.getApp();
+        var meters = app.getTotalDistance();
+        drawStatPage(dc, "TOTAL", formatElapsed(app.getTotalTime()), formatNm(meters), formatKm(meters));
+    }
+
+    function drawTelemetry(dc, now, countdownObj, paused) {
+        if (page == PAGE_LAP) {
+            drawLapPage(dc);
+        } else if (page == PAGE_TOTAL) {
+            drawTotalPage(dc);
+        } else {
+            drawSpeedPage(dc, now, countdownObj);
+        }
+        drawPageDots(dc);
+        drawActionIcons(dc, paused);
+    }
+
     //! Update the view
     function onUpdate(dc) {
         Sys.println("view : onUpdate");
@@ -91,6 +366,9 @@ class SailingView extends Ui.View {
         if (countDown != null) {
             countdownObj = countDown.get();
         }
+        var app = App.getApp();
+        var activityStarted = app.hasActivitySession();
+        var paused = app.isPaused();
 
         dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
         dc.clear();
@@ -116,61 +394,10 @@ class SailingView extends Ui.View {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
             dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontHeight(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
 
+        } else if (activityStarted == false) {
+            drawGpsAcquisition(dc);
         } else {
-
-            if( accuracyStr.toNumber() < Position.QUALITY_USABLE ) {
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-                dc.drawText((screenWidth / 2), (screenHeight / 2) - Gfx.getFontAscent(Gfx.FONT_MEDIUM) - Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, "Waiting for", Gfx.TEXT_JUSTIFY_CENTER);
-                dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_MEDIUM, "GPS signal ("+accuracyStr+")", Gfx.TEXT_JUSTIFY_CENTER);
-
-            } else {
-                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-
-                var nowInfo = Time.Gregorian.info(now, Time.FORMAT_MEDIUM);
-                var nowString = Lang.format("$1$:$2$:$3$",
-                    [nowInfo.hour.format("%02d"), nowInfo.min.format("%02d"), nowInfo.sec.format("%02d")]);
-
-                if (speedFloat > 10.0){
-                    unitsOffset = 5;
-                } else {
-                    unitsOffset = 0;
-                }
-                var yOffset = screenHeight / 20;
-                if (self has :getSubscreen) {
-                    var subscreen = getSubscreen();
-
-                    // If we are on the instinct (but not crossover), change the display
-                    if(deviceSettings.screenShape == System.SCREEN_SHAPE_SEMI_OCTAGON)
-                    {
-                        dc.drawText((screenWidth / 3), 40, Gfx.FONT_MEDIUM , nowString, Gfx.TEXT_JUSTIFY_CENTER);
-                        dc.drawText((screenWidth / 2), (screenHeight / 2), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
-                        dc.drawText((3 * (screenWidth / 4)) + unitsOffset, (screenHeight / 2), Gfx.FONT_MEDIUM, SPEED_UNIT, Gfx.TEXT_JUSTIFY_LEFT);
-                        dc.drawText((subscreen.x + (subscreen.width / 2) + 4), (subscreen.y + (subscreen.height/4)), Gfx.FONT_MEDIUM, headingOnlyStr, Gfx.TEXT_JUSTIFY_CENTER);
-                    } else {
-                        dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
-                        dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
-                        dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
-                    }
-                } else {
-                    dc.drawText((screenWidth / 2), yOffset, Gfx.FONT_TINY , nowString, Gfx.TEXT_JUSTIFY_CENTER);
-                    dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_MEDIUM), Gfx.FONT_NUMBER_THAI_HOT, speedStr, Gfx.TEXT_JUSTIFY_CENTER);
-                    dc.drawText((screenWidth / 2), yOffset + Gfx.getFontAscent(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontAscent(Gfx.FONT_MEDIUM) + 40, Gfx.FONT_MEDIUM, headingStr, Gfx.TEXT_JUSTIFY_CENTER);
-                }
-
-                var raceStartTime = null;
-                if (countdownObj != null) {
-                    raceStartTime = countdownObj.startTime();
-                }
-
-                if(raceStartTime != null){
-                    //print running timer
-                    var raceTime = now.subtract(raceStartTime);
-                    var raceTimeStr = secToStr(raceTime.value());
-                    dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-                    dc.drawText((screenWidth / 2), yOffset + Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
-                    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-                } 
-            }
+            drawTelemetry(dc, now, countdownObj, paused);
         }
     }
 
@@ -299,7 +526,8 @@ class SailingView extends Ui.View {
         }
 
         if (info.accuracy != null) {
-            accuracyStr = info.accuracy.format("%d");
+            accuracy = info.accuracy;
+            accuracyStr = accuracy.format("%d");
         }
 
         if (info.heading != null) {

@@ -13,6 +13,7 @@ class ExitMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :discard_btn) {
             App.getApp().discardAndClose();
         } else if (item == :resume_btn) {
+            App.getApp().resumeRecording();
         }
     }
 }

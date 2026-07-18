@@ -1,10 +1,7 @@
 using Toybox.Application as App;
 using Toybox.Application.Properties;
 using Toybox.WatchUi;
-using Toybox.Graphics as Gfx;
-using Toybox.Timer as Timer;
-using Toybox.Attention as Attn;
-using Toybox.Time.Gregorian as Cal;
+using Toybox.Activity;
 using Toybox.ActivityRecording;
 using Toybox.Position as Position;
 using Toybox.System as Sys;
@@ -21,11 +18,13 @@ enum {
 
 class SailingApp extends App.AppBase {
 
-    var session;
+    var session = null;
     var sailingView;
-
-    var gpsSetupTimer;
     var countDown = null;
+
+    // Lap markers relative to Activity.getActivityInfo() totals
+    var lapStartTime = null;      // ms elapsedTime at lap start
+    var lapStartDistance = null;  // meters elapsedDistance at lap start
 
 
     // get default timer count from properties, if not set return default
@@ -107,6 +106,93 @@ class SailingApp extends App.AppBase {
         return getSailingMode() == SAILING_MODE_CRUISE;
     }
 
+    function hasActivitySession() {
+        return session != null;
+    }
+
+    function isRecording() {
+        return (session != null) && session.isRecording();
+    }
+
+    function isPaused() {
+        return (session != null) && (session.isRecording() == false);
+    }
+
+    function getActivityInfo() {
+        if (!(Toybox has :Activity)) {
+            return null;
+        }
+        return Activity.getActivityInfo();
+    }
+
+    //! Total elapsed time in seconds, or null if unavailable
+    function getTotalTime() {
+        var info = getActivityInfo();
+        if (info == null || info.elapsedTime == null) {
+            return null;
+        }
+        return info.elapsedTime / 1000;
+    }
+
+    //! Total distance in meters, or null if unavailable
+    function getTotalDistance() {
+        var info = getActivityInfo();
+        if (info == null || info.elapsedDistance == null) {
+            return null;
+        }
+        return info.elapsedDistance;
+    }
+
+    //! Current lap elapsed time in seconds, or null if unavailable
+    function getLapTime() {
+        var info = getActivityInfo();
+        if (info == null || info.elapsedTime == null || lapStartTime == null) {
+            return null;
+        }
+        var lapMs = info.elapsedTime - lapStartTime;
+        if (lapMs < 0) {
+            lapMs = 0;
+        }
+        return lapMs / 1000;
+    }
+
+    //! Current lap distance in meters, or null if unavailable
+    function getLapDistance() {
+        var info = getActivityInfo();
+        if (info == null || info.elapsedDistance == null || lapStartDistance == null) {
+            return null;
+        }
+        var lapMeters = info.elapsedDistance - lapStartDistance;
+        if (lapMeters < 0) {
+            lapMeters = 0.0;
+        }
+        return lapMeters;
+    }
+
+    function captureLapMarkers() {
+        var info = getActivityInfo();
+        if (info == null) {
+            lapStartTime = 0;
+            lapStartDistance = 0.0;
+            return;
+        }
+        if (info.elapsedTime != null) {
+            lapStartTime = info.elapsedTime;
+        } else {
+            lapStartTime = 0;
+        }
+        if (info.elapsedDistance != null) {
+            lapStartDistance = info.elapsedDistance;
+        } else {
+            lapStartDistance = 0.0;
+        }
+    }
+
+    function clearLapMarkers() {
+        lapStartTime = null;
+        lapStartDistance = null;
+    }
+
     function initialize() {
         Sys.println("app : initialize");
         AppBase.initialize();
@@ -114,8 +200,6 @@ class SailingApp extends App.AppBase {
 
     function onStart(state) {
         Sys.println("app : onStart");
-        gpsSetupTimer = new Timer.Timer();
-        gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
         countDown = new CountDown(self);
 
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
@@ -124,10 +208,6 @@ class SailingApp extends App.AppBase {
     //! onStop() is called when your application is exiting
     function onStop(state) {
         Sys.println("app: onStop");
-        if (gpsSetupTimer != null) {
-            gpsSetupTimer.stop();
-            gpsSetupTimer = null;
-        }
         if (countDown != null) {
             countDown.shutdown();
             countDown = null;
@@ -155,6 +235,10 @@ class SailingApp extends App.AppBase {
             Sys.println("app : start timer ignored in cruise mode");
             return;
         }
+        if (isRecording() == false) {
+            Sys.println("app : start timer ignored while not recording");
+            return;
+        }
         if (countDown != null) {
             countDown.startTimer();
         }
@@ -164,6 +248,10 @@ class SailingApp extends App.AppBase {
         Sys.println("app : startStop timer");
         if (isCruiseMode()) {
             Sys.println("app : startStop timer ignored in cruise mode");
+            return;
+        }
+        if (isRecording() == false) {
+            Sys.println("app : startStop timer ignored while not recording");
             return;
         }
         if (countDown == null) {
@@ -209,37 +297,62 @@ class SailingApp extends App.AppBase {
         }
     }
 
-    function startActivityRecording() as Void {
-        if (Position.getInfo().accuracy >= Position.QUALITY_USABLE){
-            gpsSetupTimer.stop();
-            if( Toybox has :ActivityRecording ) {
-                if( ( session == null ) || ( session.isRecording() == false ) ) {
-                    Sys.println("start ActivityRecording");
-                    var mySettings = Sys.getDeviceSettings();
-                    var version = mySettings.monkeyVersion;
+    function startRecording() {
+        if (! (Toybox has :ActivityRecording)) {
+            Sys.println("app : ActivityRecording unavailable");
+            return;
+        }
+        if (session != null) {
+            return;
+        }
+        Sys.println("app : start ActivityRecording");
+        var mySettings = Sys.getDeviceSettings();
+        var version = mySettings.monkeyVersion;
 
-                    if(version[0] >= 3) {
-                        session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_SAILING});
-                     }else{
-                        session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_GENERIC});
-                    }
-                    session.start();
-                }
+        if (version[0] >= 3) {
+            session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_SAILING});
+        } else {
+            session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_GENERIC});
+        }
+        session.start();
+        captureLapMarkers();
+        WatchUi.requestUpdate();
+    }
+
+    function pauseRecording() {
+        if ((session != null) && session.isRecording()) {
+            Sys.println("app : pause ActivityRecording");
+            session.stop();
+            if (countDown != null) {
+                countDown.cancelTimer();
             }
+            WatchUi.requestUpdate();
+        }
+    }
+
+    function resumeRecording() {
+        if ((session != null) && (session.isRecording() == false)) {
+            Sys.println("app : resume ActivityRecording");
+            session.start();
+            WatchUi.requestUpdate();
         }
     }
 
     function addLap() {
-        if( ( session != null ) && session.isRecording() ) {
+        if ((session != null) && session.isRecording()) {
             session.addLap();
+            captureLapMarkers();
+            WatchUi.requestUpdate();
         }
     }
 
      //! Stop the recording if necessary
     function stopRecording(save) {
-        if( Toybox has :ActivityRecording ) {
-            if( session != null && session.isRecording() ) {
-                session.stop();
+        if (Toybox has :ActivityRecording) {
+            if (session != null) {
+                if (session.isRecording()) {
+                    session.stop();
+                }
                 if (save) {
                     session.save();
                 } else {
@@ -248,5 +361,6 @@ class SailingApp extends App.AppBase {
                 session = null;
             }
         }
+        clearLapMarkers();
     }
 }
