@@ -12,6 +12,10 @@
         <string id="alarms_title">Alarms</string>
         <string id="mode_title">Countdown signals</string>
         <string id="sailing_mode_title">Sailing mode</string>
+        <string id="mode_standard_label">Standard</string>
+        <string id="mode_dynamic_label">Dynamic</string>
+        <string id="sailing_mode_race_label">Race</string>
+        <string id="sailing_mode_cruise_label">Cruise</string>
     </strings>
 
     <settings>
@@ -23,10 +27,16 @@
             <settingConfig type="boolean" />
         </setting>
         <setting propertyKey="@Properties.mode" title="@Strings.mode_title">
-            <settingConfig type="numeric" />
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.mode_standard_label</listEntry>
+                <listEntry value="1">@Strings.mode_dynamic_label</listEntry>
+            </settingConfig>
         </setting>
         <setting propertyKey="@Properties.sailingMode" title="@Strings.sailing_mode_title">
-            <settingConfig type="numeric" />
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.sailing_mode_race_label</listEntry>
+                <listEntry value="1">@Strings.sailing_mode_cruise_label</listEntry>
+            </settingConfig>
         </setting>
     </settings>
 </resources>

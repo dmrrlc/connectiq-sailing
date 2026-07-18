@@ -1,0 +1,48 @@
+Sailing is a watch app for recording sailing activities and viewing your speed in knots, heading, lap data, and total activity data.
+
+Choose the mode that suits your session:
+
+- Cruise mode for everyday sailing without a race countdown
+- Race mode for a configurable start countdown (5 minutes by default)
+
+FEATURES
+
+- GPS activity recording
+- GPS signal-quality indicator before recording
+- Manual start, pause, resume, save, and discard controls
+- Current speed in knots
+- Current heading in degrees and compass direction
+- Lap time and distance in nautical miles and kilometres
+- Total elapsed time and distance in nautical miles and kilometres
+- Manual lap creation
+- Configurable race start countdown with sound and vibration alerts
+- Choice of Standard or Dynamic countdown signal patterns
+- Countdown adjustment to the previous or next minute
+- Automatic new lap when the race countdown reaches zero
+
+HOW TO USE
+
+1. Launch the app and wait for the GPS quality indicator. You can press Start at any GPS quality level to begin recording.
+2. Use Next page and Previous page to switch between speed and heading, lap data, and total activity data.
+3. While recording, press Back to create a lap.
+4. Press Start while recording to open the pause menu. From there, you can resume, start a new lap, save, or discard the activity.
+5. Open the menu and select Sailing mode to choose Cruise or Race.
+6. In Race mode, select Start timer from the menu while activity recording is active.
+7. During the countdown, use Next page or Previous page to adjust it by one minute if you missed the start.
+
+APP SETTINGS
+
+- Sailing mode: choose Cruise for everyday sailing without a countdown, or Race to enable the race-start countdown.
+- Countdown signals: choose Standard for regular minute, half-minute, and final-second alerts, or Dynamic for an increasingly frequent alert sequence as the start approaches.
+
+To hear beeps and receive vibration alerts during the countdown, enable alerts in the app and make sure sounds and vibration are enabled for apps in your watch settings.
+
+SUPPORT
+
+I developed this app in my free time. If you encounter a problem, please use the Contact Developer button on Garmin Connect IQ so I can help.
+
+If you enjoy the app and would like to support its development, you can buy me a coffee:
+https://paypal.me/dmrrlc
+
+The source code is available on GitHub. Contributions and pull requests are welcome:
+https://github.com/dmrrlc/connectiq-sailing
