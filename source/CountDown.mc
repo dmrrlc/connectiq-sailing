@@ -75,7 +75,6 @@ class CountDown {
         stopMainTimer();
         timerRunning = false;
         timerComplete = true;
-        finalRing();
         timerEnd = new Timer.Timer();
         timerEnd.start(method(:finalRing), 500, true );
     }
@@ -270,6 +269,7 @@ class CountDown {
     function finalRing() as Void {
         var sailingApp = app.get();
         if (sailingApp == null || sailingApp.getAlarms() == false) {
+            // Clear START and stop the timer when alarms are disabled (PR #20).
             stopFinalRingTimer();
             Ui.requestUpdate();
             return;
