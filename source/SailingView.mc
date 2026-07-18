@@ -3,6 +3,7 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time as Time;
+using Toybox.Timer;
 using Toybox.Math as Math;
 using Toybox.Position as Position;
 using Toybox.Application as App;
@@ -10,6 +11,7 @@ using Toybox.Application as App;
 class SailingView extends Ui.View {
 
     var countDown = null;
+    var uiTimer = null;
 
     // Graphical
     var screenHeight;
@@ -93,6 +95,26 @@ class SailingView extends Ui.View {
     //! loading resources into memory.
     function onShow() {
         Sys.println("view : onShow");
+        startUiTimer();
+    }
+
+    function startUiTimer() {
+        if (uiTimer != null) {
+            return;
+        }
+        uiTimer = new Timer.Timer();
+        uiTimer.start(method(:onUiTimer), 1000, true);
+    }
+
+    function stopUiTimer() {
+        if (uiTimer != null) {
+            uiTimer.stop();
+            uiTimer = null;
+        }
+    }
+
+    function onUiTimer() as Void {
+        Ui.requestUpdate();
     }
 
     function nextPage() {
@@ -507,16 +529,19 @@ class SailingView extends Ui.View {
     //! memory.
     function onHide() {
         Sys.println("view : onHide");
+        stopUiTimer();
     }
 
     //! The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() {
         Sys.println("view : onExitSleep");
+        startUiTimer();
     }
 
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
         Sys.println("view : onEnterSleep");
+        stopUiTimer();
     }
 
     function onPosition(info) {
