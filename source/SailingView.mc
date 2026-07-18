@@ -229,18 +229,17 @@ class SailingView extends Ui.View {
     }
 
     function drawActionIcons(dc, paused) {
+        if (! paused) {
+            return;
+        }
         var iconSize = minDim / 12;
         if (iconSize < 10) {
             iconSize = 10;
         }
         var y = screenHeight - iconSize - 6;
-        if (paused) {
-            var gap = iconSize + (iconSize / 2);
-            drawStateIcon(dc, (screenWidth / 2) - (gap / 2), y, iconSize, ICON_PAUSE);
-            drawStateIcon(dc, (screenWidth / 2) + (gap / 2), y, iconSize, ICON_STOP);
-        } else {
-            drawStateIcon(dc, screenWidth / 2, y, iconSize, ICON_PAUSE);
-        }
+        var gap = iconSize + (iconSize / 2);
+        drawStateIcon(dc, (screenWidth / 2) - (gap / 2), y, iconSize, ICON_PAUSE);
+        drawStateIcon(dc, (screenWidth / 2) + (gap / 2), y, iconSize, ICON_STOP);
     }
 
     function drawPageDots(dc) {
