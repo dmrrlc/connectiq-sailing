@@ -4,9 +4,14 @@
         <menu-item id="start_timer" label="Start timer"></menu-item>
         <menu-item id="set_timer" label="Set timer"></menu-item>
         <menu-item id="set_alarms" label="Toggle alarms"></menu-item>
-        <menu-item id="set_mode" label="Configure Mode"></menu-item>"
+        <menu-item id="set_sailing_mode" label="Sailing mode"></menu-item>
+        <menu-item id="set_mode" label="Countdown signals"></menu-item>
     </menu>
-    <menu id="ModeMenu" title="Mode">
+    <menu id="SailingModeMenu" title="Sailing mode">
+        <menu-item id="sailing_mode_cruise" label="Cruise"></menu-item>
+        <menu-item id="sailing_mode_race" label="Race"></menu-item>
+    </menu>
+    <menu id="ModeMenu" title="Countdown signals">
         <menu-item id="mode_standard" label="Standard"></menu-item>
         <menu-item id="mode_dynamic" label="Dynamic"></menu-item>
     </menu>

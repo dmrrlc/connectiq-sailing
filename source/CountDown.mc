@@ -3,14 +3,15 @@ using Toybox.Timer;
 using Toybox.Attention as Attention;
 using Toybox.WatchUi as Ui;
 using Toybox.Lang;
+using Toybox.Time as Time;
 
 class CountDown {
 
     var app = null;
 
     // Timers
-    var myTimer;
-    var timerEnd;
+    var myTimer = null;
+    var timerEnd = null;
 
     // Status
     var timerComplete = false;
@@ -51,7 +52,11 @@ class CountDown {
         if (timerRunning == true) {
             return;
         }
-        secLeft = app.get().getDefaultTimerCount() * 60;
+        var sailingApp = app.get();
+        if (sailingApp == null) {
+            return;
+        }
+        secLeft = sailingApp.getDefaultTimerCount() * 60;
 
         updateTimer();
 
@@ -62,9 +67,13 @@ class CountDown {
     }
 
     function finishCountdown() {
-        app.get().addLap();
+        var sailingApp = app.get();
+        if (sailingApp != null) {
+            sailingApp.addLap();
+        }
         raceStartTime = Time.now();
-        endTimer();
+        stopMainTimer();
+        timerRunning = false;
         timerComplete = true;
         finalRing();
         timerEnd = new Timer.Timer();
@@ -72,7 +81,13 @@ class CountDown {
     }
 
     function timerCallback() as Void {
-        var current_mode = app.get().getMode();
+        var sailingApp = app.get();
+        if (sailingApp == null) {
+            stopMainTimer();
+            timerRunning = false;
+            return;
+        }
+        var current_mode = sailingApp.getMode();
         Sys.println("Current Mode: " + current_mode);
         if (current_mode == MODE_TYPE_STANDARD){
             if (secLeft > 1) {
@@ -128,6 +143,13 @@ class CountDown {
             } else {
                 finishCountdown();
             }
+        } else {
+            // Unknown countdown signal mode: keep timer progressing safely.
+            if (secLeft > 1) {
+                updateTimer();
+            } else {
+                finishCountdown();
+            }
         }
 
         WatchUi.requestUpdate();
@@ -158,19 +180,56 @@ class CountDown {
         Ui.requestUpdate();
     }
 
-    function endTimer() {
-        myTimer.stop();
+    function stopMainTimer() {
+        if (myTimer != null) {
+            myTimer.stop();
+            myTimer = null;
+        }
+    }
+
+    function stopFinalRingTimer() {
+        if (timerEnd != null) {
+            timerEnd.stop();
+            timerEnd = null;
+        }
+        finalRingTime = 5000;
+        timerComplete = false;
+    }
+
+    //! Cancel an active countdown without starting a race
+    function cancelTimer() {
+        stopMainTimer();
+        stopFinalRingTimer();
         timerRunning = false;
         Ui.requestUpdate();
     }
 
+    //! Forget race-start elapsed time (used when entering Cruise)
+    function clearRaceStart() {
+        raceStartTime = null;
+        Ui.requestUpdate();
+    }
+
+    //! Legacy alias used when toggling Start during a countdown
+    function endTimer() {
+        cancelTimer();
+    }
+
+    //! Stop all timers before the app is discarded
+    function shutdown() {
+        stopMainTimer();
+        stopFinalRingTimer();
+        timerRunning = false;
+    }
+
     function ring(buzz_type, times, tone) {
-        if (app.get().getAlarms() == false) {
+        var sailingApp = app.get();
+        if (sailingApp == null || sailingApp.getAlarms() == false) {
             return;
         }
         Sys.println("ring: " + times);
         var hasVibrate = (Attention has :vibrate);
-        var hasTone = (Attention has :ToneProfile);
+        var hasTone = (Attention has :ToneProfile) && (Attention has :playTone);
         if (buzz_type == BUZZ_SHORT) {
             if (times > 5){
                 Sys.println("ring: called with too many iterations (max 4)");
@@ -209,16 +268,17 @@ class CountDown {
     }
 
     function finalRing() as Void {
-        if (app.get().getAlarms() == false) {
+        var sailingApp = app.get();
+        if (sailingApp == null || sailingApp.getAlarms() == false) {
+            stopFinalRingTimer();
+            Ui.requestUpdate();
             return;
         }
         if (finalRingTime > 0) {
             finalRingTime -= 500;
             ring(BUZZ_LONG, 1, true);
         } else {
-            finalRingTime = 5000;
-            timerComplete = false;
-            timerEnd.stop();
+            stopFinalRingTimer();
         }
         Ui.requestUpdate();
     }

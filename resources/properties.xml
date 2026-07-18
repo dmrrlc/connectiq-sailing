@@ -4,12 +4,14 @@
         <property id="time" type="number">5</property>
         <property id="alarms" type="boolean">true</property>
         <property id="mode" type="number">0</property>
+        <property id="sailingMode" type="number">0</property>
     </properties>
 
     <strings>
         <string id="time_title">Countdown Timer(min)</string>
         <string id="alarms_title">Alarms</string>
-        <string id="mode_title">Mode</string>
+        <string id="mode_title">Countdown signals</string>
+        <string id="sailing_mode_title">Sailing mode</string>
     </strings>
 
     <settings>
@@ -21,6 +23,9 @@
             <settingConfig type="boolean" />
         </setting>
         <setting propertyKey="@Properties.mode" title="@Strings.mode_title">
+            <settingConfig type="numeric" />
+        </setting>
+        <setting propertyKey="@Properties.sailingMode" title="@Strings.sailing_mode_title">
             <settingConfig type="numeric" />
         </setting>
     </settings>

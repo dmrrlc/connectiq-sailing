@@ -14,6 +14,11 @@ enum {
     MODE_TYPE_DYNAMIC
 }
 
+enum {
+    SAILING_MODE_RACE,
+    SAILING_MODE_CRUISE
+}
+
 class SailingApp extends App.AppBase {
 
     var session;
@@ -29,6 +34,9 @@ class SailingApp extends App.AppBase {
             return 5;
         }
         var time = Properties.getValue("time");
+        if (time < 0) {
+            return 5;
+        }
         return time;
     }
 
@@ -59,7 +67,7 @@ class SailingApp extends App.AppBase {
     function getMode() {
         if (! (App has :Properties)) {
             Sys.println("app : getMode no properties");
-            return true;
+            return MODE_TYPE_STANDARD;
         }
         return Properties.getValue("mode");
     }
@@ -71,6 +79,32 @@ class SailingApp extends App.AppBase {
         }
         Sys.println("app : setMode " + mode);
         Properties.setValue("mode", mode);
+    }
+
+    function getSailingMode() {
+        if (! (App has :Properties)) {
+            Sys.println("app : getSailingMode no properties");
+            return SAILING_MODE_RACE;
+        }
+        return Properties.getValue("sailingMode");
+    }
+
+    function setSailingMode(sailingMode) {
+        if (! (App has :Properties)) {
+            Sys.println("app : setSailingMode no properties");
+            return;
+        }
+        Sys.println("app : setSailingMode " + sailingMode);
+        Properties.setValue("sailingMode", sailingMode);
+        if (sailingMode == SAILING_MODE_CRUISE && countDown != null) {
+            countDown.cancelTimer();
+            countDown.clearRaceStart();
+        }
+        WatchUi.requestUpdate();
+    }
+
+    function isCruiseMode() {
+        return getSailingMode() == SAILING_MODE_CRUISE;
     }
 
     function initialize() {
@@ -90,10 +124,15 @@ class SailingApp extends App.AppBase {
     //! onStop() is called when your application is exiting
     function onStop(state) {
         Sys.println("app: onStop");
+        if (gpsSetupTimer != null) {
+            gpsSetupTimer.stop();
+            gpsSetupTimer = null;
+        }
+        if (countDown != null) {
+            countDown.shutdown();
+            countDown = null;
+        }
         sailingView = null;
-        gpsSetupTimer.stop();
-        gpsSetupTimer = null;
-        countDown = null;
 
         Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onPosition));
     }
@@ -112,25 +151,44 @@ class SailingApp extends App.AppBase {
 
     function startTimer() {
         Sys.println("app : start timer");
-        countDown.startTimer();
+        if (isCruiseMode()) {
+            Sys.println("app : start timer ignored in cruise mode");
+            return;
+        }
+        if (countDown != null) {
+            countDown.startTimer();
+        }
     }
 
     function startStopTimer() {
         Sys.println("app : startStop timer");
+        if (isCruiseMode()) {
+            Sys.println("app : startStop timer ignored in cruise mode");
+            return;
+        }
+        if (countDown == null) {
+            return;
+        }
         if (countDown.isTimerRunning() == false) {
             countDown.startTimer();
         } else {
-            countDown.endTimer();
+            countDown.cancelTimer();
         }
     }
 
     function fixTimeUp() {
         Sys.println("app : fixTimeUp");
+        if (isCruiseMode() || countDown == null) {
+            return;
+        }
         countDown.fixTimeUp();
     }
 
     function fixTimeDown() {
         Sys.println("app : fixTimeDown");
+        if (isCruiseMode() || countDown == null) {
+            return;
+        }
         countDown.fixTimeDown();
     }
 
@@ -142,8 +200,11 @@ class SailingApp extends App.AppBase {
     }
 
     function onPosition(info as Position.Info) as Void{
+        if (sailingView == null) {
+            return;
+        }
         sailingView.onPosition(info);
-        if (countDown.isTimerRunning() == false) {
+        if (countDown == null || countDown.isTimerRunning() == false) {
             WatchUi.requestUpdate();
         }
     }
