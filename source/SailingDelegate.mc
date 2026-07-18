@@ -9,12 +9,21 @@ class SailingDelegate extends Ui.BehaviorDelegate {
         BehaviorDelegate.initialize();
     }
 
+    function pushStopMenu() {
+        Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
+        Ui.requestUpdate();
+    }
+
     function onKey(evt){
         Sys.println("key evt : " +evt);
         if (evt.getKey() == WatchUi.KEY_ESC){
             Sys.println("back pressed (from event)");
-            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-            Ui.requestUpdate();
+            if (App.getApp().isRecording()) {
+                App.getApp().addLap();
+                Ui.requestUpdate();
+            } else {
+                pushStopMenu();
+            }
             return true;
         }
         return false;
@@ -22,15 +31,27 @@ class SailingDelegate extends Ui.BehaviorDelegate {
 
     function onSelect(){
             Sys.println("select pressed");
-            App.getApp().startStopTimer();
+            var app = App.getApp();
+            if (app.hasActivitySession() == false) {
+                app.startRecording();
+            } else if (app.isRecording()) {
+                app.pauseRecording();
+                Ui.pushView(new Rez.Menus.PauseMenu(), new PauseMenuDelegate(), Ui.SLIDE_UP);
+            } else {
+                app.resumeRecording();
+            }
             Ui.requestUpdate();
             return true;
     }
 
     function onBack(){
             Sys.println("back pressed");
-            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
-            Ui.requestUpdate();
+            if (App.getApp().isRecording()) {
+                App.getApp().addLap();
+                Ui.requestUpdate();
+            } else {
+                pushStopMenu();
+            }
             return true;
     }
 
@@ -42,12 +63,22 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onPreviousPage(){
-            App.getApp().fixTimeUp();
+            var app = App.getApp();
+            if (app.countDown != null && app.countDown.isTimerRunning()) {
+                app.fixTimeUp();
+            } else if (app.hasActivitySession() && app.sailingView != null) {
+                app.sailingView.prevPage();
+            }
             return true;
     }
 
     function onNextPage(){
-            App.getApp().fixTimeDown();
+            var app = App.getApp();
+            if (app.countDown != null && app.countDown.isTimerRunning()) {
+                app.fixTimeDown();
+            } else if (app.hasActivitySession() && app.sailingView != null) {
+                app.sailingView.nextPage();
+            }
             return true;
     }
 }

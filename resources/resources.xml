@@ -20,4 +20,10 @@
         <menu-item id="discard_btn" label="Discard"></menu-item>
         <menu-item id="resume_btn" label="Resume"></menu-item>
     </menu>
+    <menu id="PauseMenu" title="Paused">
+        <menu-item id="resume_btn" label="Resume"></menu-item>
+        <menu-item id="lap_btn" label="Lap"></menu-item>
+        <menu-item id="save_btn" label="Save"></menu-item>
+        <menu-item id="discard_btn" label="Discard"></menu-item>
+    </menu>
 </resources>
