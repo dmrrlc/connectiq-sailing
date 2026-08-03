@@ -1,4 +1,3 @@
-using Toybox.System as Sys;
 using Toybox.Timer;
 using Toybox.Attention as Attention;
 using Toybox.WatchUi as Ui;
@@ -22,14 +21,47 @@ class CountDown {
     var finalRingTime = 5000;
     var raceStartTime = null;
 
+    // Reused buzz profiles/arrays — avoid allocating every ring()
+    var hasVibrate = false;
+    var hasTone = false;
+    var vibeLongArr = null;
+    var toneLongArr = null;
+    var vibe1 = null;
+    var vibe2 = null;
+    var vibe3 = null;
+    var vibe4 = null;
+    var tone1 = null;
+    var tone2 = null;
+    var tone3 = null;
+    var tone4 = null;
+
     enum {
         BUZZ_SHORT,
         BUZZ_LONG
     }
 
     function initialize(sailingapp) {
-        Sys.println("countdown: initialize");
         app = sailingapp.weak();
+        hasVibrate = (Attention has :vibrate);
+        hasTone = (Attention has :ToneProfile) && (Attention has :playTone);
+        if (hasVibrate) {
+            var vibeOn = new Attention.VibeProfile(80, 200);
+            var vibeOff = new Attention.VibeProfile(0, 50);
+            vibeLongArr = [new Attention.VibeProfile(50, 3000)];
+            vibe1 = [vibeOn, vibeOff];
+            vibe2 = [vibeOn, vibeOff, vibeOn, vibeOff];
+            vibe3 = [vibeOn, vibeOff, vibeOn, vibeOff, vibeOn, vibeOff];
+            vibe4 = [vibeOn, vibeOff, vibeOn, vibeOff, vibeOn, vibeOff, vibeOn, vibeOff];
+        }
+        if (hasTone) {
+            var toneOn = new Attention.ToneProfile(2500, 200);
+            var toneOff = new Attention.ToneProfile(0, 50);
+            toneLongArr = [new Attention.ToneProfile(2500, 500)];
+            tone1 = [toneOn, toneOff];
+            tone2 = [toneOn, toneOff, toneOn, toneOff];
+            tone3 = [toneOn, toneOff, toneOn, toneOff, toneOn, toneOff];
+            tone4 = [toneOn, toneOff, toneOn, toneOff, toneOn, toneOff, toneOn, toneOff];
+        }
     }
 
     function isTimerComplete() {
@@ -87,7 +119,6 @@ class CountDown {
             return;
         }
         var current_mode = sailingApp.getMode();
-        Sys.println("Current Mode: " + current_mode);
         if (current_mode == MODE_TYPE_STANDARD){
             if (secLeft > 1) {
                 if (secLeft < 11) {
@@ -117,12 +148,10 @@ class CountDown {
                 }
                 // Buzz the number of seconds
                 else if (((secLeft - 1) % 10 == 0) && (secLeft <= 60) && (secLeft > 11)) {
-                    if(tens_seconds > 4){
-                        // Hack because arrays max size 8
+                    // Cap to one ring call (max 4) — avoid double-alloc in one tick
+                    if (tens_seconds > 4) {
                         ring(BUZZ_SHORT, 4, true);
-                        ring(BUZZ_SHORT, 1, true);
-                    }
-                    else{
+                    } else {
                         ring(BUZZ_SHORT, tens_seconds, true);
                     }
                 }
@@ -150,8 +179,6 @@ class CountDown {
                 finishCountdown();
             }
         }
-
-        WatchUi.requestUpdate();
     }
 
     function updateTimer() {
@@ -164,7 +191,6 @@ class CountDown {
             return;
         }
         secLeft = ((secLeft / 60) + 1) * 60;
-        Sys.println("fixTimeUp: " + (secLeft / 60 + 1));
         ring(BUZZ_SHORT, 1, false);
         Ui.requestUpdate();
     }
@@ -174,7 +200,6 @@ class CountDown {
             return;
         }
         secLeft = (secLeft / 60) * 60;
-        Sys.println("fixTimeDown: " + secLeft / 60);
         ring(BUZZ_SHORT, 1, false);
         Ui.requestUpdate();
     }
@@ -226,42 +251,41 @@ class CountDown {
         if (sailingApp == null || sailingApp.getAlarms() == false) {
             return;
         }
-        Sys.println("ring: " + times);
-        var hasVibrate = (Attention has :vibrate);
-        var hasTone = (Attention has :ToneProfile) && (Attention has :playTone);
         if (buzz_type == BUZZ_SHORT) {
-            if (times > 5){
-                Sys.println("ring: called with too many iterations (max 4)");
+            if (times > 4) {
+                times = 4;
+            }
+            if (times < 1) {
                 return;
             }
-            var vibeData = new [times * 2];
-            var toneData = new [times * 2];
-            for (var i = 0; i < (times * 2); i++) {
-                if (i % 2 == 0) {
-                    vibeData[i] = new Attention.VibeProfile(80, 200);
-                    if (hasTone) {
-                        toneData[i] = new Attention.ToneProfile(2500, 200);
-                    }
+            if (hasVibrate) {
+                if (times == 1) {
+                    Attention.vibrate(vibe1);
+                } else if (times == 2) {
+                    Attention.vibrate(vibe2);
+                } else if (times == 3) {
+                    Attention.vibrate(vibe3);
                 } else {
-                    vibeData[i] = new Attention.VibeProfile(0, 50);
-                    if (hasTone) {
-                    toneData[i] = new Attention.ToneProfile(0, 50);
-                    }
+                    Attention.vibrate(vibe4);
                 }
             }
             if (hasTone && tone == true) {
-                Attention.playTone({:toneProfile=>toneData});
+                if (times == 1) {
+                    Attention.playTone({:toneProfile=>tone1});
+                } else if (times == 2) {
+                    Attention.playTone({:toneProfile=>tone2});
+                } else if (times == 3) {
+                    Attention.playTone({:toneProfile=>tone3});
+                } else {
+                    Attention.playTone({:toneProfile=>tone4});
+                }
             }
-            if (hasVibrate) {
-                Attention.vibrate(vibeData);
+        } else if (buzz_type == BUZZ_LONG) {
+            if (hasTone && tone == true && toneLongArr != null) {
+                Attention.playTone({:toneProfile=>toneLongArr});
             }
-        } else if(buzz_type == BUZZ_LONG){
-            if (hasTone && tone == true) {
-                Attention.playTone({:toneProfile=>[new Attention.ToneProfile(2500, 500)]});
-            }
-            if (hasVibrate) {
-                var vibe_data = [new Attention.VibeProfile(50, 3000)];
-                Attention.vibrate(vibe_data);
+            if (hasVibrate && vibeLongArr != null) {
+                Attention.vibrate(vibeLongArr);
             }
         }
     }

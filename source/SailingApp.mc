@@ -45,7 +45,6 @@ class SailingApp extends App.AppBase {
         if (! (App has :Properties)) {
             return;
         }
-        Sys.println("app : setTime " + time);
         Properties.setValue("time", time);
     }
 
@@ -60,13 +59,11 @@ class SailingApp extends App.AppBase {
         if (! (App has :Properties)) {
             return;
         }
-        Sys.println("app : setAlarms " + alarms);
         Properties.setValue("alarms", alarms);
     }
 
     function getMode() {
         if (! (App has :Properties)) {
-            Sys.println("app : getMode no properties");
             return MODE_TYPE_STANDARD;
         }
         return Properties.getValue("mode");
@@ -74,16 +71,13 @@ class SailingApp extends App.AppBase {
 
     function setMode(mode) {
         if (! (App has :Properties)) {
-            Sys.println("app : setMode no properties");
             return;
         }
-        Sys.println("app : setMode " + mode);
         Properties.setValue("mode", mode);
     }
 
     function getSailingMode() {
         if (! (App has :Properties)) {
-            Sys.println("app : getSailingMode no properties");
             return SAILING_MODE_RACE;
         }
         return Properties.getValue("sailingMode");
@@ -91,10 +85,8 @@ class SailingApp extends App.AppBase {
 
     function setSailingMode(sailingMode) {
         if (! (App has :Properties)) {
-            Sys.println("app : setSailingMode no properties");
             return;
         }
-        Sys.println("app : setSailingMode " + sailingMode);
         Properties.setValue("sailingMode", sailingMode);
         if (sailingMode == SAILING_MODE_CRUISE && countDown != null) {
             countDown.cancelTimer();
@@ -108,12 +100,10 @@ class SailingApp extends App.AppBase {
     }
 
     function initialize() {
-        Sys.println("app : initialize");
         AppBase.initialize();
     }
 
     function onStart(state) {
-        Sys.println("app : onStart");
         gpsSetupTimer = new Timer.Timer();
         gpsSetupTimer.start(method(:startActivityRecording), 1000, true);
         countDown = new CountDown(self);
@@ -123,7 +113,6 @@ class SailingApp extends App.AppBase {
 
     //! onStop() is called when your application is exiting
     function onStop(state) {
-        Sys.println("app: onStop");
         if (gpsSetupTimer != null) {
             gpsSetupTimer.stop();
             gpsSetupTimer = null;
@@ -138,21 +127,17 @@ class SailingApp extends App.AppBase {
     }
 
     function saveAndClose() {
-        Sys.println("stop pressed");
         stopRecording(true);
         Sys.exit();
     }
 
     function discardAndClose() {
-        Sys.println("stop pressed");
         stopRecording(false);
         Sys.exit();
     }
 
     function startTimer() {
-        Sys.println("app : start timer");
         if (isCruiseMode()) {
-            Sys.println("app : start timer ignored in cruise mode");
             return;
         }
         if (countDown != null) {
@@ -161,9 +146,7 @@ class SailingApp extends App.AppBase {
     }
 
     function startStopTimer() {
-        Sys.println("app : startStop timer");
         if (isCruiseMode()) {
-            Sys.println("app : startStop timer ignored in cruise mode");
             return;
         }
         if (countDown == null) {
@@ -177,7 +160,6 @@ class SailingApp extends App.AppBase {
     }
 
     function fixTimeUp() {
-        Sys.println("app : fixTimeUp");
         if (isCruiseMode() || countDown == null) {
             return;
         }
@@ -185,7 +167,6 @@ class SailingApp extends App.AppBase {
     }
 
     function fixTimeDown() {
-        Sys.println("app : fixTimeDown");
         if (isCruiseMode() || countDown == null) {
             return;
         }
@@ -194,7 +175,6 @@ class SailingApp extends App.AppBase {
 
     //! Return the initial view of your application here
     function getInitialView() {
-        Sys.println("app : getInitialView");
         sailingView = new SailingView(countDown);
         return [ sailingView, new SailingDelegate() ];
     }
@@ -214,7 +194,6 @@ class SailingApp extends App.AppBase {
             gpsSetupTimer.stop();
             if( Toybox has :ActivityRecording ) {
                 if( ( session == null ) || ( session.isRecording() == false ) ) {
-                    Sys.println("start ActivityRecording");
                     var mySettings = Sys.getDeviceSettings();
                     var version = mySettings.monkeyVersion;
 
