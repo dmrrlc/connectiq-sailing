@@ -1,12 +1,5 @@
 <resources>
     <bitmap id="LauncherIcon" filename="images/launcher_icon.svg" />
-    <menu id="MainMenu" title="Menu">
-        <menu-item id="start_timer" label="Start timer"></menu-item>
-        <menu-item id="set_timer" label="Set timer"></menu-item>
-        <menu-item id="set_alarms" label="Toggle alarms"></menu-item>
-        <menu-item id="set_sailing_mode" label="Sailing mode"></menu-item>
-        <menu-item id="set_mode" label="Countdown signals"></menu-item>
-    </menu>
     <menu id="SailingModeMenu" title="Sailing mode">
         <menu-item id="sailing_mode_cruise" label="Cruise"></menu-item>
         <menu-item id="sailing_mode_race" label="Race"></menu-item>

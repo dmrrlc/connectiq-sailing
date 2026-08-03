@@ -51,9 +51,25 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu(){
-            Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
+            Ui.pushView(buildMainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
             Ui.requestUpdate();
             return true;
+    }
+
+    //! Race-only items are omitted in Cruise so the menu matches mode behavior.
+    function buildMainMenu() {
+        var menu = new Ui.Menu();
+        menu.setTitle("Menu");
+        if (!App.getApp().isCruiseMode()) {
+            menu.addItem("Start timer", :start_timer);
+            menu.addItem("Set timer", :set_timer);
+        }
+        menu.addItem("Toggle alarms", :set_alarms);
+        menu.addItem("Sailing mode", :set_sailing_mode);
+        if (!App.getApp().isCruiseMode()) {
+            menu.addItem("Countdown signals", :set_mode);
+        }
+        return menu;
     }
 
     function onPreviousPage(){
