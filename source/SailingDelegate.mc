@@ -1,5 +1,4 @@
 using Toybox.WatchUi as Ui;
-using Toybox.System as Sys;
 using Toybox.Application as App;
 
 
@@ -15,9 +14,7 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onKey(evt){
-        Sys.println("key evt : " +evt);
         if (evt.getKey() == WatchUi.KEY_ESC){
-            Sys.println("back pressed (from event)");
             if (App.getApp().isRecording()) {
                 App.getApp().addLap();
                 Ui.requestUpdate();
@@ -30,7 +27,6 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect(){
-            Sys.println("select pressed");
             var app = App.getApp();
             if (app.hasActivitySession() == false) {
                 app.startRecording();
@@ -45,7 +41,6 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onBack(){
-            Sys.println("back pressed");
             if (App.getApp().isRecording()) {
                 App.getApp().addLap();
                 Ui.requestUpdate();
@@ -56,7 +51,6 @@ class SailingDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu(){
-            Sys.println("menu pressed");
             Ui.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), Ui.SLIDE_UP);
             Ui.requestUpdate();
             return true;

@@ -17,7 +17,10 @@ class SailingView extends Ui.View {
     var screenHeight;
     var screenWidth;
     var minDim;
-    var maxDim;
+    var centerX;
+    var centerY;
+    var ringThickness;
+    var ringRadius;
     var sec;
     var min;
 
@@ -50,25 +53,27 @@ class SailingView extends Ui.View {
     var deviceSettings;
 
     function initialize(countdown) {
-        Sys.println("view : initialize");
         View.initialize();
         countDown = countdown.weak();
-
-        // Get device information
-        deviceSettings = System.getDeviceSettings();
+        deviceSettings = Sys.getDeviceSettings();
     }
 
     function onLayout(dc) {
-        Sys.println("view : onLayout");
         screenWidth = dc.getWidth();
         screenHeight = dc.getHeight();
         if(screenHeight < screenWidth){
             minDim = screenHeight;
-            maxDim = screenWidth;
         }else{
             minDim = screenWidth;
-            maxDim = screenHeight;
         }
+        centerX = screenWidth / 2;
+        centerY = screenHeight / 2;
+        // ~20% band matching the previous fillPolygon ring thickness
+        ringThickness = (minDim / 2) * 0.2;
+        if (ringThickness < 4) {
+            ringThickness = 4;
+        }
+        ringRadius = (minDim / 2) - (ringThickness / 2);
     }
 
     function updateTimer() {
@@ -94,7 +99,6 @@ class SailingView extends Ui.View {
     //! the state of this View and prepare it to be shown. This includes
     //! loading resources into memory.
     function onShow() {
-        Sys.println("view : onShow");
         startUiTimer();
     }
 
@@ -379,9 +383,47 @@ class SailingView extends Ui.View {
         drawActionIcons(dc, paused);
     }
 
+    //! Draw a full dim track, then a green progress arc for the current minute.
+    //! Uses drawArc only — no polygon allocations (safe on low-memory devices).
+    function drawCountdownRing(dc) {
+        var progress = sec / 60.0;
+        if (progress < 0) {
+            progress = 0;
+        } else if (progress > 1) {
+            progress = 1;
+        }
+
+        dc.setPenWidth(ringThickness);
+
+        // Dim full-circle track (split to avoid 360° drawArc quirk)
+        dc.setColor(Gfx.COLOR_DK_GREEN, Gfx.COLOR_TRANSPARENT);
+        dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
+        dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
+
+        if (progress <= 0) {
+            return;
+        }
+
+        // Progress from 12 o'clock, clockwise (matches previous pie direction)
+        var arcLength = progress * 360.0;
+        var degreeStart = 90;
+        var degreeEnd = 90 - arcLength;
+
+        dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
+        if (arcLength >= 360) {
+            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
+            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
+        } else if (arcLength > 180) {
+            // Split long arcs for more reliable rendering across devices
+            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeStart - 180);
+            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart - 180, degreeEnd);
+        } else {
+            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeEnd);
+        }
+    }
+
     //! Update the view
     function onUpdate(dc) {
-        Sys.println("view : onUpdate");
         var now = Time.now();
         var countdownObj = null;
         if (countDown != null) {
@@ -397,23 +439,13 @@ class SailingView extends Ui.View {
 
         if (countdownObj != null && countdownObj.isTimerRunning()) {
             updateTimer();
-            var polygon = buildProgress();
-
-            dc.fillPolygon(polygon);
-            dc.setColor( Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT );
-
-            var innerRadius = (minDim / 2) - ((minDim / 2) * 0.2);
-            var outerRadius = innerRadius + 1;
-
-            dc.fillCircle(screenWidth / 2, screenHeight / 2, innerRadius);
-            dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
-            dc.drawCircle(screenWidth / 2, screenHeight / 2, outerRadius);
+            drawCountdownRing(dc);
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
+            dc.drawText( centerX, centerY - (Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) / 2), Gfx.FONT_NUMBER_THAI_HOT, countDownStr, Gfx.TEXT_JUSTIFY_CENTER );
 
         } else if (countdownObj != null && countdownObj.isTimerComplete()) {
             dc.setColor( Gfx.COLOR_WHITE, Gfx.COLOR_BLACK );
-            dc.drawText( (screenWidth / 2), (screenHeight / 2) - (Gfx.getFontHeight(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
+            dc.drawText( centerX, centerY - (Gfx.getFontHeight(Gfx.FONT_LARGE) / 2), Gfx.FONT_LARGE, "START", Gfx.TEXT_JUSTIFY_CENTER );
 
         } else if (activityStarted == false) {
             drawGpsAcquisition(dc);
@@ -422,125 +454,20 @@ class SailingView extends Ui.View {
         }
     }
 
-    function buildProgress() {
-
-        var center_x = screenWidth / 2;
-        var center_y = screenHeight / 2;
-        var border_x = screenWidth;
-        var border_y = screenHeight;
-
-        var TWO_PI = Math.PI * 2;
-
-        var progress = ( sec / 60.0);
-        var angle = progress * TWO_PI;
-
-        var cAngle = angle;
-
-        angle  -= Math.PI / 2.0;
-
-        var point = [ (center_x + maxDim * Math.cos(angle)), (center_x + maxDim * Math.sin(angle)) ];
-
-        var polygon = [];
-
-        var countdownObj = null;
-        if (countDown != null) {
-            countdownObj = countDown.get();
-        }
-        if (countdownObj != null && countdownObj.isTimerComplete()) {
-            polygon = [
-                    [0, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    [0, border_y]
-            ];
-        } else if (cAngle  < (Math.PI / 4.0))    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    point
-            ];
-        } else if (cAngle < (Math.PI / 2))    {
-            polygon = [
-                    [center_x, 109],
-                    [center_x, 0],
-                    [border_x, 0],
-                    point
-            ];
-        } else if (cAngle < (Math.PI * 0.75))    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, center_y],
-                    point
-            ];
-        }else if (cAngle < Math.PI )    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    point
-            ];
-        } else if (cAngle < Math.PI*1.25)    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    [center_x, border_y],
-                    point
-            ];
-        }else if (cAngle < Math.PI*1.5)    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    [0, border_y],
-                    point
-            ];
-        }else if (cAngle < Math.PI*1.75)    {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    [0, border_y],
-                    [0, center_y],
-                    point
-            ];
-        }else {
-            polygon = [
-                    [center_x, center_y],
-                    [center_x, 0],
-                    [border_x, 0],
-                    [border_x, border_y],
-                    [0, border_y],
-                    [0, 0],
-                    point
-            ];
-        }
-        return polygon;
-    }
-
     //! Called when this View is removed from the screen. Save the
     //! state of this View here. This includes freeing resources from
     //! memory.
     function onHide() {
-        Sys.println("view : onHide");
         stopUiTimer();
     }
 
     //! The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() {
-        Sys.println("view : onExitSleep");
         startUiTimer();
     }
 
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
-        Sys.println("view : onEnterSleep");
         stopUiTimer();
     }
 
@@ -575,8 +502,6 @@ class SailingView extends Ui.View {
             speedFloat = 0.0;
             speedStr = "-";
         }
-
-        Sys.println("speed: " +speedStr+ " heading: " +headingStr+ " accuracy: " +accuracyStr);
     }
 
     function headingToStr(heading){

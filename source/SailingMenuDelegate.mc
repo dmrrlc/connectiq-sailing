@@ -1,31 +1,27 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
-using Toybox.System as Sys;
 
 class SailingMenuDelegate extends Ui.MenuInputDelegate {
 
     function onMenuItem(item) {
-        Sys.println("menu item selected");
         if (item == :start_timer) {
-            Sys.println("start time pressed");
             if (App.getApp().isRecording()) {
                 App.getApp().startTimer();
-            } else {
-                Sys.println("start timer ignored while not recording");
             }
         } else if (item == :set_timer) {
-            Sys.println("set timer pressed");
             if (Ui has :Picker) {
+                // Dismiss MainMenu before pushing picker to avoid nested-view memory pressure
+                Ui.popView(Ui.SLIDE_IMMEDIATE);
                 Ui.pushView(new TimePicker(), new TimePickerDelegate(), Ui.SLIDE_UP);
             }
         } else if (item == :set_alarms) {
-            Sys.println("set alarms pressed");
             App.getApp().setAlarms(! App.getApp().getAlarms());
         } else if (item == :set_sailing_mode) {
-            Sys.println("set sailing mode pressed");
+            // Pop MainMenu first — nested menus commonly OOM on low-memory devices
+            Ui.popView(Ui.SLIDE_IMMEDIATE);
             Ui.pushView(new Rez.Menus.SailingModeMenu(), new SailingModeMenuDelegate(), Ui.SLIDE_LEFT);
         } else if (item == :set_mode) {
-            Sys.println("set mode pressed");
+            Ui.popView(Ui.SLIDE_IMMEDIATE);
             Ui.pushView(new Rez.Menus.ModeMenu(), new ModeMenuDelegate(), Ui.SLIDE_LEFT);
         }
     }
