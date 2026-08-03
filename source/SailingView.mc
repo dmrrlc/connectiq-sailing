@@ -561,8 +561,6 @@ class SailingView extends Ui.View {
             return "N";
         }
     }
-}
-
 
     function secToStr(raceTime){
         var raceSec = (raceTime % 60).format("%02d");
@@ -571,3 +569,4 @@ class SailingView extends Ui.View {
 
         return ""+raceHours+":"+raceMin+":"+raceSec;
     }
+}
