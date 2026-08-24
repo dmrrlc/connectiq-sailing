@@ -563,9 +563,24 @@ class SailingView extends Ui.View {
     }
 
     function secToStr(raceTime){
-        var raceSec = (raceTime % 60).format("%02d");
-        var raceMin = ((raceTime / 60) % 60).format("%02d");
-        var raceHours = ((raceTime / 3600) % 60).format("%02d");
+        var total = 0;
+        if (raceTime != null) {
+            if (raceTime instanceof Lang.Float) {
+                total = raceTime.toNumber();
+            } else if ((Lang has :Double) && (raceTime instanceof Lang.Double)) {
+                total = raceTime.toNumber();
+            } else if ((Lang has :Long) && (raceTime instanceof Lang.Long)) {
+                total = raceTime.toNumber();
+            } else {
+                total = raceTime;
+            }
+        }
+        if (total < 0) {
+            total = 0;
+        }
+        var raceSec = (total % 60).format("%02d");
+        var raceMin = ((total / 60) % 60).format("%02d");
+        var raceHours = ((total / 3600) % 60).format("%02d");
 
         return ""+raceHours+":"+raceMin+":"+raceSec;
     }

@@ -3,11 +3,27 @@ using Toybox.Application as App;
 
 class SailingMenuDelegate extends Ui.MenuInputDelegate {
 
+    function showTimerRequirementsWarning() {
+        // Pop MainMenu first — nested views commonly OOM on low-memory devices
+        Ui.popView(Ui.SLIDE_IMMEDIATE);
+        Ui.pushView(
+            new MessageAlertView([
+                "Need Race mode",
+                "and activity",
+                "started"
+            ]),
+            new MessageAlertDelegate(),
+            Ui.SLIDE_IMMEDIATE
+        );
+    }
+
     function onMenuItem(item) {
-        // Race-only actions are gated in case mode changed while the menu was open
         if (item == :start_timer) {
-            if (!App.getApp().isCruiseMode() && App.getApp().isRecording()) {
-                App.getApp().startTimer();
+            var app = App.getApp();
+            if (app.isCruiseMode() || (app.isRecording() == false)) {
+                showTimerRequirementsWarning();
+            } else {
+                app.startTimer();
             }
         } else if (item == :set_timer) {
             if (!App.getApp().isCruiseMode() && (Ui has :Picker)) {

@@ -56,12 +56,13 @@ class SailingDelegate extends Ui.BehaviorDelegate {
             return true;
     }
 
-    //! Race-only items are omitted in Cruise so the menu matches mode behavior.
+    //! Race-only items (except Start timer) are omitted in Cruise.
+    //! Start timer stays visible so we can warn when Race mode / activity are missing.
     function buildMainMenu() {
         var menu = new Ui.Menu();
         menu.setTitle("Menu");
+        menu.addItem("Start timer", :start_timer);
         if (!App.getApp().isCruiseMode()) {
-            menu.addItem("Start timer", :start_timer);
             menu.addItem("Set timer", :set_timer);
         }
         menu.addItem("Toggle alarms", :set_alarms);
