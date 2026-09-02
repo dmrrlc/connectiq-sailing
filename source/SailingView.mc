@@ -274,7 +274,9 @@ class SailingView extends Ui.View {
         var totalWidth = (PAGE_COUNT * radius * 2) + ((PAGE_COUNT - 1) * gap);
         var startX = (screenWidth - totalWidth) / 2 + radius;
         var y = screenHeight - (minDim / 12) - 18;
-        if (y < (screenHeight / 2)) {
+        if (minDim < 240) {
+            y = screenHeight - 22;
+        } else if (y < (screenHeight / 2)) {
             y = screenHeight - 28;
         }
         for (var i = 0; i < PAGE_COUNT; i++) {
@@ -391,16 +393,17 @@ class SailingView extends Ui.View {
     function drawTelemetry(dc, now, countdownObj, paused) {
         if (page == PAGE_LAP) {
             drawLapPage(dc);
+            drawPageDots(dc);
         } else if (page == PAGE_TOTAL) {
             drawTotalPage(dc);
+            drawPageDots(dc);
         } else {
             drawSpeedPage(dc, now, countdownObj);
         }
-        drawPageDots(dc);
         drawActionIcons(dc, paused);
     }
 
-    //! Draw a full dim track, then a green progress arc for the current minute.
+    //! Draw a light grey track, then a green progress arc for the current minute.
     //! Uses drawArc only — no polygon allocations (safe on low-memory devices).
     function drawCountdownRing(dc) {
         var progress = sec / 60.0;
@@ -413,7 +416,7 @@ class SailingView extends Ui.View {
         dc.setPenWidth(ringThickness);
 
         // Dim full-circle track (split to avoid 360° drawArc quirk)
-        dc.setColor(Gfx.COLOR_DK_GREEN, Gfx.COLOR_TRANSPARENT);
+        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
         dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
         dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
 
@@ -565,15 +568,7 @@ class SailingView extends Ui.View {
     function secToStr(raceTime){
         var total = 0;
         if (raceTime != null) {
-            if (raceTime instanceof Lang.Float) {
-                total = raceTime.toNumber();
-            } else if ((Lang has :Double) && (raceTime instanceof Lang.Double)) {
-                total = raceTime.toNumber();
-            } else if ((Lang has :Long) && (raceTime instanceof Lang.Long)) {
-                total = raceTime.toNumber();
-            } else {
-                total = raceTime;
-            }
+            total = raceTime.toNumber();
         }
         if (total < 0) {
             total = 0;

@@ -24,13 +24,14 @@ It supports a simple Cruise mode for non-racing sailing, and an optional Race mo
 
 ## How to use it
 - on launch, the app shows GPS fix quality as a progress bar; press **Start** when you want to begin recording (any GPS quality is allowed)
-- press **Start** again to pause (opens the pause menu) or resume recording
+- in **Race** mode (default), press **Start** while recording to start or stop the countdown timer
+- in **Cruise** mode, press **Start** while recording to pause (opens the pause menu) or resume recording
 - while recording, press **Back** to mark a lap
 - use **Next page** / **Previous page** to cycle between:
   1. Speed & bearing
   2. Lap time and lap distance (nm + km)
   3. Total elapsed time and total distance (nm + km)
 - open the menu and choose **Sailing mode** → **Cruise** or **Race**
-- in **Race** mode, start the countdown from the menu (**Start timer**) while recording is active
-- while the race countdown is running, page buttons still adjust the countdown by a minute
+- you can also start the countdown from the menu (**Start timer**) while recording in Race mode
+- while the race countdown is running, page buttons adjust the countdown by a minute
 - a new track lap is created every time the race countdown reaches 0
