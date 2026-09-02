@@ -31,8 +31,12 @@ class SailingDelegate extends Ui.BehaviorDelegate {
             if (app.hasActivitySession() == false) {
                 app.startRecording();
             } else if (app.isRecording()) {
-                app.pauseRecording();
-                Ui.pushView(new Rez.Menus.PauseMenu(), new PauseMenuDelegate(), Ui.SLIDE_UP);
+                if (!app.isCruiseMode() && app.countDown != null) {
+                    app.startStopTimer();
+                } else {
+                    app.pauseRecording();
+                    Ui.pushView(new Rez.Menus.PauseMenu(), new PauseMenuDelegate(), Ui.SLIDE_UP);
+                }
             } else {
                 app.resumeRecording();
             }

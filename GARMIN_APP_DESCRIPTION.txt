@@ -25,10 +25,11 @@ HOW TO USE
 1. Launch the app and wait for the GPS quality indicator. You can press Start at any GPS quality level to begin recording.
 2. Use Next page and Previous page to switch between speed and heading, lap data, and total activity data.
 3. While recording, press Back to create a lap.
-4. Press Start while recording to open the pause menu. From there, you can resume, start a new lap, save, or discard the activity.
-5. Open the menu and select Sailing mode to choose Cruise or Race.
-6. In Race mode, select Start timer from the menu while activity recording is active.
-7. During the countdown, use Next page or Previous page to adjust it by one minute if you missed the start.
+4. In Race mode (default), press Start while recording to start or stop the race countdown timer.
+5. In Cruise mode, press Start while recording to open the pause menu. From there, you can resume, start a new lap, save, or discard the activity.
+6. Open the menu and select Sailing mode to choose Cruise or Race.
+7. You can also select Start timer from the menu while activity recording is active in Race mode.
+8. During the countdown, use Next page or Previous page to adjust it by one minute if you missed the start.
 
 APP SETTINGS
 

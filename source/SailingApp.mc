@@ -1,5 +1,6 @@
 using Toybox.Application as App;
 using Toybox.Application.Properties;
+using Toybox.Application.Storage;
 using Toybox.WatchUi;
 using Toybox.Activity;
 using Toybox.ActivityRecording;
@@ -117,13 +118,21 @@ class SailingApp extends App.AppBase {
         return Activity.getActivityInfo();
     }
 
+    //! Normalize elapsed milliseconds to whole seconds (avoids Float in format strings)
+    function secondsFromMs(ms) {
+        if (ms == null) {
+            return null;
+        }
+        return (ms / 1000).toNumber();
+    }
+
     //! Total elapsed time in seconds, or null if unavailable
     function getTotalTime() {
         var info = getActivityInfo();
         if (info == null || info.elapsedTime == null) {
             return null;
         }
-        return info.elapsedTime / 1000;
+        return secondsFromMs(info.elapsedTime);
     }
 
     //! Total distance in meters, or null if unavailable
@@ -145,7 +154,7 @@ class SailingApp extends App.AppBase {
         if (lapMs < 0) {
             lapMs = 0;
         }
-        return lapMs / 1000;
+        return secondsFromMs(lapMs);
     }
 
     //! Current lap distance in meters, or null if unavailable
@@ -191,6 +200,12 @@ class SailingApp extends App.AppBase {
 
     function onStart(state) {
         countDown = new CountDown(self);
+
+        // One-time: ensure Race is default after remediation release
+        if (Storage.getValue("raceDefaultV1") == null) {
+            setSailingMode(SAILING_MODE_RACE);
+            Storage.setValue("raceDefaultV1", true);
+        }
 
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
     }
