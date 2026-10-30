@@ -37,6 +37,10 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
             // Pop MainMenu first — nested menus commonly OOM on low-memory devices
             Ui.popView(Ui.SLIDE_IMMEDIATE);
             Ui.pushView(new Rez.Menus.SailingModeMenu(), new SailingModeMenuDelegate(), Ui.SLIDE_LEFT);
+        } else if (item == :exit_app) {
+            // Works in any mode (Start/Back are used for the countdown and laps in Race mode)
+            Ui.popView(Ui.SLIDE_IMMEDIATE);
+            Ui.pushView(new Rez.Menus.StopMenu(), new ExitMenuDelegate(), Ui.SLIDE_UP);
         } else if (item == :set_mode) {
             if (!App.getApp().isCruiseMode()) {
                 Ui.popView(Ui.SLIDE_IMMEDIATE);

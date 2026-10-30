@@ -74,6 +74,7 @@ class SailingDelegate extends Ui.BehaviorDelegate {
         if (!App.getApp().isCruiseMode()) {
             menu.addItem("Countdown signals", :set_mode);
         }
+        menu.addItem("Exit", :exit_app);
         return menu;
     }
 
