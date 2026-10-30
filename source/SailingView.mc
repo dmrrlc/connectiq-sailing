@@ -182,7 +182,7 @@ class SailingView extends Ui.View {
     //! Draw Garmin-style start / pause / stop glyphs with graphics primitives
     function drawStateIcon(dc, x, y, size, symbol) {
         if (symbol == ICON_START) {
-            dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
+            dc.setColor(DisplayUtil.resolveInstinctColor(self, Gfx.COLOR_GREEN), Gfx.COLOR_TRANSPARENT);
             var half = size / 2;
             var left = x - (size / 4);
             dc.fillPolygon([
@@ -191,7 +191,7 @@ class SailingView extends Ui.View {
                 [x + half, y]
             ]);
         } else if (symbol == ICON_PAUSE) {
-            dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_TRANSPARENT);
+            dc.setColor(DisplayUtil.resolveInstinctColor(self, Gfx.COLOR_ORANGE), Gfx.COLOR_TRANSPARENT);
             var barWidth = size / 4;
             if (barWidth < 2) {
                 barWidth = 2;
@@ -206,10 +206,23 @@ class SailingView extends Ui.View {
             dc.fillRectangle(leftX, y - half, barWidth, size);
             dc.fillRectangle(rightX, y - half, barWidth, size);
         } else if (symbol == ICON_STOP) {
-            dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+            dc.setColor(DisplayUtil.resolveInstinctColor(self, Gfx.COLOR_RED), Gfx.COLOR_TRANSPARENT);
             var half = size / 2;
             dc.fillRectangle(x - half, y - half, size, size);
         }
+    }
+
+    function hasCornerSubscreen() {
+        return DisplayUtil.hasCornerSubscreen(self);
+    }
+
+    //! Horizontal centre and width of the free strip left of the subscreen
+    function leftAreaCenter() {
+        return (getSubscreen().x - 4) / 2;
+    }
+
+    function leftAreaWidth() {
+        return getSubscreen().x - 8;
     }
 
     function drawGpsAcquisition(dc) {
@@ -221,15 +234,29 @@ class SailingView extends Ui.View {
             barHeight = 8;
         }
         var barX = (screenWidth - barWidth) / 2;
-        var barY = (screenHeight / 2) - (barHeight / 2);
+        var barY = (screenHeight * 0.4).toNumber();
+        if (hasCornerSubscreen()) {
+            var sub = getSubscreen();
+            var minBarY = sub.y + sub.height + 14;
+            if (barY < minBarY) {
+                barY = minBarY;
+            }
+        }
         var fillWidth = (barWidth * progress).toNumber();
-        var iconSize = minDim / 10;
-        if (iconSize < 12) {
-            iconSize = 12;
+        var iconSize = minDim / 12;
+        if (iconSize < 10) {
+            iconSize = 10;
         }
 
+        // Title: beside the subscreen on Instinct, otherwise centred near the top
+        var titleX = centerX;
+        var titleY = screenHeight / 6;
+        if (hasCornerSubscreen()) {
+            titleX = leftAreaCenter();
+            titleY = 6;
+        }
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-        dc.drawText((screenWidth / 2), (screenHeight / 4), Gfx.FONT_MEDIUM, "GPS", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(titleX, titleY, Gfx.FONT_MEDIUM, "GPS", Gfx.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
         dc.fillRectangle(barX, barY, barWidth, barHeight);
@@ -246,12 +273,18 @@ class SailingView extends Ui.View {
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
         dc.drawRectangle(barX, barY, barWidth, barHeight);
 
-        dc.drawText((screenWidth / 2), barY + barHeight + 8, Gfx.FONT_SMALL, label, Gfx.TEXT_JUSTIFY_CENTER);
+        var labelY = barY + barHeight + 4;
+        dc.drawText(centerX, labelY, Gfx.FONT_SMALL, label, Gfx.TEXT_JUSTIFY_CENTER);
 
-        var promptY = (3 * screenHeight / 4);
-        drawStateIcon(dc, screenWidth / 2, promptY - iconSize, iconSize, ICON_START);
+        // Prompt row sits below the label: start glyph to the left of the text, never over it
+        var promptY = labelY + Gfx.getFontHeight(Gfx.FONT_SMALL) + 8;
+        var promptText = "START";
+        var textWidth = dc.getTextWidthInPixels(promptText, Gfx.FONT_SMALL);
+        var rowWidth = iconSize + 8 + textWidth;
+        var rowX = centerX - (rowWidth / 2);
+        drawStateIcon(dc, rowX + (iconSize / 2), promptY + (Gfx.getFontHeight(Gfx.FONT_SMALL) / 2), iconSize, ICON_START);
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-        dc.drawText((screenWidth / 2), promptY, Gfx.FONT_SMALL, "Press START", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(rowX + iconSize + 8, promptY, Gfx.FONT_SMALL, promptText, Gfx.TEXT_JUSTIFY_LEFT);
     }
 
     function drawActionIcons(dc, paused) {
@@ -285,7 +318,7 @@ class SailingView extends Ui.View {
                 dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
                 dc.fillCircle(x, y, radius);
             } else {
-                dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+                dc.setColor(DisplayUtil.resolveInstinctColor(self, Gfx.COLOR_DK_GRAY), Gfx.COLOR_TRANSPARENT);
                 dc.drawCircle(x, y, radius);
             }
         }
@@ -358,6 +391,10 @@ class SailingView extends Ui.View {
     }
 
     function drawStatPage(dc, title, timeStr, nmStr, kmStr) {
+        if (hasCornerSubscreen()) {
+            drawStatPageCorner(dc, title, timeStr, nmStr, kmStr);
+            return;
+        }
         var y = screenHeight / 8;
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
         dc.drawText((screenWidth / 2), y, Gfx.FONT_TINY, title, Gfx.TEXT_JUSTIFY_CENTER);
@@ -376,6 +413,40 @@ class SailingView extends Ui.View {
 
         y += Gfx.getFontHeight(Gfx.FONT_MEDIUM) + 2;
         dc.drawText((screenWidth / 2), y, Gfx.FONT_MEDIUM, kmStr, Gfx.TEXT_JUSTIFY_CENTER);
+    }
+
+    //! Instinct layout, shift left
+    function drawStatPageCorner(dc, title, timeStr, nmStr, kmStr) {
+        var sub = getSubscreen();
+        var stripX = leftAreaCenter();
+        var stripWidth = leftAreaWidth();
+
+        // Drop the leading "00:" hours so short times fit the strip
+        if ((timeStr.length() > 5) && timeStr.substring(0, 3).equals("00:")) {
+            timeStr = timeStr.substring(3, timeStr.length());
+        }
+        var fonts = [Gfx.FONT_NUMBER_MEDIUM, Gfx.FONT_NUMBER_MILD, Gfx.FONT_MEDIUM, Gfx.FONT_SMALL];
+        var timeFont = fonts[fonts.size() - 1];
+        for (var i = 0; i < fonts.size(); i++) {
+            if (dc.getTextWidthInPixels(timeStr, fonts[i]) <= stripWidth) {
+                timeFont = fonts[i];
+                break;
+            }
+        }
+
+        var y = 6;
+        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+        dc.drawText(stripX, y, Gfx.FONT_SMALL, title, Gfx.TEXT_JUSTIFY_CENTER);
+
+        y += Gfx.getFontHeight(Gfx.FONT_SMALL);
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        dc.drawText(stripX, y, timeFont, timeStr, Gfx.TEXT_JUSTIFY_CENTER);
+
+        // Distances start under the subscreen ring
+        y = sub.y + sub.height + 14;
+        dc.drawText(centerX, y, Gfx.FONT_MEDIUM, nmStr, Gfx.TEXT_JUSTIFY_CENTER);
+        y += Gfx.getFontHeight(Gfx.FONT_MEDIUM) + 2;
+        dc.drawText(centerX, y, Gfx.FONT_MEDIUM, kmStr, Gfx.TEXT_JUSTIFY_CENTER);
     }
 
     function drawLapPage(dc) {
