@@ -25,6 +25,8 @@ class SailingMenuDelegate extends Ui.MenuInputDelegate {
             } else {
                 app.startTimer();
             }
+        } else if (item == :stop_timer) {
+            App.getApp().stopTimer();
         } else if (item == :set_timer) {
             if (!App.getApp().isCruiseMode() && (Ui has :Picker)) {
                 // Dismiss MainMenu before pushing picker to avoid nested-view memory pressure

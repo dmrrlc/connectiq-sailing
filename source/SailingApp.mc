@@ -201,10 +201,13 @@ class SailingApp extends App.AppBase {
     function onStart(state) {
         countDown = new CountDown(self);
 
-        // One-time: ensure Race is default after remediation release
-        if (Storage.getValue("raceDefaultV1") == null) {
-            setSailingMode(SAILING_MODE_RACE);
-            Storage.setValue("raceDefaultV1", true);
+        // One-time: ensure Race is default after remediation release.
+        // Application.Storage is CIQ 2.4+; CIQ 1.x devices crash if it is used unguarded.
+        if (App has :Storage) {
+            if (Storage.getValue("raceDefaultV1") == null) {
+                setSailingMode(SAILING_MODE_RACE);
+                Storage.setValue("raceDefaultV1", true);
+            }
         }
 
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
@@ -243,19 +246,8 @@ class SailingApp extends App.AppBase {
         }
     }
 
-    function startStopTimer() {
-        if (isCruiseMode()) {
-            return;
-        }
-        if (isRecording() == false) {
-            return;
-        }
-        if (countDown == null) {
-            return;
-        }
-        if (countDown.isTimerRunning() == false) {
-            countDown.startTimer();
-        } else {
+    function stopTimer() {
+        if (countDown != null) {
             countDown.cancelTimer();
         }
     }
@@ -297,14 +289,16 @@ class SailingApp extends App.AppBase {
         if (session != null) {
             return;
         }
-        var mySettings = Sys.getDeviceSettings();
-        var version = mySettings.monkeyVersion;
-
-        if (version[0] >= 3) {
-            session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_SAILING});
-        } else {
-            session = ActivityRecording.createSession({:name=>"Sailing", :sport=>Activity.SPORT_GENERIC});
+        // Activity.SPORT_* arrived in CIQ 3.2; older devices keep them on ActivityRecording.
+        var sport = 0;
+        if (Activity has :SPORT_SAILING) {
+            sport = Activity.SPORT_SAILING;
+        } else if (Activity has :SPORT_GENERIC) {
+            sport = Activity.SPORT_GENERIC;
+        } else if (ActivityRecording has :SPORT_GENERIC) {
+            sport = ActivityRecording.SPORT_GENERIC;
         }
+        session = ActivityRecording.createSession({:name=>"Sailing", :sport=>sport});
         session.start();
         captureLapMarkers();
         WatchUi.requestUpdate();

@@ -286,6 +286,7 @@ class SailingView extends Ui.View {
                 dc.fillCircle(x, y, radius);
             } else {
                 dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+                dc.setPenWidth(1);
                 dc.drawCircle(x, y, radius);
             }
         }
@@ -420,26 +421,27 @@ class SailingView extends Ui.View {
         dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
         dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
 
-        if (progress <= 0) {
-            return;
+        if (progress > 0) {
+            // Progress from 12 o'clock, clockwise (matches previous pie direction)
+            var arcLength = progress * 360.0;
+            var degreeStart = 90;
+            var degreeEnd = 90 - arcLength;
+
+            dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
+            if (arcLength >= 360) {
+                dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
+                dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
+            } else if (arcLength > 180) {
+                // Split long arcs for more reliable rendering across devices
+                dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeStart - 180);
+                dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart - 180, degreeEnd);
+            } else {
+                dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeEnd);
+            }
         }
 
-        // Progress from 12 o'clock, clockwise (matches previous pie direction)
-        var arcLength = progress * 360.0;
-        var degreeStart = 90;
-        var degreeEnd = 90 - arcLength;
-
-        dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
-        if (arcLength >= 360) {
-            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, 90, -90);
-            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, -90, 90);
-        } else if (arcLength > 180) {
-            // Split long arcs for more reliable rendering across devices
-            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeStart - 180);
-            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart - 180, degreeEnd);
-        } else {
-            dc.drawArc(centerX, centerY, ringRadius, Gfx.ARC_CLOCKWISE, degreeStart, degreeEnd);
-        }
+        // Countdown uses a thick stroke; restore default so later outlines (page dots) stay small.
+        dc.setPenWidth(1);
     }
 
     //! Update the view
@@ -455,6 +457,7 @@ class SailingView extends Ui.View {
 
         dc.setColor( Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK );
         dc.clear();
+        dc.setPenWidth(1);
         dc.setColor( Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT );
 
         if (countdownObj != null && countdownObj.isTimerRunning()) {
