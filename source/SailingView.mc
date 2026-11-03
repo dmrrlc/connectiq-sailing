@@ -313,12 +313,15 @@ class SailingView extends Ui.View {
             unitsOffset = 0;
         }
         var yOffset = screenHeight / 20;
+        // Handle instinct layouts
+        var instinctLayout = false;
         if (self has :getSubscreen) {
             var subscreen = getSubscreen();
 
             // If we are on the instinct (but not crossover), change the display
             if(deviceSettings.screenShape == System.SCREEN_SHAPE_SEMI_OCTAGON)
             {
+                instinctLayout = true;
                 dc.drawText((screenWidth / 3), 40, Gfx.FONT_MEDIUM , nowString, Gfx.TEXT_JUSTIFY_CENTER);
                 dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
                 dc.drawText((screenWidth / 3), 40 + Gfx.getFontHeight(Gfx.FONT_MEDIUM), Gfx.FONT_TINY, modeLabel, Gfx.TEXT_JUSTIFY_CENTER);
@@ -353,7 +356,13 @@ class SailingView extends Ui.View {
             var raceTime = now.subtract(raceStartTime);
             var raceTimeStr = secToStr(raceTime.value());
             dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
-            dc.drawText((screenWidth / 2), yOffset + Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM) + Gfx.getFontHeight(Gfx.FONT_TINY), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+            if (instinctLayout) {
+                // Shift bellow the speed, shift colour to handle 1-bit display
+                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+                dc.drawText((screenWidth / 2), (screenHeight / 2) + Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT), Gfx.FONT_MEDIUM, "T+" + raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+            } else {
+                dc.drawText((screenWidth / 2), yOffset + Gfx.getFontHeight(Gfx.FONT_NUMBER_THAI_HOT) + Gfx.getFontDescent(Gfx.FONT_MEDIUM) + Gfx.getFontHeight(Gfx.FONT_TINY), Gfx.FONT_MEDIUM, raceTimeStr, Gfx.TEXT_JUSTIFY_CENTER);
+            }
             dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
         }
     }
