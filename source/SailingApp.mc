@@ -33,11 +33,16 @@ class SailingApp extends App.AppBase {
         if (! (App has :Properties)) {
             return 5;
         }
+        // Guard against old stored values
         var time = Properties.getValue("time");
-        if (time < 0) {
+        var minutes = null;
+        if ((time != null) && (time has :toNumber)) {
+            minutes = time.toNumber();
+        }
+        if ((minutes == null) || (minutes < 1)) {
             return 5;
         }
-        return time;
+        return minutes;
     }
 
     // set default timer count in properties
