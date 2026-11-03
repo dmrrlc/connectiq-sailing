@@ -31,12 +31,8 @@ class SailingDelegate extends Ui.BehaviorDelegate {
             if (app.hasActivitySession() == false) {
                 app.startRecording();
             } else if (app.isRecording()) {
-                if (!app.isCruiseMode() && app.countDown != null) {
-                    app.startStopTimer();
-                } else {
-                    app.pauseRecording();
-                    Ui.pushView(new Rez.Menus.PauseMenu(), new PauseMenuDelegate(), Ui.SLIDE_UP);
-                }
+                app.pauseRecording();
+                Ui.pushView(new Rez.Menus.PauseMenu(), new PauseMenuDelegate(), Ui.SLIDE_UP);
             } else {
                 app.resumeRecording();
             }
@@ -60,18 +56,23 @@ class SailingDelegate extends Ui.BehaviorDelegate {
             return true;
     }
 
-    //! Race-only items (except Start timer) are omitted in Cruise.
+    //! Race-only items (except Start/Stop timer) are omitted in Cruise.
     //! Start timer stays visible so we can warn when Race mode / activity are missing.
     function buildMainMenu() {
         var menu = new Ui.Menu();
         menu.setTitle("Menu");
-        menu.addItem("Start timer", :start_timer);
-        if (!App.getApp().isCruiseMode()) {
+        var app = App.getApp();
+        if (app.countDown != null && app.countDown.isTimerRunning()) {
+            menu.addItem("Stop timer", :stop_timer);
+        } else {
+            menu.addItem("Start timer", :start_timer);
+        }
+        if (!app.isCruiseMode()) {
             menu.addItem("Set timer", :set_timer);
         }
         menu.addItem("Toggle alarms", :set_alarms);
         menu.addItem("Sailing mode", :set_sailing_mode);
-        if (!App.getApp().isCruiseMode()) {
+        if (!app.isCruiseMode()) {
             menu.addItem("Countdown signals", :set_mode);
         }
         return menu;
