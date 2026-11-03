@@ -73,7 +73,7 @@ class SailingView extends Ui.View {
         if (ringThickness < 4) {
             ringThickness = 4;
         }
-        ringRadius = (minDim / 2) - (ringThickness / 2);
+        ringRadius = ((minDim / 2) - (ringThickness / 2)).toNumber();
     }
 
     function updateTimer() {
@@ -414,7 +414,7 @@ class SailingView extends Ui.View {
             progress = 1;
         }
 
-        dc.setPenWidth(ringThickness);
+        dc.setPenWidth(ringThickness.toNumber());
 
         // Dim full-circle track (split to avoid 360° drawArc quirk)
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
